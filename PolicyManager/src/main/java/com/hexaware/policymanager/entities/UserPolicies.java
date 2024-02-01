@@ -32,12 +32,12 @@ public class UserPolicies {
 	private List<PolicyPayments> policyPayments;
 
 	@NotNull
-	@Column(name = "RegistrationDate")
-	private Date registrationDate;
-
-	@NotNull
 	@Column(name = "StartDate")
 	private Date startDate;
+	
+	@NotNull
+	@Column(name = "EndDate")
+	private Date endDate;
 
 	@Column(name = "DurationInYears")
 	private int durationInYears;
@@ -46,14 +46,15 @@ public class UserPolicies {
 		super();
 	}
 
-	public UserPolicies(long userPolicyId, Users user, Policies policy, Date registrationDate, Date startDate,
-			int durationInYears) {
+	public UserPolicies(long userPolicyId, Users user, Policies policy, List<PolicyPayments> policyPayments,
+			@NotNull Date startDate, @NotNull Date endDate, int durationInYears) {
 		super();
 		this.userPolicyId = userPolicyId;
 		this.user = user;
 		this.policy = policy;
-		this.registrationDate = registrationDate;
+		this.policyPayments = policyPayments;
 		this.startDate = startDate;
+		this.endDate = endDate;
 		this.durationInYears = durationInYears;
 	}
 
@@ -81,12 +82,12 @@ public class UserPolicies {
 		this.policy = policy;
 	}
 
-	public Date getRegistrationDate() {
-		return registrationDate;
+	public List<PolicyPayments> getPolicyPayments() {
+		return policyPayments;
 	}
 
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
+	public void setPolicyPayments(List<PolicyPayments> policyPayments) {
+		this.policyPayments = policyPayments;
 	}
 
 	public Date getStartDate() {
@@ -95,6 +96,14 @@ public class UserPolicies {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public int getDurationInYears() {
@@ -107,9 +116,11 @@ public class UserPolicies {
 
 	@Override
 	public String toString() {
-		return "User_Policy [userPolicyId=" + userPolicyId + ", user=" + user + ", policy=" + policy
-				+ ", policyPayments=" + policyPayments + ", registrationDate=" + registrationDate + ", startDate="
-				+ startDate + ", durationInYears=" + durationInYears + "]";
+		return "UserPolicies [userPolicyId=" + userPolicyId + ", user=" + user + ", policy=" + policy
+				+ ", policyPayments=" + policyPayments + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", durationInYears=" + durationInYears + "]";
 	}
+
+	
 
 }
