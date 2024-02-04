@@ -8,11 +8,11 @@ import com.hexaware.policymanager.entities.Policies;
 
 public interface PoliciesRepository extends JpaRepository<Policies, Long> {
 
-	List<Policies> findByCompany(String company);
+	public List<Policies> findByCompany(String company);
 
-	List<Policies> findByAmountLessThan(double amount);
+	List<Policies> findBytermAmountLessThan(double termAmount);
 
-	List<Policies> findByAmountGreaterThan(double amount);
+	List<Policies> findBytermAmountGreaterThan(double termAmount);
 
 	List<Policies> findByPolicyType(String policyType);
 

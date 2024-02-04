@@ -9,6 +9,7 @@ public class AddressDTO {
 	private int cityPincode;
 	private String state;
 	private Users user;
+	
 	public AddressDTO() {
 		super();
 	}

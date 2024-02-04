@@ -27,7 +27,7 @@ public class Users {
 	@Column(name = "EmailAddress")
 	private String emailAddress;
 
-	@Pattern(regexp="^[+]?[6789]\\d{9,14}$\r\n")
+	//@Pattern(regexp="^[+]?[6789]\\d{9,14}$\r\n")
 	@Column(name = "ContactNo")
 	private String contactNo;
 

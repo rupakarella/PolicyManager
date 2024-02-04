@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "Policies")
@@ -45,6 +46,7 @@ public class Policies {
 	@Column(name = "TermPeriod")
 	private String termPeriod;
 
+	@Positive
 	@Column(name = "TermAmount")
 	private Double termAmount;
 

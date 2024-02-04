@@ -2,32 +2,38 @@ package com.hexaware.policymanager.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.PoliciesDTO;
 import com.hexaware.policymanager.entities.Policies;
 import com.hexaware.policymanager.repository.PoliciesRepository;
 
-public class PoliciesServiceImp implements IPoliciesService{
+@Service
+public class PoliciesServiceImp implements IPoliciesService {
+
+	Logger logger = LoggerFactory.getLogger(PoliciesServiceImp.class);
 
 	@Autowired
-    PoliciesRepository policyrepo;
-	
+	PoliciesRepository policyrepo;
+
 	@Override
 	public Policies createPolicy(PoliciesDTO policyDTO) {
 		Policies policy = new Policies();
 		policy.setPolicyId(policyDTO.getPolicyId());
-        policy.setPolicyName(policyDTO.getPolicyName());
-        policy.setPolicyDescription(policyDTO.getPolicyDescription());
-        policy.setCompany(policyDTO.getCompany());
-        policy.setPolicyType(policyDTO.getPolicyType());
-        policy.setMaturityAmount(policyDTO.getMaturityAmount());
-        policy.setInitialDeposit(policyDTO.getInitialDeposit());
-        policy.setTermPeriod(policyDTO.getTermPeriod());
-        policy.setTermAmount(policyDTO.getTermAmount());
-        policy.setInterest(policyDTO.getInterest());
-        policy.setUserPolicies(policyDTO.getUserPolicies());
-       
+		policy.setPolicyName(policyDTO.getPolicyName());
+		policy.setPolicyDescription(policyDTO.getPolicyDescription());
+		policy.setCompany(policyDTO.getCompany());
+		policy.setPolicyType(policyDTO.getPolicyType());
+		policy.setMaturityAmount(policyDTO.getMaturityAmount());
+		policy.setInitialDeposit(policyDTO.getInitialDeposit());
+		policy.setTermPeriod(policyDTO.getTermPeriod());
+		policy.setTermAmount(policyDTO.getTermAmount());
+		policy.setInterest(policyDTO.getInterest());
+		policy.setUserPolicies(policyDTO.getUserPolicies());
+
 		return policyrepo.save(policy);
 	}
 
@@ -35,29 +41,39 @@ public class PoliciesServiceImp implements IPoliciesService{
 	public Policies updatePolicy(PoliciesDTO policyDTO) {
 		Policies policy = new Policies();
 		policy.setPolicyId(policyDTO.getPolicyId());
-        policy.setPolicyName(policyDTO.getPolicyName());
-        policy.setPolicyDescription(policyDTO.getPolicyDescription());
-        policy.setCompany(policyDTO.getCompany());
-        policy.setPolicyType(policyDTO.getPolicyType());
-        policy.setMaturityAmount(policyDTO.getMaturityAmount());
-        policy.setInitialDeposit(policyDTO.getInitialDeposit());
-        policy.setTermPeriod(policyDTO.getTermPeriod());
-        policy.setTermAmount(policyDTO.getTermAmount());
-        policy.setInterest(policyDTO.getInterest());
-        policy.setUserPolicies(policyDTO.getUserPolicies());
+		policy.setPolicyName(policyDTO.getPolicyName());
+		policy.setPolicyDescription(policyDTO.getPolicyDescription());
+		policy.setCompany(policyDTO.getCompany());
+		policy.setPolicyType(policyDTO.getPolicyType());
+		policy.setMaturityAmount(policyDTO.getMaturityAmount());
+		policy.setInitialDeposit(policyDTO.getInitialDeposit());
+		policy.setTermPeriod(policyDTO.getTermPeriod());
+		policy.setTermAmount(policyDTO.getTermAmount());
+		policy.setInterest(policyDTO.getInterest());
+		policy.setUserPolicies(policyDTO.getUserPolicies());
+
 		return policyrepo.save(policy);
 	}
 
 	@Override
-	public void deleteByPolicyId(long policyId) {
+	public Policies deleteByPolicyId(long policyId) {
+		Policies deletedPolicy = policyrepo.findById(policyId).orElse(null);
 		policyrepo.deleteById(policyId);
-		
+
+		logger.info("Policy deleted succesfully with ID: {}" + policyId);
+		return deletedPolicy;
+
 	}
 
 	@Override
 	public List<Policies> getPolicyByPolicyType(String policyType) {
-	
-		return policyrepo.findByPolicyType(policyType);
+
+		List<Policies> policies = policyrepo.findByPolicyType(policyType);
+
+		logger.info("Policy retrived by policy type: {}", policies);
+
+		return policies;
+
 	}
 
 	@Override
@@ -66,20 +82,29 @@ public class PoliciesServiceImp implements IPoliciesService{
 	}
 
 	@Override
-	public List<Policies> getByAmountLessThan(double amount) {
+	public List<Policies> getBytermAmountLessThan(double termAmount) {
+
+		return policyrepo.findBytermAmountLessThan(termAmount);
+	}
+
+	@Override
+	public List<Policies> getBytermAmountGreaterThan(double termAmount) {
+
+		return policyrepo.findBytermAmountGreaterThan(termAmount);
+	}
+
+	@Override
+	public List<Policies> getAllPolicies() {
+
+		List<Policies> policies = policyrepo.findAll();
+		logger.info("retrived all policies succesfully" + policies);
+		return policies;
+	}
+
+	@Override
+	public Policies getbyPolicyId(long policyId) {
 		
-		return policyrepo.findByAmountLessThan(amount);
-	}
-
-	@Override
-	public List<Policies> getByAmountGreaterThan(double amount) {
-
-		return policyrepo.findByAmountGreaterThan(amount);
-	}
-
-	@Override
-	public List<Policies> getAllPolicy() {
-		return policyrepo.findAll();
+		return policyrepo.findById(policyId).orElse(null);
 	}
 
 	

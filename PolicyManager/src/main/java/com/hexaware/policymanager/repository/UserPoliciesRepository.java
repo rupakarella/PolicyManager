@@ -8,6 +8,7 @@ import com.hexaware.policymanager.entities.UserPolicies;
 import com.hexaware.policymanager.entities.Users;
 
 public interface UserPoliciesRepository extends JpaRepository<UserPolicies, Long> {
-	public UserPolicies getByPolicyId(long policyId);
-	public List<UserPolicies> getByUserId(Users userId);
+	public UserPolicies getByPolicyPolicyId(long policyId);
+	public List<UserPolicies> getByUserUserId(Users userId);
+
 }

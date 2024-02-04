@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "Addresses")
@@ -20,42 +21,33 @@ public class Address {
 	@Column(name = "addressLine")
 	@NotEmpty
 	private String addressLine;
-	
-	
+
 	@NotEmpty
 	private String city;
 
+	@Positive
 	@Column(name = "cityPincode")
 	private int cityPincode;
-    
+
 	@NotEmpty
 	@Column(name = "state")
 	private String state;
 
 	@OneToOne(mappedBy = "address")
-	private List<Users> users;
+	private Users users;
 
 	public Address() {
 		super();
 
 	}
 
-	public Address(long addressId, String addressLine,String city, int cityPincode, String state, List<Users> users) {
+	public Address(long addressId, String addressLine, String city, int cityPincode, String state, Users users) {
 		super();
 		this.addressId = addressId;
 		this.addressLine = addressLine;
 		this.cityPincode = cityPincode;
 		this.state = state;
 		this.users = users;
-		this.city = city;
-	}
-
-	
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
 		this.city = city;
 	}
 
@@ -75,6 +67,14 @@ public class Address {
 		this.addressLine = addressLine;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	public int getCityPincode() {
 		return cityPincode;
 	}
@@ -91,11 +91,11 @@ public class Address {
 		this.state = state;
 	}
 
-	public List<Users> getUsers() {
+	public Users getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<Users> users) {
+	public void setUsers(Users users) {
 		this.users = users;
 	}
 
@@ -105,7 +105,6 @@ public class Address {
 				+ cityPincode + ", state=" + state + ", users=" + users + "]";
 	}
 
-	
 	
 
 }

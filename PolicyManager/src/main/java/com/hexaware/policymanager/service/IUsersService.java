@@ -14,5 +14,5 @@ public interface IUsersService {
     public Users getUserByEmail(String email);
     public List<Users> getUserByUserType(String userType);
     public Users getUserBycontactNo(String contactNo);
-	public List<Users> getAllUser();
+	public List<Users> getAllUsers();
 }

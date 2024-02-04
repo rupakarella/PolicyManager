@@ -2,16 +2,23 @@ package com.hexaware.policymanager.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.PolicyPaymentsDTO;
+import com.hexaware.policymanager.entities.Policies;
 import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.repository.PolicyPaymentsRepository;
 
+@Service
 public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 
 	@Autowired
 	PolicyPaymentsRepository paymentrepo;
+	
+	Logger logger=LoggerFactory.getLogger(PolicyPaymentsServiceImp.class);
 
 	@Override
 	public PolicyPayments createPolicyPayment(PolicyPaymentsDTO policyPaymentDTO) {
@@ -25,6 +32,8 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 		policyPayment.setPaymentStatus(policyPaymentDTO.getPaymentStatus());
 
 		PolicyPayments createdPolicyPayment = paymentrepo.save(policyPayment);
+		
+		logger.info("Created Policy Payment succcesfully: {}",createdPolicyPayment);
 		return createdPolicyPayment;
 	}
 
@@ -44,21 +53,27 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 	}
 
 	@Override
-	public void deletePolicyPaymentByTxnId(long txnId) {
-		paymentrepo.deleteByTransactionId(txnId);
+	public PolicyPayments deletePolicyPaymentByTransactionnId(long transactionId) {
+
+		PolicyPayments deletedPolicypayment = paymentrepo.findById(transactionId).orElse(null);
+		paymentrepo.deleteById(transactionId);
+		return deletedPolicypayment;
+
 
 	}
 
 	@Override
-	public PolicyPayments getPolicyPaymentBytransactionId(long txnId) {
+	public PolicyPayments getPolicyPaymentBytransactionId(long transactionId) {
 
-		return paymentrepo.findById(txnId).orElse(null);
+		return paymentrepo.findById(transactionId).orElse(null);
 	}
 
 	@Override
 	public List<PolicyPayments> getAllPolicyPayments() {
 
-		return paymentrepo.findAll();
+		List<PolicyPayments> policypayments=paymentrepo.findAll();
+		logger.info("Retrived all Policy Payments succesfully: {}",policypayments);
+		return policypayments;
 	}
 
 }

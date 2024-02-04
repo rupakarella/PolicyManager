@@ -8,10 +8,11 @@ import com.hexaware.policymanager.entities.PolicyPayments;
 public interface IPolicyPaymentsService {
 	public PolicyPayments createPolicyPayment(PolicyPaymentsDTO policyPaymentDTO);
 	public PolicyPayments updatePolicyPayment(PolicyPaymentsDTO policyPaymentDTO);
-	public void deletePolicyPaymentByTxnId(long txnId);
+	public PolicyPayments deletePolicyPaymentByTransactionnId(long transactionId);
+	public PolicyPayments getPolicyPaymentBytransactionId(long transactionId);
    
     
 	public List<PolicyPayments> getAllPolicyPayments();
-	PolicyPayments getPolicyPaymentBytransactionId(long txnId);
+	
 
 }

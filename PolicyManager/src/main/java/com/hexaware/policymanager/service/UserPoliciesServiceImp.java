@@ -3,11 +3,13 @@ package com.hexaware.policymanager.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.entities.UserPolicies;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.repository.UserPoliciesRepository;
 
+@Service
 public class UserPoliciesServiceImp implements IUserPoliciesService{
 	@Autowired
 	UserPoliciesRepository userPoliciesRepo;
@@ -33,12 +35,12 @@ public class UserPoliciesServiceImp implements IUserPoliciesService{
 	@Override
 	public UserPolicies getUserPolicyByPolicyId(long policyId) {
 		
-		return userPoliciesRepo.getByPolicyId(policyId);
+		return userPoliciesRepo.getByPolicyPolicyId(policyId);
 	}
 
 	@Override
 	public List<UserPolicies> getUserPolicyByUserId(Users userId) {
-		return userPoliciesRepo.getByUserId(userId);
+		return userPoliciesRepo.getByUserUserId(userId);
 		
 	}
 
