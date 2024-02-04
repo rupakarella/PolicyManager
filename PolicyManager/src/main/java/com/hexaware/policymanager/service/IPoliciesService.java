@@ -1,8 +1,6 @@
 package com.hexaware.policymanager.service;
 
-<<<<<<< HEAD
-public interface IPoliciesService {
-=======
+
 import java.util.List;
 
 import com.hexaware.policymanager.dto.PoliciesDTO;
@@ -19,6 +17,6 @@ public interface IPoliciesService {
 
 	
 	public List<Policies> getAllPolicy();
->>>>>>> 1b8d09207d89d7b59b3209431beffae97408e7db
+
 
 }

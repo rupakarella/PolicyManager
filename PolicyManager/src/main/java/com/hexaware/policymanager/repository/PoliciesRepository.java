@@ -1,25 +1,15 @@
 package com.hexaware.policymanager.repository;
 
-<<<<<<< HEAD
-=======
 import java.util.List;
 
->>>>>>> 1b8d09207d89d7b59b3209431beffae97408e7db
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.hexaware.policymanager.entities.Policies;
-
+@Repository
 public interface PoliciesRepository extends JpaRepository<Policies, Long> {
-
-<<<<<<< HEAD
-=======
 	List<Policies> findByCompany(String company);
-
-	List<Policies> findByAmountLessThan(double amount);
-
-	List<Policies> findByAmountGreaterThan(double amount);
-
+	List<Policies> findBytermAmountLessThan(double termAmount);
+	List<Policies> findBytermAmountGreaterThan(double termAmount);
 	List<Policies> findByPolicyType(String policyType);
-
->>>>>>> 1b8d09207d89d7b59b3209431beffae97408e7db
 }

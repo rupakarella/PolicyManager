@@ -3,11 +3,12 @@ package com.hexaware.policymanager.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.PolicyPaymentsDTO;
 import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.repository.PolicyPaymentsRepository;
-
+@Service
 public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 
 	@Autowired

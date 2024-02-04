@@ -3,11 +3,12 @@ package com.hexaware.policymanager.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.PoliciesDTO;
 import com.hexaware.policymanager.entities.Policies;
 import com.hexaware.policymanager.repository.PoliciesRepository;
-
+@Service
 public class PoliciesServiceImp implements IPoliciesService{
 
 	@Autowired
@@ -66,15 +67,15 @@ public class PoliciesServiceImp implements IPoliciesService{
 	}
 
 	@Override
-	public List<Policies> getByAmountLessThan(double amount) {
+	public List<Policies> getByAmountLessThan(double termAmount) {
 		
-		return policyrepo.findByAmountLessThan(amount);
+		return policyrepo.findBytermAmountLessThan(termAmount);
 	}
 
 	@Override
-	public List<Policies> getByAmountGreaterThan(double amount) {
+	public List<Policies> getByAmountGreaterThan(double termAmount) {
 
-		return policyrepo.findByAmountGreaterThan(amount);
+		return policyrepo.findBytermAmountGreaterThan(termAmount);
 	}
 
 	@Override

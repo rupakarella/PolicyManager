@@ -1,33 +1,43 @@
 package com.hexaware.policymanager.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.hexaware.policymanager.entities.Policies;
-import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.entities.Users;
 
 public class UserPoliciesDTO {
 	private long userPolicyId;
-	private Date startDate;
-	private Date endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private Users userId;
 	private Policies policyId;
-	private PolicyPayments policyPayments;
+	private int durationInYears;
+	private Users user;
+	private Policies policy;
+	
 	
 	public UserPoliciesDTO() {
 		super();
 	}
 	
-	public UserPoliciesDTO(long userPolicyId, Date startDate, Date endDate, Users userId, Policies policyId,
-			PolicyPayments policyPayments) {
+
+	
+
+	public UserPoliciesDTO(long userPolicyId, LocalDate startDate, LocalDate endDate, Users userId, Policies policyId,
+			int durationInYears, Users user, Policies policy) {
 		super();
 		this.userPolicyId = userPolicyId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.userId = userId;
 		this.policyId = policyId;
-		this.policyPayments = policyPayments;
+		this.durationInYears = durationInYears;
+		this.user = user;
+		this.policy = policy;
 	}
+
+
+
 
 	public long getUserPolicyId() {
 		return userPolicyId;
@@ -35,16 +45,16 @@ public class UserPoliciesDTO {
 	public void setUserPolicyId(long userPolicyId) {
 		this.userPolicyId = userPolicyId;
 	}
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 	
@@ -64,20 +74,60 @@ public class UserPoliciesDTO {
 		this.policyId = policyId;
 	}
 
-	public PolicyPayments getPolicyPayments() {
-		return policyPayments;
+	
+
+	public int getDurationInYears() {
+		return durationInYears;
 	}
 
-	public void setPolicyPayments(PolicyPayments policyPayments) {
-		this.policyPayments = policyPayments;
+
+	public void setDurationInYears(int durationInYears) {
+		this.durationInYears = durationInYears;
 	}
+
+
+	public Users getUser() {
+		return user;
+	}
+
+
+
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+
+
+
+
+	public Policies getPolicy() {
+		return policy;
+	}
+
+
+
+
+	public void setPolicy(Policies policy) {
+		this.policy = policy;
+	}
+
+
+
 
 	@Override
 	public String toString() {
 		return "UserPoliciesDTO [userPolicyId=" + userPolicyId + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", userId=" + userId + ", policyId=" + policyId + ", policyPayments=" + policyPayments + "]";
+				+ ", userId=" + userId + ", policyId=" + policyId + ", durationInYears=" + durationInYears + ", user="
+				+ user + ", policy=" + policy + "]";
 	}
 
+
+
+
+	
+
+
+	
 	
 	
 }

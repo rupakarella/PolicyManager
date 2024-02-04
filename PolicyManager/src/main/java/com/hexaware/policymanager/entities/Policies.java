@@ -2,9 +2,13 @@ package com.hexaware.policymanager.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -16,6 +20,7 @@ import jakarta.validation.constraints.Pattern;
 public class Policies {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "policy_seq_generator")
 	@Column(name = "PolicyID")
 	private long policyId;
 
@@ -52,6 +57,7 @@ public class Policies {
 	private Double interest;
 
 	@OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
+	
 	private List<UserPolicies> userPolicies;
 
 	public Policies() {
@@ -77,7 +83,9 @@ public class Policies {
 		this.userPolicies = userPolicies;
 	}
 
-
+	public Policies(long policyId) {
+        this.policyId = policyId;
+    }
 	public long getPolicyId() {
 		return policyId;
 	}

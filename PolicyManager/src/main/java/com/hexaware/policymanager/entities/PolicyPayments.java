@@ -2,6 +2,7 @@ package com.hexaware.policymanager.entities;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +22,7 @@ public class PolicyPayments {
 	private long paymentId;
 
 	@ManyToOne
+	
 	@JoinColumn(name = "UserPolicyID")
 	private UserPolicies userPolicy;
 

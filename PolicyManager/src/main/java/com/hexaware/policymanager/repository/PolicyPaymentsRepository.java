@@ -1,14 +1,14 @@
 package com.hexaware.policymanager.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.hexaware.policymanager.entities.PolicyPayments;
-
+@Repository
 public interface PolicyPaymentsRepository extends JpaRepository<PolicyPayments, Long> {
 
-<<<<<<< HEAD
-=======
+
 	public void deleteByTransactionId(long txnId);
 
->>>>>>> 1b8d09207d89d7b59b3209431beffae97408e7db
+
 }
