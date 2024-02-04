@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.repository.AddressRepository;
 import com.hexaware.policymanager.repository.UsersRepository;
-
+@Service
 public class UsersServiceImp implements IUsersService {
 	@Autowired
 	UsersRepository usersRepo;
@@ -71,7 +72,7 @@ public class UsersServiceImp implements IUsersService {
 	@Override
 	public Users getUserByEmail(String email) {
 		
-		return usersRepo.getUserByEmail(email);
+		return usersRepo.getUserByEmailAddress(email);
 	}
 
 	@Override

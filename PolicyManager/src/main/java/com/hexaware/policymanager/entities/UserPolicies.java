@@ -1,5 +1,6 @@
 package com.hexaware.policymanager.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,23 +22,26 @@ public class UserPolicies {
 	private long userPolicyId;
 
 	@ManyToOne
+	
 	@JoinColumn(name = "UserID")
 	private Users user;
 
 	@ManyToOne
+	
 	@JoinColumn(name = "PolicyID")
 	private Policies policy;
 
 	@OneToMany(mappedBy = "userPolicy", cascade = CascadeType.ALL)
+	
 	private List<PolicyPayments> policyPayments;
 
 	@NotNull
 	@Column(name = "StartDate")
-	private Date startDate;
+	private LocalDate startDate;
 	
 	@NotNull
 	@Column(name = "EndDate")
-	private Date endDate;
+	private LocalDate endDate;
 
 	@Column(name = "DurationInYears")
 	private int durationInYears;
@@ -46,8 +50,10 @@ public class UserPolicies {
 		super();
 	}
 
+	
+
 	public UserPolicies(long userPolicyId, Users user, Policies policy, List<PolicyPayments> policyPayments,
-			@NotNull Date startDate, @NotNull Date endDate, int durationInYears) {
+			@NotNull LocalDate startDate, @NotNull LocalDate endDate, int durationInYears) {
 		super();
 		this.userPolicyId = userPolicyId;
 		this.user = user;
@@ -57,6 +63,8 @@ public class UserPolicies {
 		this.endDate = endDate;
 		this.durationInYears = durationInYears;
 	}
+
+
 
 	public long getUserPolicyId() {
 		return userPolicyId;
@@ -90,19 +98,19 @@ public class UserPolicies {
 		this.policyPayments = policyPayments;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 

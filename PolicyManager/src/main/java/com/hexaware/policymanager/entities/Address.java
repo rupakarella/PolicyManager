@@ -1,9 +1,11 @@
 package com.hexaware.policymanager.entities;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -15,6 +17,7 @@ public class Address {
 
 	@Id
 	@Column(name = "addressId")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_generator")
 	private long addressId;
 
 	@Column(name = "addressLine")
@@ -24,23 +27,23 @@ public class Address {
 	
 	@NotEmpty
 	private String city;
-
+	@NotEmpty
 	@Column(name = "cityPincode")
 	private int cityPincode;
     
 	@NotEmpty
 	@Column(name = "state")
 	private String state;
-
+	
 	@OneToOne(mappedBy = "address")
-	private List<Users> users;
+	private Users users;
 
 	public Address() {
 		super();
 
 	}
 
-	public Address(long addressId, String addressLine,String city, int cityPincode, String state, List<Users> users) {
+	public Address(long addressId, String addressLine,String city, int cityPincode, String state, Users users) {
 		super();
 		this.addressId = addressId;
 		this.addressLine = addressLine;
@@ -91,11 +94,11 @@ public class Address {
 		this.state = state;
 	}
 
-	public List<Users> getUsers() {
+	public Users getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<Users> users) {
+	public void setUsers(Users users) {
 		this.users = users;
 	}
 

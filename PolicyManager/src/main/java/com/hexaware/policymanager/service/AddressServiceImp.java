@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.AddressDTO;
 import com.hexaware.policymanager.entities.Address;
 import com.hexaware.policymanager.repository.AddressRepository;
-
+@Service
 public class AddressServiceImp implements IAddressService{
 	@Autowired
 	AddressRepository addressRepo;
@@ -41,12 +42,22 @@ public class AddressServiceImp implements IAddressService{
 	}
 
 	@Override
-	public Address getbyAddressId(long addressId) {	
+	public AddressDTO getbyAddressId(long addressId) {	
 		Optional<Address> optional = addressRepo.findById(addressId); 
 		Address address = null;
-		  if (optional.isPresent()) {
-		  address = optional.get(); }
-		  return address;
+		AddressDTO addressDTO=new AddressDTO();
+		if (optional.isPresent()) {
+	        address = optional.get();
+	        if (address != null) {
+	            addressDTO.setAddressId(address.getAddressId());
+	            addressDTO.setAddressLine(address.getAddressLine());
+	            addressDTO.setCity(address.getCity());
+	            addressDTO.setState(address.getState());
+	            addressDTO.setCityPincode(address.getCityPincode());
+	        }
+	    }
+	    
+	    return addressDTO;
 	}
 
 	@Override

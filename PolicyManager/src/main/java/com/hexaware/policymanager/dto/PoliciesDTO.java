@@ -1,74 +1,30 @@
-package com.hexaware.policymanager.entities;
+package com.hexaware.policymanager.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hexaware.policymanager.entities.UserPolicies;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-
-@Entity
-@Table(name = "Policies")
-public class Policies {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "policy_seq_generator")
-	@Column(name = "PolicyID")
+public class PoliciesDTO {
 	private long policyId;
-
-	@NotEmpty
-	@Column(name = "PolicyName")
 	private String policyName;
-	
-	@Column(name="PolicyDescription")
 	private String policyDescription;
-
-	@NotEmpty
-	@Column(name = "Company")
 	private String company;
-
-	@NotEmpty
-	@Column(name = "PolicyType")
 	private String policyType;
-
-	@Column(name = "MaturityAmount")
 	private Double maturityAmount;
-
-	@Column(name = "InitialDeposit")
 	private Double initialDeposit;
-
-	@NotEmpty
-	@Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$")
-	@Column(name = "TermPeriod")
 	private String termPeriod;
-
-	@Column(name = "TermAmount")
 	private Double termAmount;
-
-	@Column(name = "Interest")
 	private Double interest;
-
-	@OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
-	
 	private List<UserPolicies> userPolicies;
 
-	public Policies() {
+	public PoliciesDTO() {
 		super();
+
 	}
 
-	
-	public Policies(long policyId, @NotEmpty String policyName, String policyDescription, @NotEmpty String company,
-			@NotEmpty String policyType, Double maturityAmount, Double initialDeposit,
-			@NotEmpty @Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$") String termPeriod,
-			Double termAmount, Double interest, List<UserPolicies> userPolicies) {
+	public PoliciesDTO(long policyId, String policyName, String policyDescription, String company, String policyType,
+			Double maturityAmount, Double initialDeposit, String termPeriod, Double termAmount, Double interest,
+			List<UserPolicies> userPolicies) {
 		super();
 		this.policyId = policyId;
 		this.policyName = policyName;
@@ -83,117 +39,100 @@ public class Policies {
 		this.userPolicies = userPolicies;
 	}
 
-	public Policies(long policyId) {
-        this.policyId = policyId;
-    }
 	public long getPolicyId() {
 		return policyId;
 	}
-
 
 	public void setPolicyId(long policyId) {
 		this.policyId = policyId;
 	}
 
-
 	public String getPolicyName() {
 		return policyName;
 	}
-
 
 	public void setPolicyName(String policyName) {
 		this.policyName = policyName;
 	}
 
-
 	public String getPolicyDescription() {
 		return policyDescription;
 	}
-
 
 	public void setPolicyDescription(String policyDescription) {
 		this.policyDescription = policyDescription;
 	}
 
-
 	public String getCompany() {
 		return company;
 	}
-
 
 	public void setCompany(String company) {
 		this.company = company;
 	}
 
-
 	public String getPolicyType() {
 		return policyType;
 	}
-
 
 	public void setPolicyType(String policyType) {
 		this.policyType = policyType;
 	}
 
-
 	public Double getMaturityAmount() {
 		return maturityAmount;
 	}
-
 
 	public void setMaturityAmount(Double maturityAmount) {
 		this.maturityAmount = maturityAmount;
 	}
 
-
 	public Double getInitialDeposit() {
 		return initialDeposit;
 	}
-
 
 	public void setInitialDeposit(Double initialDeposit) {
 		this.initialDeposit = initialDeposit;
 	}
 
-
 	public String getTermPeriod() {
 		return termPeriod;
 	}
-
 
 	public void setTermPeriod(String termPeriod) {
 		this.termPeriod = termPeriod;
 	}
 
-
 	public Double getTermAmount() {
 		return termAmount;
 	}
-
 
 	public void setTermAmount(Double termAmount) {
 		this.termAmount = termAmount;
 	}
 
-
 	public Double getInterest() {
 		return interest;
 	}
-
 
 	public void setInterest(Double interest) {
 		this.interest = interest;
 	}
 
-
 	public List<UserPolicies> getUserPolicies() {
 		return userPolicies;
 	}
-
 
 	public void setUserPolicies(List<UserPolicies> userPolicies) {
 		this.userPolicies = userPolicies;
 	}
 
+	@Override
+	public String toString() {
+		return "PoliciesDTO [policyId=" + policyId + ", policyName=" + policyName + ", policyDescription="
+				+ policyDescription + ", company=" + company + ", policyType=" + policyType + ", maturityAmount="
+				+ maturityAmount + ", initialDeposit=" + initialDeposit + ", termPeriod=" + termPeriod + ", termAmount="
+				+ termAmount + ", interest=" + interest + ", userPolicies=" + userPolicies + "]";
+	}
 
 }
