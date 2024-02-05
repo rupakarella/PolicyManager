@@ -3,9 +3,6 @@ package com.hexaware.policymanager.entities;
 import java.sql.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,7 +27,7 @@ public class Users {
 	@Column(name = "EmailAddress")
 	private String emailAddress;
 
-	@Pattern(regexp="^[+]?[6789]\\d{9,14}$\r\n")
+	@Pattern(regexp="^[6789]\\d{9}$")
 	@Column(name = "ContactNo")
 	private String contactNo;
 
@@ -65,17 +62,15 @@ public class Users {
 	private Double salary;
 
 	
-	@Pattern(regexp = "^(Admin|User)$")
+	@Pattern(regexp ="^(Admin|User)$")
 	@Column(name = "UserType")
 	private String userType;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	
 	@JoinColumn(name = "addressId")
 	private Address address;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	
 	private List<UserPolicies> userPolicies;
 
 	public Users() {
@@ -102,10 +97,6 @@ public class Users {
 		this.address = address;
 		this.userPolicies = userPolicies;
 	}
-
-	public Users(long userId) {
-        this.userId = userId;
-    }
 
 	public long getUserId() {
 		return userId;

@@ -10,12 +10,16 @@ import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.repository.AddressRepository;
 import com.hexaware.policymanager.repository.UsersRepository;
+
 @Service
 public class UsersServiceImp implements IUsersService {
+	
 	@Autowired
 	UsersRepository usersRepo;
+	
 	@Autowired
 	AddressRepository addressRepo;
+	
 	@Override
 	public Users registerUser(UsersDTO userDTO) {
 		Users user = new Users();
@@ -64,15 +68,34 @@ public class UsersServiceImp implements IUsersService {
 	}
 
 	@Override
-	public Optional<Users> getById(long userId) {
-		
-		return usersRepo.findById(userId);
+	public UsersDTO getById(long userId) {
+		Optional<Users> optional= usersRepo.findById(userId);
+		Users users = null;
+		UsersDTO userDTO=new UsersDTO();
+			if (optional.isPresent()) {
+				users = optional.get();
+		        if (users != null) {
+		        	userDTO.setEmailAddress(users.getEmailAddress());
+		        	userDTO.setContactNo(users.getContactNo());
+		        	userDTO.setPassword(users.getPassword());
+		        	userDTO.setFirstName(users.getFirstName());
+		        	userDTO.setLastName(users.getLastName());
+		        	userDTO.setDateOfBirth(users.getDateOfBirth());
+		        	userDTO.setPanNo(users.getPanNo());
+		        	userDTO.setEmployerType(users.getEmployerType());
+		        	userDTO.setEmployerName(users.getEmployerName());
+		        	userDTO.setSalary(users.getSalary());
+		        	userDTO.setUserType(users.getUserType());
+	
+		        }
+		    }
+		    return userDTO;
 	}
 
 	@Override
-	public Users getUserByEmail(String email) {
+	public Users getUserByEmail(String emailAddress) {
 		
-		return usersRepo.getUserByEmailAddress(email);
+		return usersRepo.getUserByemailAddress(emailAddress);
 	}
 
 	@Override
@@ -87,7 +110,7 @@ public class UsersServiceImp implements IUsersService {
 	}
 
 	@Override
-	public List<Users> getAllUser() {
+	public List<Users> getAllUsers() {
 		return usersRepo.findAll();
 	}
 

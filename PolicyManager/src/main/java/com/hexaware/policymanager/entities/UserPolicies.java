@@ -35,13 +35,13 @@ public class UserPolicies {
 	
 	private List<PolicyPayments> policyPayments;
 
-	@NotNull
-	@Column(name = "StartDate")
-	private LocalDate startDate;
 	
-	@NotNull
+	@Column(name = "StartDate")
+	private Date startDate;
+	
+	
 	@Column(name = "EndDate")
-	private LocalDate endDate;
+	private Date endDate;
 
 	@Column(name = "DurationInYears")
 	private int durationInYears;
@@ -53,7 +53,7 @@ public class UserPolicies {
 	
 
 	public UserPolicies(long userPolicyId, Users user, Policies policy, List<PolicyPayments> policyPayments,
-			@NotNull LocalDate startDate, @NotNull LocalDate endDate, int durationInYears) {
+			@NotNull Date startDate, @NotNull Date endDate, int durationInYears) {
 		super();
 		this.userPolicyId = userPolicyId;
 		this.user = user;
@@ -98,19 +98,19 @@ public class UserPolicies {
 		this.policyPayments = policyPayments;
 	}
 
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalDate getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 

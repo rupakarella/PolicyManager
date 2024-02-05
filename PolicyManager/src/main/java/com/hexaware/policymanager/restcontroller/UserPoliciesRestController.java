@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hexaware.policymanager.dto.PoliciesDTO;
 import com.hexaware.policymanager.dto.UserPoliciesDTO;
 import com.hexaware.policymanager.entities.UserPolicies;
-import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.service.IUserPoliciesService;
 
 @RestController
@@ -35,9 +35,14 @@ public class UserPoliciesRestController {
 	@DeleteMapping(value = "/delete/{policyId}")
 	public void deleteUserPolicyByPolicyNo(@PathVariable long policyId)
 	{
-		service.deleteUserPolicyByPolicyId(policyId);
+		service.deleteUserPolicyById(policyId);
 	}
-	
+	@GetMapping("/getall/{policyId}")
+	public UserPoliciesDTO getById(@PathVariable long policyId)
+	{
+		return service.getbyUserPolicyId(policyId);
+		
+	}
 	
 	@GetMapping("/getall")
 	public List<UserPolicies> getAllUserPolicies()
@@ -46,20 +51,6 @@ public class UserPoliciesRestController {
 		
 	}
 	
-	
-	@GetMapping("/get/{policyNo}")
-	public UserPolicies getUserPolicyByPolicyNo(@PathVariable long policyId)
-	{
-		return service.getUserPolicyByPolicyId(policyId);
-		
-	}
-	
-	@GetMapping("/get/userId/{userId}")
-	public List<UserPolicies> getUserPolicyByUserId(@PathVariable long userId)
-	{
-		return service.getUserPolicyByUserId(userId);
-		
-	}
 	
 			
 }

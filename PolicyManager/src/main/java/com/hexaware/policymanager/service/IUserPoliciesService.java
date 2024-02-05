@@ -10,9 +10,7 @@ import com.hexaware.policymanager.entities.Users;
 public interface IUserPoliciesService {
 	public UserPolicies createUserPolicy(UserPoliciesDTO userpolicyDTO);
 	public UserPolicies updateUserPolicy(UserPoliciesDTO userpolicyDTO);
-	public String deleteUserPolicyByPolicyId(long policyId);
-	public UserPolicies getUserPolicyByPolicyId(long policyId);
-	public List<UserPolicies> getUserPolicyByUserId(long userId);
+	public String deleteUserPolicyById(long userPolicyId);
 	public List<UserPolicies> getAllUserPolicies();
 	public UserPoliciesDTO getbyUserPolicyId(long userPolicyid);
 	
