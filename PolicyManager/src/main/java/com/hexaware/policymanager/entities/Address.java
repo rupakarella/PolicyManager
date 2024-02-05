@@ -1,14 +1,15 @@
 package com.hexaware.policymanager.entities;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "Addresses")
@@ -16,23 +17,24 @@ public class Address {
 
 	@Id
 	@Column(name = "addressId")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_generator")
 	private long addressId;
 
 	@Column(name = "addressLine")
 	@NotEmpty
 	private String addressLine;
-
+	
+	
 	@NotEmpty
 	private String city;
-
-	@Positive
+	@NotEmpty
 	@Column(name = "cityPincode")
 	private int cityPincode;
-
+    
 	@NotEmpty
 	@Column(name = "state")
 	private String state;
-
+	
 	@OneToOne(mappedBy = "address")
 	private Users users;
 
@@ -41,13 +43,22 @@ public class Address {
 
 	}
 
-	public Address(long addressId, String addressLine, String city, int cityPincode, String state, Users users) {
+	public Address(long addressId, String addressLine,String city, int cityPincode, String state, Users users) {
 		super();
 		this.addressId = addressId;
 		this.addressLine = addressLine;
 		this.cityPincode = cityPincode;
 		this.state = state;
 		this.users = users;
+		this.city = city;
+	}
+
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
 		this.city = city;
 	}
 
@@ -65,14 +76,6 @@ public class Address {
 
 	public void setAddressLine(String addressLine) {
 		this.addressLine = addressLine;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
 	}
 
 	public int getCityPincode() {
@@ -105,6 +108,7 @@ public class Address {
 				+ cityPincode + ", state=" + state + ", users=" + users + "]";
 	}
 
+	
 	
 
 }

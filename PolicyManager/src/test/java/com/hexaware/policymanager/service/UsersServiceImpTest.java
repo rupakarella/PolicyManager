@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Date;
 import java.util.List;
@@ -43,10 +42,21 @@ class UsersServiceImpTest {
 
 	}
 
-//	@Test
-//	void testUpdateUser() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	void testUpdateUser() {
+		UsersDTO userDTO=service.getById(100);
+		userDTO.setEmailAddress("prasanna@gmail.com");
+		userDTO.setContactNo("9876543210");
+		userDTO.setPassword("prasanna@28%");
+		userDTO.setFirstName("Prasanna");
+		userDTO.setLastName("Ramidi");
+		userDTO.setEmployerName("Prasanna Ramidi");
+		
+		Users UpdatedUsers=service.updateUser(userDTO);
+		assertEquals("Prasanna", UpdatedUsers.getFirstName());
+		
+		
+	}
 
 	@Test
 	void testDeleteByUserId() {
@@ -57,11 +67,10 @@ class UsersServiceImpTest {
 
 	@Test
 	void testGetById() {
-		Optional<Users> userDTO = service.getById(102);
-		assertTrue(userDTO.isPresent());
+		UsersDTO userDTO = service.getById(102);
+		
 		assertNotNull(userDTO);
-		Users user = userDTO.get();
-		assertEquals(102, user.getUserId());
+		assertEquals(102, userDTO.getUserId());
 
 	}
 

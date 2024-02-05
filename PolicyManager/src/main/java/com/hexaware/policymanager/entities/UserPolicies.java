@@ -1,5 +1,6 @@
 package com.hexaware.policymanager.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,21 +22,24 @@ public class UserPolicies {
 	private long userPolicyId;
 
 	@ManyToOne
+	
 	@JoinColumn(name = "UserID")
 	private Users user;
 
 	@ManyToOne
+	
 	@JoinColumn(name = "PolicyID")
 	private Policies policy;
 
 	@OneToMany(mappedBy = "userPolicy", cascade = CascadeType.ALL)
+	
 	private List<PolicyPayments> policyPayments;
 
-	@NotNull
+	
 	@Column(name = "StartDate")
 	private Date startDate;
 	
-	@NotNull
+	
 	@Column(name = "EndDate")
 	private Date endDate;
 
@@ -45,6 +49,8 @@ public class UserPolicies {
 	public UserPolicies() {
 		super();
 	}
+
+	
 
 	public UserPolicies(long userPolicyId, Users user, Policies policy, List<PolicyPayments> policyPayments,
 			@NotNull Date startDate, @NotNull Date endDate, int durationInYears) {
@@ -57,6 +63,8 @@ public class UserPolicies {
 		this.endDate = endDate;
 		this.durationInYears = durationInYears;
 	}
+
+
 
 	public long getUserPolicyId() {
 		return userPolicyId;

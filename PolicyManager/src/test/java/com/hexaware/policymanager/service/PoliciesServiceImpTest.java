@@ -50,29 +50,29 @@ class PoliciesServiceImpTest {
 
 	}
 
-//	@Test
-//	void testUpdatePolicy() {
-//		Policies policy = policyservice.getbyPolicyId(200);
-//		policy.setPolicyName("Bheema");
-//		policy.setPolicyDescription("One policy for security");
-//		policy.setPolicyType("Health");
-//		policy.setCompany("Bajaj");
-//		policy.setMaturityAmount(5000.0);
-//		policy.setInitialDeposit(1000.0);
-//		policy.setInterest(2.0);
-//
-//		policyservice.updatePolicy(policyDTO);
-//
-//		Policies updatedPolicy = policyservice.getbyPolicyId(200);
-//		assertEquals("Bheema", updatedPolicy.getPolicyName());
-//		assertNotNull(updatedPolicy);
-//
-//	}
+	@Test
+	void testUpdatePolicy() {
+		PoliciesDTO policyDTO = policyservice.getbyPolicyId(200);
+		policyDTO.setPolicyName("Bheema");
+		policyDTO.setPolicyDescription("One policy for security");
+		policyDTO.setPolicyType("Health");
+		policyDTO.setCompany("Bajaj");
+		policyDTO.setMaturityAmount(5000.0);
+		policyDTO.setInitialDeposit(1000.0);
+		policyDTO.setInterest(2.0);
+
+		policyservice.updatePolicy(policyDTO);
+
+		PoliciesDTO updatedPolicy = policyservice.getbyPolicyId(200);
+		assertEquals("Bheema", updatedPolicy.getPolicyName());
+		assertNotNull(updatedPolicy);
+
+	}
 
 	@Test
 	void testdeletePolicy() {
 		Policies result = policyservice.deleteByPolicyId(203);
-		Policies policyDTO = policyservice.getbyPolicyId(203);
+		PoliciesDTO policyDTO = policyservice.getbyPolicyId(203);
 		assertNull(policyDTO, "Deleted policy should be null");
 	}
 
@@ -118,7 +118,7 @@ class PoliciesServiceImpTest {
 
 	@Test
 	void testGetbyPolicyId() {
-		Policies policyDTO = policyservice.getbyPolicyId(1);
+		PoliciesDTO policyDTO = policyservice.getbyPolicyId(1);
 		assertNotNull(policyDTO);
 		assertEquals(1, policyDTO.getPolicyId());
 

@@ -1,6 +1,7 @@
 package com.hexaware.policymanager.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,11 +103,27 @@ public class PoliciesServiceImp implements IPoliciesService {
 	}
 
 	@Override
-	public Policies getbyPolicyId(long policyId) {
+	public PoliciesDTO getbyPolicyId(long policyId) {
 		
-		return policyrepo.findById(policyId).orElse(null);
-	}
-
-	
-
+		 Optional<Policies> optional= policyrepo.findById(policyId);
+		 Policies policies = null;
+		PoliciesDTO policiesDTO=new PoliciesDTO();
+			if (optional.isPresent()) {
+				policies = optional.get();
+		        if (policies != null) {
+		        	policiesDTO.setPolicyId(policies.getPolicyId());
+		        	policiesDTO.setPolicyName(policies.getPolicyName());
+		        	policiesDTO.setPolicyDescription(policies.getPolicyDescription());
+		        	policiesDTO.setCompany(policies.getCompany());
+		        	policiesDTO.setPolicyType(policies.getPolicyType());
+		        	policiesDTO.setMaturityAmount(policies.getMaturityAmount());
+		        	policiesDTO.setInitialDeposit(policies.getInitialDeposit());
+		        	policiesDTO.setTermPeriod(policies.getTermPeriod());
+		        	policiesDTO.setTermAmount(policies.getTermAmount());
+		        	policiesDTO.setInterest(policies.getInterest());
+		        }
+		    }
+		    return policiesDTO;
+			
+		}
 }

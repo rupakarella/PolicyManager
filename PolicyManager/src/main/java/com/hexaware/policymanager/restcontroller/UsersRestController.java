@@ -40,7 +40,7 @@ public class UsersRestController {
 	}
 
 	@GetMapping(value = "/get/id/{userId}")
-	public Optional<Users> getUserById(@PathVariable long userId) {
+	public UsersDTO getUserById(@PathVariable long userId) {
 		return services.getById(userId);
 	}
 	

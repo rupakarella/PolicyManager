@@ -42,7 +42,7 @@ public class Policies {
 	private Double initialDeposit;
 
 	@NotEmpty
-	@Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$")
+	@Pattern(regexp ="^(Monthly|Quaterly|Half-Yearly|Annually)$")
 	@Column(name = "TermPeriod")
 	private String termPeriod;
 

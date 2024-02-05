@@ -38,11 +38,11 @@ public class PolicyPaymentsRestController {
 	@DeleteMapping("/delete/{TransactionId}")
 	public void deletePolicyByTransactionId(@PathVariable long TransactionId)
 	{
-		services.deletePolicyPaymentByTransactionnId(TransactionId);
+		services.deletePolicyPaymentByTransactionId(TransactionId);
 	}
 	
 	@GetMapping("/get/transactionId/{TransactionId}")
-	public PolicyPayments getPolicyPaymentByTrasactionId(@PathVariable long TransactionId)
+	public PolicyPaymentsDTO getPolicyPaymentByTrasactionId(@PathVariable long TransactionId)
 	{
 		return services.getPolicyPaymentBytransactionId(TransactionId);
 	}

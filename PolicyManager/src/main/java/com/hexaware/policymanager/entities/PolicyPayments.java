@@ -44,7 +44,7 @@ public class PolicyPayments {
 	@Column(name = "Fine")
 	private Double fine;
 
-	@Pattern(regexp = "^(Pending|Completed)$")
+	@Pattern(regexp ="^(Pending|Completed)$")
 	private String paymentStatus;
 
 	public PolicyPayments() {

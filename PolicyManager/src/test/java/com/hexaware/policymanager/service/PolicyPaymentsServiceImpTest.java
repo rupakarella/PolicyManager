@@ -1,6 +1,9 @@
 package com.hexaware.policymanager.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.policymanager.dto.PolicyPaymentsDTO;
-import com.hexaware.policymanager.entities.Policies;
 import com.hexaware.policymanager.entities.PolicyPayments;
 
 @SpringBootTest
@@ -35,31 +37,32 @@ class PolicyPaymentsServiceImpTest {
 
 	}
 
-//	@Test
-//	void testUpdatePolicyPayment() {
-//		PolicyPayments policypaymentDTO = service.getPolicyPaymentBytransactionId(5000);
-//		policypaymentDTO.setBank("HDFC");
-//		policypaymentDTO.setAmount(25000.0);
-//		policypaymentDTO.setFine(5000.0);
-//		policypaymentDTO.setPaymentStatus("Completed");
-//
-//		service.updatePolicyPayment(policypaymentDTO);
-//
-//		PolicyPayments updatedPayment = service.getPolicyPaymentBytransactionId(5000);
-//		assertEquals("HDFC", updatedPayment.getBank());
-//	}
+	@Test
+	void testUpdatePolicyPayment() {
+		PolicyPaymentsDTO policypaymentDTO = service.getPolicyPaymentBytransactionId(6000);
+		policypaymentDTO.setBank("HDFC");
+		policypaymentDTO.setPaymentDate(LocalDate.now());
+		policypaymentDTO.setAmount(25000.0);
+		policypaymentDTO.setFine(5000.0);
+		policypaymentDTO.setPaymentStatus("Pending");
+
+		service.updatePolicyPayment(policypaymentDTO);
+
+		PolicyPaymentsDTO updatedPayment = service.getPolicyPaymentBytransactionId(6000);
+		assertEquals("HDFC",updatedPayment.getBank());
+	}
 
 	@Test
-	void testDeletePolicyPaymentByTransactionnId() {
-		PolicyPayments result = service.deletePolicyPaymentByTransactionnId(5000);
-		PolicyPayments deletedpaymentDTO = service.getPolicyPaymentBytransactionId(5000);
+	void testDeletePolicyPaymentByTransactionId() {
+		service.deletePolicyPaymentByTransactionId(5000);
+		PolicyPaymentsDTO deletedpaymentDTO = service.getPolicyPaymentBytransactionId(5000);
 		assertNull(deletedpaymentDTO, "Deleted policy should be null");
 
 	}
 
 	@Test
 	void testGetPolicyPaymentBytransactionId() {
-		PolicyPayments policypaymentDTO = service.getPolicyPaymentBytransactionId(6000);
+		PolicyPaymentsDTO policypaymentDTO = service.getPolicyPaymentBytransactionId(6000);
 		assertNotNull(policypaymentDTO);
 		assertEquals(6000, policypaymentDTO.getTransactionId());
 

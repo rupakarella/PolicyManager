@@ -15,7 +15,7 @@ public interface IPoliciesService {
     public List<Policies> getBytermAmountLessThan(double termAmount);
     public List<Policies> getBytermAmountGreaterThan(double termAmount);
 
-	public Policies getbyPolicyId(long policyId);
+	public PoliciesDTO getbyPolicyId(long policyId);
 	public List<Policies> getAllPolicies();
 
 }
