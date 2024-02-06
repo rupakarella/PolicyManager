@@ -17,40 +17,30 @@ import jakarta.validation.constraints.Positive;
 public class Policies {
 
 	@Id
-	@Column(name = "PolicyID")
 	private long policyId;
 
 	@NotEmpty
-	@Column(name = "PolicyName")
 	private String policyName;
 	
-	@Column(name="PolicyDescription")
 	private String policyDescription;
 
 	@NotEmpty
-	@Column(name = "Company")
 	private String company;
 
 	@NotEmpty
-	@Column(name = "PolicyType")
 	private String policyType;
 
-	@Column(name = "MaturityAmount")
 	private Double maturityAmount;
 
-	@Column(name = "InitialDeposit")
 	private Double initialDeposit;
 
 	@NotEmpty
 	@Pattern(regexp ="^(Monthly|Quaterly|Half-Yearly|Annually)$")
-	@Column(name = "TermPeriod")
 	private String termPeriod;
 
 	@Positive
-	@Column(name = "TermAmount")
 	private Double termAmount;
 
-	@Column(name = "Interest")
 	private Double interest;
 
 	@OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
@@ -63,7 +53,7 @@ public class Policies {
 	
 	public Policies(long policyId, @NotEmpty String policyName, String policyDescription, @NotEmpty String company,
 			@NotEmpty String policyType, Double maturityAmount, Double initialDeposit,
-			@NotEmpty @Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$") String termPeriod,
+			@NotEmpty @Pattern(regexp ="^(Monthly|Quaterly|Half-Yearly|Annually)$") String termPeriod,
 			Double termAmount, Double interest, List<UserPolicies> userPolicies) {
 		super();
 		this.policyId = policyId;

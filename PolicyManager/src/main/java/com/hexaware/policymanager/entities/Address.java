@@ -16,23 +16,19 @@ import jakarta.validation.constraints.NotEmpty;
 public class Address {
 
 	@Id
-	@Column(name = "addressId")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_generator")
 	private long addressId;
 
-	@Column(name = "addressLine")
 	@NotEmpty
 	private String addressLine;
 	
 	
 	@NotEmpty
 	private String city;
-	@NotEmpty
-	@Column(name = "cityPincode")
+	
 	private int cityPincode;
     
 	@NotEmpty
-	@Column(name = "state")
 	private String state;
 	
 	@OneToOne(mappedBy = "address")

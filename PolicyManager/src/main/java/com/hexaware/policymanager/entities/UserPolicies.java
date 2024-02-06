@@ -7,6 +7,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -18,7 +20,7 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "UserPolicies")
 public class UserPolicies {
 	@Id
-	@Column(name = "UserPolicyID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userpolicies_seq_generator")
 	private long userPolicyId;
 
 	@ManyToOne
@@ -36,14 +38,10 @@ public class UserPolicies {
 	private List<PolicyPayments> policyPayments;
 
 	
-	@Column(name = "StartDate")
 	private Date startDate;
 	
-	
-	@Column(name = "EndDate")
 	private Date endDate;
 
-	@Column(name = "DurationInYears")
 	private int durationInYears;
 
 	public UserPolicies() {

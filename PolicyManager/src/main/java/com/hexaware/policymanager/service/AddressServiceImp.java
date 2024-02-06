@@ -27,13 +27,18 @@ public class AddressServiceImp implements IAddressService{
 
 	@Override
 	public Address updateAddress(AddressDTO addressDTO) {
-		Address address = new Address();
-        address.setAddressId(addressDTO.getAddressId());
-        address.setAddressLine(addressDTO.getAddressLine());
-        address.setCity(addressDTO.getCity());
-        address.setState(addressDTO.getState());
-        address.setCityPincode(addressDTO.getCityPincode());
-        return addressRepo.save(address);
+	    Optional<Address> optionalAddress = addressRepo.findById(addressDTO.getAddressId());
+	    if (optionalAddress.isPresent()) {
+	        Address address = optionalAddress.get();
+	        address.setAddressLine(addressDTO.getAddressLine());
+	        address.setCity(addressDTO.getCity());
+	        address.setState(addressDTO.getState());
+	        address.setCityPincode(addressDTO.getCityPincode());	        
+	        return addressRepo.save(address);
+	    } 
+	    else {
+	    	return null;
+	    }
 	}
 
 	@Override

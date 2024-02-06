@@ -41,7 +41,7 @@ public class PoliciesRestController {
 		 services.deleteByPolicyId(policyId);
 	}
 	
-	@GetMapping(value="/get/policytype/{policytype}")
+	@GetMapping(value="/get/policytype/{policyType}")
 	public List<Policies> getPoliciesByPolicyType(@PathVariable String policyType)
 	{
 		return services.getPolicyByPolicyType(policyType);

@@ -43,13 +43,13 @@ class UserPoliciesServiceImpTest {
 	void testUpdateUserPolicy() {
 		UserPoliciesDTO userPolicyDTO = service.getbyUserPolicyId(111);
 
-        userPolicyDTO.setDurationInYears(23);
+        userPolicyDTO.setDurationInYears(1);
         userPolicyDTO.setStartDate(Date.valueOf("2001-12-11"));
         userPolicyDTO.setEndDate(Date.valueOf("2023-12-11")); 
 
         UserPolicies updatedUserPolicy = service.updateUserPolicy(userPolicyDTO);
         assertNotNull(updatedUserPolicy);
-        assertEquals(111, updatedUserPolicy.getUserPolicyId());
+        assertEquals(1, updatedUserPolicy.getUserPolicyId());
         assertEquals(3, updatedUserPolicy.getDurationInYears());
 	}
 

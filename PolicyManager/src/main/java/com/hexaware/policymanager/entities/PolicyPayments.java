@@ -20,28 +20,21 @@ import jakarta.validation.constraints.Pattern;
 public class PolicyPayments {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PaymentID")
 	private long paymentId;
 
 	@ManyToOne
-	@JoinColumn(name = "UserPolicyID")
 	private UserPolicies userPolicy;
 
-	@Column(name = "TransactionID")
 	private long transactionId;
 
 	@NotNull
-	@Column(name = "PaymentDate")
 	private LocalDate paymentDate;
 
 	@NotEmpty
-	@Column(name = "Bank")
 	private String bank;
 
-	@Column(name = "Amount")
 	private Double amount;
 
-	@Column(name = "Fine")
 	private Double fine;
 
 	@Pattern(regexp ="^(Pending|Completed)$")

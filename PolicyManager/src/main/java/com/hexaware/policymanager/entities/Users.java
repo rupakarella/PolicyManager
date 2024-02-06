@@ -20,50 +20,38 @@ import jakarta.validation.constraints.Pattern;
 public class Users {
 
 	@Id
-	@Column(name = "UserID")
 	private long userId;
 
 	@Email
-	@Column(name = "EmailAddress")
 	private String emailAddress;
 
 	@Pattern(regexp="^[6789]\\d{9}$")
-	@Column(name = "ContactNo")
 	private String contactNo;
 
 	@NotEmpty
-	@Column(name = "Password")
 	private String password;
     
 	@NotEmpty
 	@Pattern(regexp = "^[a-zA-Z\\s]+$")
-	@Column(name = "FirstName")
 	private String firstName;
 
 	@NotEmpty
 	@Pattern(regexp = "^[a-zA-Z\\s]+$")
-	@Column(name = "LastName")
 	private String lastName;
 
-	@Column(name = "DateOfBirth")
 	private Date dateOfBirth;
 
-	@Column(name = "PANNo")
 	private String panNo;
 
-	@Column(name = "EmployerType")
 	private String employerType;
 
 	@NotEmpty
-	@Column(name = "EmployerName")
 	private String employerName;
 
-	@Column(name = "Salary")
 	private Double salary;
 
 	
 	@Pattern(regexp ="^(Admin|User)$")
-	@Column(name = "UserType")
 	private String userType;
 
 	@OneToOne(cascade = CascadeType.ALL)
