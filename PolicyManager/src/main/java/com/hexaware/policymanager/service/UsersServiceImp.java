@@ -27,16 +27,16 @@ public class UsersServiceImp implements IUsersService {
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setEmailAddress(userDTO.getEmailAddress());
-		user.setContactNo(userDTO.getContactNo());
+		user.setContactNumber(userDTO.getContactNumber());
 		user.setUserType(userDTO.getUserType());
 		user.setDateOfBirth(userDTO.getDateOfBirth());
 		user.setAddress(userDTO.getAddress());
-		user.setPanNo(userDTO.getPanNo());
+		user.setPanNumber(userDTO.getPanNumber());
 		user.setEmployerName(userDTO.getEmployerName());
 		user.setEmployerType(userDTO.getEmployerType());
 		user.setSalary(userDTO.getSalary());
 		user.setPassword(userDTO.getPassword());
-		
+		user.setUserPolicies(userDTO.getUserPolicies());
 		return usersRepo.save(user);
 	}
 
@@ -47,16 +47,16 @@ public class UsersServiceImp implements IUsersService {
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setEmailAddress(userDTO.getEmailAddress());
-		user.setContactNo(userDTO.getContactNo());
+		user.setContactNumber(userDTO.getContactNumber());
 		user.setUserType(userDTO.getUserType());
 		user.setDateOfBirth(userDTO.getDateOfBirth());
 		user.setAddress(userDTO.getAddress());
-		user.setPanNo(userDTO.getPanNo());
+		user.setPanNumber(userDTO.getPanNumber());
 		user.setEmployerName(userDTO.getEmployerName());
 		user.setEmployerType(userDTO.getEmployerType());
 		user.setSalary(userDTO.getSalary());
 		user.setPassword(userDTO.getPassword());
-		
+		user.setUserPolicies(userDTO.getUserPolicies());
 		return usersRepo.save(user);
 	}
 
@@ -76,12 +76,12 @@ public class UsersServiceImp implements IUsersService {
 				users = optional.get();
 		        if (users != null) {
 		        	userDTO.setEmailAddress(users.getEmailAddress());
-		        	userDTO.setContactNo(users.getContactNo());
+		        	userDTO.setContactNumber(users.getContactNumber());
 		        	userDTO.setPassword(users.getPassword());
 		        	userDTO.setFirstName(users.getFirstName());
 		        	userDTO.setLastName(users.getLastName());
 		        	userDTO.setDateOfBirth(users.getDateOfBirth());
-		        	userDTO.setPanNo(users.getPanNo());
+		        	userDTO.setPanNumber(users.getPanNumber());
 		        	userDTO.setEmployerType(users.getEmployerType());
 		        	userDTO.setEmployerName(users.getEmployerName());
 		        	userDTO.setSalary(users.getSalary());
@@ -95,7 +95,7 @@ public class UsersServiceImp implements IUsersService {
 	@Override
 	public Users getUserByEmail(String emailAddress) {
 		
-		return usersRepo.getUserByemailAddress(emailAddress);
+		return usersRepo.getUserByEmailAddress(emailAddress);
 	}
 
 	@Override
@@ -105,8 +105,8 @@ public class UsersServiceImp implements IUsersService {
 	}
 
 	@Override
-	public Users getUserBycontactNo(String contactNo) {
-		return usersRepo.getUserBycontactNo(contactNo);
+	public Users getUserBycontactNumber(String contactNumber) {
+		return usersRepo.getUserByContactNumber(contactNumber);
 	}
 
 	@Override

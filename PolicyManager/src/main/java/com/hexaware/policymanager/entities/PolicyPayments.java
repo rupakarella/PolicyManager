@@ -2,8 +2,6 @@ package com.hexaware.policymanager.entities;
 
 import java.time.LocalDate;
 
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -19,30 +18,24 @@ import jakarta.validation.constraints.Pattern;
 @Table(name = "PolicyPayments")
 public class PolicyPayments {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PaymentID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long paymentId;
 
 	@ManyToOne
 	@JoinColumn(name = "UserPolicyID")
 	private UserPolicies userPolicy;
 
-	@Column(name = "TransactionID")
 	private long transactionId;
 
 	@NotNull
-	@Column(name = "PaymentDate")
 	private LocalDate paymentDate;
 
-	@NotEmpty
-	@Column(name = "Bank")
+	@NotBlank
 	private String bank;
 
-	@Column(name = "Amount")
-	private Double amount;
+	private double amount;
 
-	@Column(name = "Fine")
-	private Double fine;
+	private double fine;
 
 	@Pattern(regexp ="^(Pending|Completed)$")
 	private String paymentStatus;
@@ -51,8 +44,9 @@ public class PolicyPayments {
 		super();
 	}
 
-	public PolicyPayments(long paymentId, UserPolicies userPolicy, long transactionId, LocalDate paymentDate, String bank,
-			Double amount, Double fine, String paymentStatus) {
+	public PolicyPayments(long paymentId, UserPolicies userPolicy, long transactionId, @NotNull LocalDate paymentDate,
+			@NotBlank String bank, double amount, double fine,
+			@Pattern(regexp = "^(Pending|Completed)$") String paymentStatus) {
 		super();
 		this.paymentId = paymentId;
 		this.userPolicy = userPolicy;
@@ -104,19 +98,19 @@ public class PolicyPayments {
 		this.bank = bank;
 	}
 
-	public Double getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
-	public Double getFine() {
+	public double getFine() {
 		return fine;
 	}
 
-	public void setFine(Double fine) {
+	public void setFine(double fine) {
 		this.fine = fine;
 	}
 
@@ -128,4 +122,13 @@ public class PolicyPayments {
 		this.paymentStatus = paymentStatus;
 	}
 
+	@Override
+	public String toString() {
+		return "PolicyPayments [paymentId=" + paymentId + ", userPolicy=" + userPolicy + ", transactionId="
+				+ transactionId + ", paymentDate=" + paymentDate + ", bank=" + bank + ", amount=" + amount + ", fine="
+				+ fine + ", paymentStatus=" + paymentStatus + "]";
+	}
+
+	
+	
 }

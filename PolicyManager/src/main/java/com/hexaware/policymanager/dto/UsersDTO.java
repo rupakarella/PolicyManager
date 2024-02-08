@@ -9,12 +9,12 @@ import com.hexaware.policymanager.entities.UserPolicies;
 public class UsersDTO {
 	private long userId;
 	private String emailAddress;
-	private String contactNo;
+	private String contactNumber;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private Date dateOfBirth;
-	private String panNo;
+	private String panNumber;
 	private String employerType;
 	private String employerName;
 	private double salary;
@@ -25,18 +25,18 @@ public class UsersDTO {
 		super();
 	}
 	
-	public UsersDTO(long userId, String emailAddress, String contactNo, String password, String firstName,
-			String lastName, Date dateOfBirth, String panNo, String employerType, String employerName, double salary,
+	public UsersDTO(long userId, String emailAddress, String contactNumber, String password, String firstName,
+			String lastName, Date dateOfBirth, String panNumber, String employerType, String employerName, double salary,
 			String userType, Address address, List<UserPolicies> userPolicies) {
 		super();
 		this.userId = userId;
 		this.emailAddress = emailAddress;
-		this.contactNo = contactNo;
+		this.contactNumber = contactNumber;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dateOfBirth = dateOfBirth;
-		this.panNo = panNo;
+		this.panNumber = panNumber;
 		this.employerType = employerType;
 		this.employerName = employerName;
 		this.salary = salary;
@@ -57,11 +57,11 @@ public class UsersDTO {
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
-	public String getContactNo() {
-		return contactNo;
+	public String getContactNumber() {
+		return contactNumber;
 	}
-	public void setContactNo(String contactNo) {
-		this.contactNo = contactNo;
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
 	}
 	public String getPassword() {
 		return password;
@@ -87,11 +87,11 @@ public class UsersDTO {
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	public String getPanNo() {
-		return panNo;
+	public String getPanNumber() {
+		return panNumber;
 	}
-	public void setPanNo(String panNo) {
-		this.panNo = panNo;
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
 	}
 	public String getEmployerType() {
 		return employerType;
@@ -136,9 +136,9 @@ public class UsersDTO {
 
 	@Override
 	public String toString() {
-		return "UsersDTO [userId=" + userId + ", emailAddress=" + emailAddress + ", contactNo=" + contactNo
+		return "UsersDTO [userId=" + userId + ", emailAddress=" + emailAddress + ", contactNumber=" + contactNumber
 				+ ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
-				+ dateOfBirth + ", panNo=" + panNo + ", employerType=" + employerType + ", employerName=" + employerName
+				+ dateOfBirth + ", panNumber=" + panNumber + ", employerType=" + employerType + ", employerName=" + employerName
 				+ ", salary=" + salary + ", userType=" + userType + ", address=" + address + ", userPolicies="
 				+ userPolicies + "]";
 	}

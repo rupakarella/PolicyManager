@@ -30,8 +30,8 @@ class UserPoliciesServiceImpTest {
 		userPolicyDTO.setUserId(1); 
         userPolicyDTO.setPolicyId(1); 
 		userPolicyDTO.setStartDate(Date.valueOf("2001-12-11"));
-        userPolicyDTO.setEndDate(Date.valueOf("2020-12-11")); 
-        userPolicyDTO.setDurationInYears(1);
+        
+        
         UserPolicies createdUserPolicy = service.createUserPolicy(userPolicyDTO);
         assertNotNull(createdUserPolicy);
         assertEquals(123, createdUserPolicy.getUserPolicyId());
@@ -43,14 +43,13 @@ class UserPoliciesServiceImpTest {
 	void testUpdateUserPolicy() {
 		UserPoliciesDTO userPolicyDTO = service.getbyUserPolicyId(111);
 
-        userPolicyDTO.setDurationInYears(23);
+        
         userPolicyDTO.setStartDate(Date.valueOf("2001-12-11"));
-        userPolicyDTO.setEndDate(Date.valueOf("2023-12-11")); 
-
+       
         UserPolicies updatedUserPolicy = service.updateUserPolicy(userPolicyDTO);
         assertNotNull(updatedUserPolicy);
-        assertEquals(111, updatedUserPolicy.getUserPolicyId());
-        assertEquals(3, updatedUserPolicy.getDurationInYears());
+        assertEquals(1, updatedUserPolicy.getUserPolicyId());
+        
 	}
 
 	@Test

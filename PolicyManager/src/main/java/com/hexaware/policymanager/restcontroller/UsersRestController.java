@@ -35,8 +35,8 @@ public class UsersRestController {
 	}
 
 	@DeleteMapping(value = "/delete/{userId}")
-	public void deleteByUserId(@PathVariable long userId) {
-		services.deleteByUserId(userId);
+	public String deleteByUserId(@PathVariable long userId) {
+		return services.deleteByUserId(userId);
 	}
 
 	@GetMapping(value = "/get/id/{userId}")
@@ -56,10 +56,10 @@ public class UsersRestController {
 		return services.getUserByUserType(userType);
 	}
 	
-	@GetMapping(value="/get/contactno/{contactno}")
-	public Users getUserByConatctno(@PathVariable String contactNo)
+	@GetMapping(value="/get/contactnumber/{contactNumber}")
+	public Users getUserByConatctno(@PathVariable String contactNumber)
 	{
-		return services.getUserBycontactNo(contactNo);
+		return services.getUserBycontactNumber(contactNumber);
 	}
 	
 	@GetMapping(value="/getall")

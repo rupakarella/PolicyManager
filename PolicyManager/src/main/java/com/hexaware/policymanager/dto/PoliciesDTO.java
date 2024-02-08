@@ -10,11 +10,11 @@ public class PoliciesDTO {
 	private String policyDescription;
 	private String company;
 	private String policyType;
-	private Double maturityAmount;
-	private Double initialDeposit;
+	private double maturityAmount;
+	private double initialDeposit;
 	private String termPeriod;
-	private Double termAmount;
-	private Double interest;
+	private double termAmount;
+	private double interest;
 	private List<UserPolicies> userPolicies;
 
 	public PoliciesDTO() {
@@ -23,7 +23,7 @@ public class PoliciesDTO {
 	}
 
 	public PoliciesDTO(long policyId, String policyName, String policyDescription, String company, String policyType,
-			Double maturityAmount, Double initialDeposit, String termPeriod, Double termAmount, Double interest,
+			double maturityAmount, double initialDeposit, String termPeriod, double termAmount, double interest,
 			List<UserPolicies> userPolicies) {
 		super();
 		this.policyId = policyId;
@@ -79,19 +79,19 @@ public class PoliciesDTO {
 		this.policyType = policyType;
 	}
 
-	public Double getMaturityAmount() {
+	public double getMaturityAmount() {
 		return maturityAmount;
 	}
 
-	public void setMaturityAmount(Double maturityAmount) {
+	public void setMaturityAmount(double maturityAmount) {
 		this.maturityAmount = maturityAmount;
 	}
 
-	public Double getInitialDeposit() {
+	public double getInitialDeposit() {
 		return initialDeposit;
 	}
 
-	public void setInitialDeposit(Double initialDeposit) {
+	public void setInitialDeposit(double initialDeposit) {
 		this.initialDeposit = initialDeposit;
 	}
 
@@ -103,19 +103,19 @@ public class PoliciesDTO {
 		this.termPeriod = termPeriod;
 	}
 
-	public Double getTermAmount() {
+	public double getTermAmount() {
 		return termAmount;
 	}
 
-	public void setTermAmount(Double termAmount) {
+	public void setTermAmount(double termAmount) {
 		this.termAmount = termAmount;
 	}
 
-	public Double getInterest() {
+	public double getInterest() {
 		return interest;
 	}
 
-	public void setInterest(Double interest) {
+	public void setInterest(double interest) {
 		this.interest = interest;
 	}
 
@@ -135,4 +135,5 @@ public class PoliciesDTO {
 				+ termAmount + ", interest=" + interest + ", userPolicies=" + userPolicies + "]";
 	}
 
+	
 }

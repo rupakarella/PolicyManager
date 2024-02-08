@@ -13,6 +13,6 @@ public interface IUsersService {
 	public UsersDTO getById(long userId);
     public Users getUserByEmail(String email);
     public List<Users> getUserByUserType(String userType);
-    public Users getUserBycontactNo(String contactNo);
+    public Users getUserBycontactNumber(String contactNumber);
 	public List<Users> getAllUsers();
 }

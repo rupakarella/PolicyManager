@@ -1,49 +1,53 @@
 package com.hexaware.policymanager.entities;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "UserPolicies")
 public class UserPolicies {
 	@Id
-	@Column(name = "UserPolicyID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long userPolicyId;
 
 	@ManyToOne
-	
 	@JoinColumn(name = "UserID")
+	@JsonBackReference
 	private Users user;
 
 	@ManyToOne
-	
 	@JoinColumn(name = "PolicyID")
+	//@JsonBackReference
 	private Policies policy;
 
 	@OneToMany(mappedBy = "userPolicy", cascade = CascadeType.ALL)
-	
+	//@JsonBackReference
 	private List<PolicyPayments> policyPayments;
 
-	
-	@Column(name = "StartDate")
+	@NotNull(message = "Start date cannot be null")
+	@FutureOrPresent(message = "Start date must be in the present or future")
 	private Date startDate;
 	
 	
-	@Column(name = "EndDate")
 	private Date endDate;
 
-	@Column(name = "DurationInYears")
 	private int durationInYears;
 
 	public UserPolicies() {
@@ -106,13 +110,6 @@ public class UserPolicies {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
 
 	public int getDurationInYears() {
 		return durationInYears;
@@ -120,6 +117,15 @@ public class UserPolicies {
 
 	public void setDurationInYears(int durationInYears) {
 		this.durationInYears = durationInYears;
+		calculateEndDate();
+	}	
+		private void calculateEndDate() {
+
+        if (startDate != null) {
+            LocalDate localStartDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localEndDate = localStartDate.plusYears(durationInYears);
+            this.endDate = Date.from(localEndDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        }
 	}
 
 	@Override

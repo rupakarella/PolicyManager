@@ -3,74 +3,80 @@ package com.hexaware.policymanager.entities;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Users")
 public class Users {
 
 	@Id
-	@Column(name = "UserID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long userId;
 
-	@Email
-	@Column(name = "EmailAddress")
+	@NotBlank(message="emailAddress should not be blank")
+	@Email(message="Please enter a valid email address")
 	private String emailAddress;
 
+	@NotBlank(message="contactNumber should start with digits 6-9 and should contain 10 digits")
 	@Pattern(regexp="^[6789]\\d{9}$")
-	@Column(name = "ContactNo")
-	private String contactNo;
+	private String contactNumber;
 
-	@NotEmpty
-	@Column(name = "Password")
+	@NotBlank(message="password must contain atleast 8 characters long with atleast a letter, a digit and a special character")
+	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
 	private String password;
     
-	@NotEmpty
+	@NotBlank(message="firstName should not be blank")
 	@Pattern(regexp = "^[a-zA-Z\\s]+$")
-	@Column(name = "FirstName")
 	private String firstName;
 
-	@NotEmpty
+	@NotBlank(message="lastName should not be blank")
 	@Pattern(regexp = "^[a-zA-Z\\s]+$")
-	@Column(name = "LastName")
 	private String lastName;
 
-	@Column(name = "DateOfBirth")
+	@Past(message = "Date of birth must be in the past")
 	private Date dateOfBirth;
 
-	@Column(name = "PANNo")
-	private String panNo;
+	@NotBlank(message="panNumber should not be blank")
+	@Pattern(regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$",  message = "Invalid PAN number format")
+	private String panNumber;
 
-	@Column(name = "EmployerType")
+	@NotBlank(message="employerType should be blank")
+	@Size(max = 25, message = "String length cannot exceed 25 characters")
 	private String employerType;
 
-	@NotEmpty
-	@Column(name = "EmployerName")
 	private String employerName;
 
-	@Column(name = "Salary")
-	private Double salary;
+	@Positive(message = "Salary must be a positive")
+	private double salary;
 
-	
-	@Pattern(regexp ="^(Admin|User)$")
-	@Column(name = "UserType")
+	@NotBlank(message="userType should not be blank")
+	@Pattern(regexp ="^(Admin|User)$", message="userType should be either 'Admin' or 'User'")
 	private String userType;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "addressId")
+	@JsonManagedReference
 	private Address address;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<UserPolicies> userPolicies;
 
 	public Users() {
@@ -78,18 +84,27 @@ public class Users {
 
 	}
 
-	public Users(int userId, String emailAddress, String contactNo, String password, String firstName, String lastName,
-			Date dateOfBirth, String panNo, String employerType, String employerName, Double salary, String userType,
+	public Users(long userId,
+			@NotBlank(message = "emailAddress should not be blank") @Email(message = "Please enter a valid email address") String emailAddress,
+			@NotBlank(message = "contactNumber should start with digits 6-9 and should contain 10 digits") @Pattern(regexp = "^[6789]\\d{9}$") String contactNumber,
+			@NotBlank(message = "password must contain atleast 8 characters long with atleast a letter, a digit and a special character") @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$") String password,
+			@NotBlank(message = "firstName should not be blank") @Pattern(regexp = "^[a-zA-Z\\s]+$") String firstName,
+			@NotBlank(message = "lastName should not be blank") @Pattern(regexp = "^[a-zA-Z\\s]+$") String lastName,
+			@Past(message = "Date of birth must be in the past") Date dateOfBirth,
+			@NotBlank(message = "panNumber should not be blank") @Pattern(regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$", message = "Invalid PAN number format") String panNumber,
+			@NotBlank(message = "employerType should be blank") @Size(max = 25, message = "String length cannot exceed 25 characters") String employerType,
+			String employerName, @Positive(message = "Salary must be a positive") double salary,
+			@NotBlank(message = "userType should not be blank") @Pattern(regexp = "^(Admin|User)$", message = "userType should be either 'Admin' or 'User'") String userType,
 			Address address, List<UserPolicies> userPolicies) {
 		super();
 		this.userId = userId;
 		this.emailAddress = emailAddress;
-		this.contactNo = contactNo;
+		this.contactNumber = contactNumber;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dateOfBirth = dateOfBirth;
-		this.panNo = panNo;
+		this.panNumber = panNumber;
 		this.employerType = employerType;
 		this.employerName = employerName;
 		this.salary = salary;
@@ -97,6 +112,9 @@ public class Users {
 		this.address = address;
 		this.userPolicies = userPolicies;
 	}
+
+
+
 
 	public long getUserId() {
 		return userId;
@@ -114,12 +132,12 @@ public class Users {
 		this.emailAddress = emailAddress;
 	}
 
-	public String getContactNo() {
-		return contactNo;
+	public String getContactNumber() {
+		return contactNumber;
 	}
 
-	public void setContactNo(String contactNo) {
-		this.contactNo = contactNo;
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
 	}
 
 	public String getPassword() {
@@ -154,12 +172,12 @@ public class Users {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public String getPanNo() {
-		return panNo;
+	public String getPanNumber() {
+		return panNumber;
 	}
 
-	public void setPanNo(String panNo) {
-		this.panNo = panNo;
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
 	}
 
 	public String getEmployerType() {
@@ -178,11 +196,11 @@ public class Users {
 		this.employerName = employerName;
 	}
 
-	public Double getSalary() {
+	public double getSalary() {
 		return salary;
 	}
 
-	public void setSalary(Double salary) {
+	public void setSalary(double salary) {
 		this.salary = salary;
 	}
 
@@ -212,11 +230,11 @@ public class Users {
 
 	@Override
 	public String toString() {
-		return "Users [userId=" + userId + ", emailAddress=" + emailAddress + ", contactNo=" + contactNo + ", password="
+		return "Users [userId=" + userId + ", emailAddress=" + emailAddress + ", contactNumber=" + contactNumber + ", password="
 				+ password + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
-				+ ", panNo=" + panNo + ", employerType=" + employerType + ", employerName=" + employerName + ", salary="
-				+ salary + ", userType=" + userType + ", address=" + address + ", user_Policies=" + userPolicies + "]";
+				+ ", panNumber=" + panNumber + ", employerType=" + employerType + ", employerName=" + employerName + ", salary="
+				+ salary + ", userType=" + userType + ", address=" + address + ", userPolicies=" + userPolicies + "]";
 	}
-	
 
+	
 }

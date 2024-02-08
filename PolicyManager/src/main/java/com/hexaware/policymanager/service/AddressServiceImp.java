@@ -8,31 +8,49 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.AddressDTO;
 import com.hexaware.policymanager.entities.Address;
+import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.repository.AddressRepository;
+import com.hexaware.policymanager.repository.UsersRepository;
+
+import jakarta.transaction.Transactional;
 @Service
+@Transactional
 public class AddressServiceImp implements IAddressService{
 	@Autowired
 	AddressRepository addressRepo;
+	@Autowired
+	UsersRepository usersRepo;
 	@Override
 	public Address createAddress(AddressDTO addressDTO) {
 		Address address=new Address();
 		address.setAddressId(addressDTO.getAddressId());
 		address.setAddressLine(addressDTO.getAddressLine());
 		address.setCity(addressDTO.getCity());
-		address.setCityPincode(address.getCityPincode());
+		address.setCityPincode(addressDTO.getCityPincode());
 		address.setState(addressDTO.getState());
+		
+		Users user = addressDTO.getUsers();
+		address.setUsers(addressDTO.getUsers());
+	    user.setAddress(address); 
+	    usersRepo.save(user);
 		return addressRepo.save(address);
 	}
 
 	@Override
 	public Address updateAddress(AddressDTO addressDTO) {
-		Address address = new Address();
-        address.setAddressId(addressDTO.getAddressId());
-        address.setAddressLine(addressDTO.getAddressLine());
-        address.setCity(addressDTO.getCity());
-        address.setState(addressDTO.getState());
-        address.setCityPincode(addressDTO.getCityPincode());
-        return addressRepo.save(address);
+	    Optional<Address> optionalAddress = addressRepo.findById(addressDTO.getAddressId());
+	    if (optionalAddress.isPresent()) {
+	        Address address = optionalAddress.get();
+	        address.setAddressLine(addressDTO.getAddressLine());
+	        address.setCity(addressDTO.getCity());
+	        address.setState(addressDTO.getState());
+	        address.setCityPincode(addressDTO.getCityPincode());
+	     
+	        return addressRepo.save(address);
+	    } 
+	    else {
+	    	return null;
+	    }
 	}
 
 	@Override
@@ -42,7 +60,7 @@ public class AddressServiceImp implements IAddressService{
 	}
 
 	@Override
-	public AddressDTO getbyAddressId(long addressId) {	
+	public AddressDTO getByAddressId(long addressId) {	
 		Optional<Address> optional = addressRepo.findById(addressId); 
 		Address address = null;
 		AddressDTO addressDTO=new AddressDTO();
@@ -63,13 +81,13 @@ public class AddressServiceImp implements IAddressService{
 	@Override
 	public List<Address> getByState(String state) {
 		
-		return addressRepo.getByState(state);
+		return addressRepo.findByState(state);
 	}
 
 	@Override
 	public List<Address> getByCity(String city) {
 		
-		return addressRepo.getByCity(city);
+		return addressRepo.findByCity(city);
 	}
 
 	@Override

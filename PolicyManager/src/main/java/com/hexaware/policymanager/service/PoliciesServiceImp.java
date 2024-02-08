@@ -40,20 +40,24 @@ public class PoliciesServiceImp implements IPoliciesService {
 
 	@Override
 	public Policies updatePolicy(PoliciesDTO policyDTO) {
-		Policies policy = new Policies();
-		policy.setPolicyId(policyDTO.getPolicyId());
-		policy.setPolicyName(policyDTO.getPolicyName());
-		policy.setPolicyDescription(policyDTO.getPolicyDescription());
-		policy.setCompany(policyDTO.getCompany());
-		policy.setPolicyType(policyDTO.getPolicyType());
-		policy.setMaturityAmount(policyDTO.getMaturityAmount());
-		policy.setInitialDeposit(policyDTO.getInitialDeposit());
-		policy.setTermPeriod(policyDTO.getTermPeriod());
-		policy.setTermAmount(policyDTO.getTermAmount());
-		policy.setInterest(policyDTO.getInterest());
-		policy.setUserPolicies(policyDTO.getUserPolicies());
+		Optional<Policies> Policy = policyrepo.findById(policyDTO.getPolicyId());
+		if (Policy.isPresent()) {
+			Policies existingPolicy = Policy.get();
+			existingPolicy.setPolicyName(policyDTO.getPolicyName());
+			existingPolicy.setPolicyDescription(policyDTO.getPolicyDescription());
+			existingPolicy.setCompany(policyDTO.getCompany());
+			existingPolicy.setPolicyType(policyDTO.getPolicyType());
+			existingPolicy.setMaturityAmount(policyDTO.getMaturityAmount());
+			existingPolicy.setInitialDeposit(policyDTO.getInitialDeposit());
+			existingPolicy.setTermPeriod(policyDTO.getTermPeriod());
+			existingPolicy.setTermAmount(policyDTO.getTermAmount());
+			existingPolicy.setInterest(policyDTO.getInterest());
+			existingPolicy.setUserPolicies(policyDTO.getUserPolicies());
 
-		return policyrepo.save(policy);
+			return policyrepo.save(existingPolicy);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -104,26 +108,26 @@ public class PoliciesServiceImp implements IPoliciesService {
 
 	@Override
 	public PoliciesDTO getbyPolicyId(long policyId) {
-		
-		 Optional<Policies> optional= policyrepo.findById(policyId);
-		 Policies policies = null;
-		PoliciesDTO policiesDTO=new PoliciesDTO();
-			if (optional.isPresent()) {
-				policies = optional.get();
-		        if (policies != null) {
-		        	policiesDTO.setPolicyId(policies.getPolicyId());
-		        	policiesDTO.setPolicyName(policies.getPolicyName());
-		        	policiesDTO.setPolicyDescription(policies.getPolicyDescription());
-		        	policiesDTO.setCompany(policies.getCompany());
-		        	policiesDTO.setPolicyType(policies.getPolicyType());
-		        	policiesDTO.setMaturityAmount(policies.getMaturityAmount());
-		        	policiesDTO.setInitialDeposit(policies.getInitialDeposit());
-		        	policiesDTO.setTermPeriod(policies.getTermPeriod());
-		        	policiesDTO.setTermAmount(policies.getTermAmount());
-		        	policiesDTO.setInterest(policies.getInterest());
-		        }
-		    }
-		    return policiesDTO;
-			
+
+		Optional<Policies> optional = policyrepo.findById(policyId);
+		Policies policies = null;
+		PoliciesDTO policiesDTO = new PoliciesDTO();
+		if (optional.isPresent()) {
+			policies = optional.get();
+			if (policies != null) {
+				policiesDTO.setPolicyId(policies.getPolicyId());
+				policiesDTO.setPolicyName(policies.getPolicyName());
+				policiesDTO.setPolicyDescription(policies.getPolicyDescription());
+				policiesDTO.setCompany(policies.getCompany());
+				policiesDTO.setPolicyType(policies.getPolicyType());
+				policiesDTO.setMaturityAmount(policies.getMaturityAmount());
+				policiesDTO.setInitialDeposit(policies.getInitialDeposit());
+				policiesDTO.setTermPeriod(policies.getTermPeriod());
+				policiesDTO.setTermAmount(policies.getTermAmount());
+				policiesDTO.setInterest(policies.getInterest());
+			}
 		}
+		return policiesDTO;
+
+	}
 }

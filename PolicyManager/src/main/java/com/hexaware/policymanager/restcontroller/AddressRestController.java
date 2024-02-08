@@ -32,14 +32,14 @@ public class AddressRestController {
 		return service.updateAddress(addressDTO);
 	}
 	@DeleteMapping("/delete/{addressId}")
-	public void deleteByAddressId(@PathVariable long addressId)
+	public String deleteByAddressId(@PathVariable long addressId)
 	{
-		service.deleteByAddressId(addressId);
+		return service.deleteByAddressId(addressId);
 	}
 	@GetMapping("/getbyid/{addressId}")
-	public AddressDTO getbyAddressId(@PathVariable long addressId)
+	public AddressDTO getByAddressId(@PathVariable long addressId)
 	{
-		return service.getbyAddressId(addressId);
+		return service.getByAddressId(addressId);
 	}
 	@GetMapping("/get/state/{state}")
 	public List<Address> getAddressByState(@PathVariable String state)

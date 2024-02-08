@@ -27,12 +27,12 @@ class UsersServiceImpTest {
 		UsersDTO userDTO = new UsersDTO();
 		userDTO.setUserId(2000);
 		userDTO.setEmailAddress("madhavi@gmail.com");
-		userDTO.setContactNo("91970331517");
+		userDTO.setContactNumber("9703315171");
 		userDTO.setPassword("madhavi@123");
 		userDTO.setFirstName("Madhavi");
 		userDTO.setLastName("Patlolla");
 		userDTO.setDateOfBirth(Date.valueOf("2001-06-15"));
-		userDTO.setPanNo("SGKPP09871");
+		userDTO.setPanNumber("SGKPP9871G");
 		userDTO.setEmployerType("Permanent");
 		userDTO.setEmployerName("Madhavi Patlolla");
 
@@ -46,7 +46,7 @@ class UsersServiceImpTest {
 	void testUpdateUser() {
 		UsersDTO userDTO=service.getById(100);
 		userDTO.setEmailAddress("prasanna@gmail.com");
-		userDTO.setContactNo("9876543210");
+		userDTO.setContactNumber("9876543210");
 		userDTO.setPassword("prasanna@28%");
 		userDTO.setFirstName("Prasanna");
 		userDTO.setLastName("Ramidi");
@@ -93,8 +93,8 @@ class UsersServiceImpTest {
 
 	@Test
 	void testGetUserBycontactNo() {
-		Users userDTO = service.getUserBycontactNo("919876543210");
-		assertEquals("919876543210", userDTO.getContactNo());
+		Users userDTO = service.getUserBycontactNumber("919876543210");
+		assertEquals("919876543210", userDTO.getContactNumber());
 
 	}
 

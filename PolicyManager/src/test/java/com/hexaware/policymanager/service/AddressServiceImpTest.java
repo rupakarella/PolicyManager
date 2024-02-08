@@ -36,13 +36,13 @@ class AddressServiceImpTest {
 
 	@Test
 	void testUpdateAddress() {
-		AddressDTO addressDTO = service.getbyAddressId(3);
+		AddressDTO addressDTO = service.getByAddressId(3);
 		addressDTO.setAddressLine("rainbow towers");
 		addressDTO.setCity("Vijayawada");
 		addressDTO.setCityPincode(12);
 		addressDTO.setState("Andhra Pradesh");
 		service.updateAddress(addressDTO);
-		AddressDTO updatedAddress = service.getbyAddressId(3);
+		AddressDTO updatedAddress = service.getByAddressId(3);
 		assertEquals("Vijayawada",updatedAddress.getCity());
 		
 	}
@@ -51,13 +51,13 @@ class AddressServiceImpTest {
 	void testDeleteByAddressId() {
 	
 		 String result=service.deleteByAddressId(202);
-		 AddressDTO deletedAddressDTO = service.getbyAddressId(202);
+		 AddressDTO deletedAddressDTO = service.getByAddressId(202);
 		 assertEquals("record deleted", result);     
 	}
 
 	@Test
 	void testGetbyAddressId() {
-		AddressDTO addressDTO = service.getbyAddressId(3);
+		AddressDTO addressDTO = service.getByAddressId(3);
         assertNotNull(addressDTO);
         assertEquals(3, addressDTO.getAddressId());
 	}
