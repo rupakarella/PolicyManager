@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.policymanager.dto.PoliciesDTO;
 import com.hexaware.policymanager.entities.Policies;
+import com.hexaware.policymanager.exception.PolicyNotFoundException;
 import com.hexaware.policymanager.service.IPoliciesService;
 
 @RestController
@@ -36,33 +37,33 @@ public class PoliciesRestController {
 	}
 	
 	@DeleteMapping(value="/delete/{policyId}")
-	public void deletePolicy(@PathVariable Long policyId)
+	public String deletePolicy(@PathVariable Long policyId)throws PolicyNotFoundException
 	{
 		 services.deleteByPolicyId(policyId);
+		return " Policy deleted";
 	}
 	
 	@GetMapping(value="/get/policytype/{policyType}")
-	public List<Policies> getPoliciesByPolicyType(@PathVariable String policyType)
-	{
+	public List<Policies> getPoliciesByPolicyType(@PathVariable String policyType)throws PolicyNotFoundException {
 		return services.getPolicyByPolicyType(policyType);
 	}
 	
 	@GetMapping(value="/get/company/{company}")
-	public List<Policies> getPoliciesByCompany(@PathVariable String company)
+	public List<Policies> getPoliciesByCompany(@PathVariable String company)throws PolicyNotFoundException 
 	{
 		return services.getPolicyByCompany(company);
 	}
 	
-	@GetMapping(value="/get/termamountgt/{termamount}")
-	public List<Policies> getByAmountGreaterThan(@PathVariable long termamount)
+	@GetMapping(value="/get/term-amount-greater/{termAmount}")
+	public List<Policies> getByAmountGreaterThan(@PathVariable long termAmount)throws PolicyNotFoundException 
 	{
-		return services.getBytermAmountGreaterThan(termamount);
+		return services.getBytermAmountGreaterThan(termAmount);
 	}
 	
-	@GetMapping(value="/get/termamountlwr/{termamount}")
-	public List<Policies> getByAmountLessThan(@PathVariable long termamount)
+	@GetMapping(value="/get/term-Amount-lower/{termAmount}")
+	public List<Policies> getByAmountLessThan(@PathVariable long termAmount)throws PolicyNotFoundException 
 	{
-		return services.getBytermAmountLessThan(termamount);
+		return services.getBytermAmountLessThan(termAmount);
 	}
 	
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.policymanager.dto.AddressDTO;
 import com.hexaware.policymanager.entities.Address;
+import com.hexaware.policymanager.exception.AddressNotFoundException;
 import com.hexaware.policymanager.service.IAddressService;
 
 @RestController
@@ -28,28 +29,28 @@ public class AddressRestController {
 		return service.createAddress(addressDTO);
 	}
 	@PutMapping("/update")
-	public Address updateAddress(@RequestBody AddressDTO addressDTO)
+	public Address updateAddress(@RequestBody AddressDTO addressDTO)throws AddressNotFoundException
 	{
 		return service.updateAddress(addressDTO);
 	}
 	@DeleteMapping("/delete/{addressId}")
-	public void deleteByAddressId(@PathVariable long addressId)
+	public String deleteByAddressId(@PathVariable long addressId) throws AddressNotFoundException
 	{
-		service.deleteByAddressId(addressId);
+		return service.deleteByAddressId(addressId);
 	}
 	@GetMapping("/getbyid/{addressId}")
-	public AddressDTO getbyAddressId(@PathVariable long addressId)
+	public AddressDTO getByAddressId(@PathVariable long addressId)throws AddressNotFoundException
 	{
-		return service.getbyAddressId(addressId);
+		return service.getByAddressId(addressId);
 	}
 	@GetMapping("/get/state/{state}")
-	public List<Address> getAddressByState(@PathVariable String state)
+	public List<Address> getAddressByState(@PathVariable String state)throws AddressNotFoundException
 	{
 		return service.getByState(state);
 		
 	}
 	@GetMapping("/get/city/{city}")
-	public List<Address> getAddressByCity(@PathVariable String city)
+	public List<Address> getAddressByCity(@PathVariable String city)throws AddressNotFoundException
 	{
 		return service.getByCity(city);
 		

@@ -2,59 +2,72 @@ package com.hexaware.policymanager.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Policies")
 public class Policies {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long policyId;
 
-	@NotEmpty
+	@NotEmpty(message = "Policy name cannot be empty")
 	private String policyName;
 	
+	@Size(max = 500, message = "Policy description cannot exceed 500 characters")
 	private String policyDescription;
 
-	@NotEmpty
+	@NotEmpty(message = "Company name cannot be empty")
 	private String company;
 
-	@NotEmpty
+	@NotBlank(message = "Policy type cannot be empty")
 	private String policyType;
 
-	private Double maturityAmount;
+	@PositiveOrZero(message = "Maturity amount must be a positive or zero number")
+	private double maturityAmount;
 
-	private Double initialDeposit;
+	@Positive
+	private double initialDeposit;
 
-	@NotEmpty
+	@NotBlank
 	@Pattern(regexp ="^(Monthly|Quaterly|Half-Yearly|Annually)$")
 	private String termPeriod;
 
 	@Positive
-	private Double termAmount;
+	private double termAmount;
 
-	private Double interest;
+	@PositiveOrZero(message = "Interest must be a positive or zero number")
+	private double interest;
 
 	@OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
+	@JsonManagedReference(value ="UserPolicies-Policies")
 	private List<UserPolicies> userPolicies;
 
 	public Policies() {
 		super();
 	}
 
-	
-	public Policies(long policyId, @NotEmpty String policyName, String policyDescription, @NotEmpty String company,
-			@NotEmpty String policyType, Double maturityAmount, Double initialDeposit,
-			@NotEmpty @Pattern(regexp ="^(Monthly|Quaterly|Half-Yearly|Annually)$") String termPeriod,
-			Double termAmount, Double interest, List<UserPolicies> userPolicies) {
+	public Policies(long policyId, @NotBlank String policyName, @NotBlank String policyDescription,
+			@NotBlank String company, @NotBlank String policyType, @Positive double maturityAmount,
+			@Positive double initialDeposit,
+			@NotBlank @Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$") String termPeriod,
+			@Positive double termAmount, double interest, List<UserPolicies> userPolicies) {
 		super();
 		this.policyId = policyId;
 		this.policyName = policyName;
@@ -69,115 +82,110 @@ public class Policies {
 		this.userPolicies = userPolicies;
 	}
 
-
 	public long getPolicyId() {
 		return policyId;
 	}
-
 
 	public void setPolicyId(long policyId) {
 		this.policyId = policyId;
 	}
 
-
 	public String getPolicyName() {
 		return policyName;
 	}
-
 
 	public void setPolicyName(String policyName) {
 		this.policyName = policyName;
 	}
 
-
 	public String getPolicyDescription() {
 		return policyDescription;
 	}
-
 
 	public void setPolicyDescription(String policyDescription) {
 		this.policyDescription = policyDescription;
 	}
 
-
 	public String getCompany() {
 		return company;
 	}
-
 
 	public void setCompany(String company) {
 		this.company = company;
 	}
 
-
 	public String getPolicyType() {
 		return policyType;
 	}
-
 
 	public void setPolicyType(String policyType) {
 		this.policyType = policyType;
 	}
 
-
-	public Double getMaturityAmount() {
+	public double getMaturityAmount() {
 		return maturityAmount;
 	}
 
-
-	public void setMaturityAmount(Double maturityAmount) {
+	public void setMaturityAmount(double maturityAmount) {
 		this.maturityAmount = maturityAmount;
 	}
 
-
-	public Double getInitialDeposit() {
+	public double getInitialDeposit() {
 		return initialDeposit;
 	}
 
-
-	public void setInitialDeposit(Double initialDeposit) {
+	public void setInitialDeposit(double initialDeposit) {
 		this.initialDeposit = initialDeposit;
 	}
-
 
 	public String getTermPeriod() {
 		return termPeriod;
 	}
 
-
 	public void setTermPeriod(String termPeriod) {
 		this.termPeriod = termPeriod;
 	}
 
-
-	public Double getTermAmount() {
+	public double getTermAmount() {
 		return termAmount;
 	}
 
-
-	public void setTermAmount(Double termAmount) {
+	public void setTermAmount(double termAmount) {
 		this.termAmount = termAmount;
 	}
 
-
-	public Double getInterest() {
+	public double getInterest() {
 		return interest;
 	}
 
-
-	public void setInterest(Double interest) {
+	public void setInterest(double interest) {
 		this.interest = interest;
 	}
-
 
 	public List<UserPolicies> getUserPolicies() {
 		return userPolicies;
 	}
 
-
 	public void setUserPolicies(List<UserPolicies> userPolicies) {
 		this.userPolicies = userPolicies;
 	}
+	
+	public double calculateMaturityAmount(int durationInYears) {
+		double maturityAmount=initialDeposit+
+				(durationInYears*termAmount)
+				+ ((durationInYears * termAmount) * (interest / 100));
+		return maturityAmount;
+	}
 
+	@Override
+	public String toString() {
+		return "Policies [policyId=" + policyId + ", policyName=" + policyName + ", policyDescription="
+				+ policyDescription + ", company=" + company + ", policyType=" + policyType + ", maturityAmount="
+				+ maturityAmount + ", initialDeposit=" + initialDeposit + ", termPeriod=" + termPeriod + ", termAmount="
+				+ termAmount + ", interest=" + interest + ", userPolicies=" + userPolicies + "]";
+	}
+
+	
+	
 
 }

@@ -3,85 +3,160 @@ package com.hexaware.policymanager.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.AddressDTO;
 import com.hexaware.policymanager.entities.Address;
+import com.hexaware.policymanager.entities.Users;
+import com.hexaware.policymanager.exception.AddressNotFoundException;
 import com.hexaware.policymanager.repository.AddressRepository;
+import com.hexaware.policymanager.repository.UsersRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
-public class AddressServiceImp implements IAddressService{
+@Transactional
+public class AddressServiceImp implements IAddressService {
+
+	Logger logger = LoggerFactory.getLogger(AddressServiceImp.class);
+
 	@Autowired
 	AddressRepository addressRepo;
+
+	@Autowired
+	UsersRepository usersRepo;
+
 	@Override
 	public Address createAddress(AddressDTO addressDTO) {
-		Address address=new Address();
-		address.setAddressId(addressDTO.getAddressId());
-		address.setAddressLine(addressDTO.getAddressLine());
-		address.setCity(addressDTO.getCity());
-		address.setCityPincode(address.getCityPincode());
-		address.setState(addressDTO.getState());
-		return addressRepo.save(address);
+		try {
+			Address address = new Address();
+			address.setAddressId(addressDTO.getAddressId());
+			address.setAddressLine(addressDTO.getAddressLine());
+			address.setCity(addressDTO.getCity());
+			address.setCityPincode(addressDTO.getCityPincode());
+			address.setState(addressDTO.getState());
+
+			Users user = addressDTO.getUsers();
+			address.setUsers(addressDTO.getUsers());
+			user.setAddress(address);
+			usersRepo.save(user);
+
+			Address createdAddress = addressRepo.save(address);
+			logger.info("Address created succesfully: {}", createdAddress);
+			return createdAddress;
+		} catch (Exception e) {
+			logger.error("Error creating address", e);
+			throw new RuntimeException("Error creating address", e);
+		}
+
 	}
 
 	@Override
 	public Address updateAddress(AddressDTO addressDTO) {
-	    Optional<Address> optionalAddress = addressRepo.findById(addressDTO.getAddressId());
-	    if (optionalAddress.isPresent()) {
-	        Address address = optionalAddress.get();
-	        address.setAddressLine(addressDTO.getAddressLine());
-	        address.setCity(addressDTO.getCity());
-	        address.setState(addressDTO.getState());
-	        address.setCityPincode(addressDTO.getCityPincode());	        
-	        return addressRepo.save(address);
-	    } 
-	    else {
-	    	return null;
-	    }
+		try {
+			Optional<Address> optionalAddress = addressRepo.findById(addressDTO.getAddressId());
+			if (optionalAddress.isPresent()) {
+				Address address = optionalAddress.get();
+				address.setAddressLine(addressDTO.getAddressLine());
+				address.setCity(addressDTO.getCity());
+				address.setState(addressDTO.getState());
+				address.setCityPincode(addressDTO.getCityPincode());
+
+				Address updatedAddress = addressRepo.save(address);
+				logger.info("Address updated successfully: {}", updatedAddress);
+				return updatedAddress;
+			} else {
+				throw new AddressNotFoundException("Address not found with ID: " + addressDTO.getAddressId());
+			}
+		} catch (Exception e) {
+			logger.error("Error updating address", e);
+			throw new RuntimeException("Error updating address", e);
+		}
+
 	}
 
 	@Override
 	public String deleteByAddressId(long addressId) {
-		addressRepo.deleteById(addressId);
-		return "record deleted";
+		try {
+			if (!addressRepo.existsById(addressId)) {
+				throw new AddressNotFoundException("Address not found with ID: " + addressId);
+			}
+			addressRepo.deleteById(addressId);
+			logger.info("Address deleted successfully with ID: {}", addressId);
+			return "record deleted";
+		} catch (Exception e) {
+			logger.error("Error deleting address", e);
+			throw new RuntimeException("Error deleting address", e);
+		}
 	}
 
 	@Override
-	public AddressDTO getbyAddressId(long addressId) {	
-		Optional<Address> optional = addressRepo.findById(addressId); 
-		Address address = null;
-		AddressDTO addressDTO=new AddressDTO();
-		if (optional.isPresent()) {
-	        address = optional.get();
-	        if (address != null) {
-	            addressDTO.setAddressId(address.getAddressId());
-	            addressDTO.setAddressLine(address.getAddressLine());
-	            addressDTO.setCity(address.getCity());
-	            addressDTO.setState(address.getState());
-	            addressDTO.setCityPincode(address.getCityPincode());
-	        }
-	    }
-	    
-	    return addressDTO;
+	public AddressDTO getByAddressId(long addressId) {
+		try {
+			Optional<Address> optional = addressRepo.findById(addressId);
+			if (optional.isPresent()) {
+				Address address = optional.get();
+				AddressDTO addressDTO = new AddressDTO();
+				addressDTO.setAddressId(address.getAddressId());
+				addressDTO.setAddressLine(address.getAddressLine());
+				addressDTO.setCity(address.getCity());
+				addressDTO.setState(address.getState());
+				addressDTO.setCityPincode(address.getCityPincode());
+				return addressDTO;
+			} else {
+				throw new AddressNotFoundException("Address not found with ID: " + addressId);
+			}
+		} catch (Exception e) {
+			logger.error("Error fetching address by ID", e);
+			throw new RuntimeException("Error fetching address by ID", e);
+		}
 	}
 
 	@Override
 	public List<Address> getByState(String state) {
-		
-		return addressRepo.getByState(state);
+		try {
+			List<Address> addresses = addressRepo.findByState(state);
+			if (addresses.isEmpty()) {
+				logger.error("No addresses found for state '{}'", state);
+				throw new AddressNotFoundException("No addresses found for state: " + state);
+			}
+			logger.info("Retrieved addresses by state '{}' successfully: {}", state, addresses);
+			return addresses;
+		} catch (Exception e) {
+			logger.error("Error getting addresses by state", e);
+			throw new RuntimeException("Error getting addresses by state", e);
+		}
 	}
 
 	@Override
 	public List<Address> getByCity(String city) {
-		
-		return addressRepo.getByCity(city);
+		try {
+			List<Address> addresses = addressRepo.findByCity(city);
+			if (addresses.isEmpty()) {
+				logger.error("No addresses found for city '{}'", city);
+				throw new AddressNotFoundException("No addresses found for city: " + city);
+			}
+			logger.info("Retrieved addresses by city '{}' successfully: {}", city, addresses);
+			return addresses;
+		} catch (Exception e) {
+			logger.error("Error getting addresses by city", e);
+			throw new RuntimeException("Error getting addresses by city", e);
+		}
 	}
 
 	@Override
 	public List<Address> getAllAddress() {
-		
-		return addressRepo.findAll();
+		try {
+			List<Address> addresses = addressRepo.findAll();
+			logger.info("Retrieved all addresses successfully: {}", addresses);
+			return addresses;
+		} catch (Exception e) {
+			logger.error("Error getting all addresses", e);
+			throw new RuntimeException("Error getting all addresses", e);
+		}
 	}
 
 }

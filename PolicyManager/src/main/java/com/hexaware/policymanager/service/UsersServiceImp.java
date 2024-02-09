@@ -1,117 +1,215 @@
 package com.hexaware.policymanager.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.UsersDTO;
+import com.hexaware.policymanager.entities.UserPolicies;
 import com.hexaware.policymanager.entities.Users;
+import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.repository.AddressRepository;
+import com.hexaware.policymanager.repository.UserPoliciesRepository;
 import com.hexaware.policymanager.repository.UsersRepository;
 
+import jakarta.transaction.Transactional;
+
+@Transactional
 @Service
 public class UsersServiceImp implements IUsersService {
-	
+
+	Logger logger = LoggerFactory.getLogger(UsersServiceImp.class);
+
 	@Autowired
 	UsersRepository usersRepo;
-	
+
 	@Autowired
 	AddressRepository addressRepo;
 	
+	@Autowired
+	UserPoliciesRepository userRepo;
+
 	@Override
 	public Users registerUser(UsersDTO userDTO) {
-		Users user = new Users();
-		user.setUserId(userDTO.getUserId());
-		user.setFirstName(userDTO.getFirstName());
-		user.setLastName(userDTO.getLastName());
-		user.setEmailAddress(userDTO.getEmailAddress());
-		user.setContactNo(userDTO.getContactNo());
-		user.setUserType(userDTO.getUserType());
-		user.setDateOfBirth(userDTO.getDateOfBirth());
-		user.setAddress(userDTO.getAddress());
-		user.setPanNo(userDTO.getPanNo());
-		user.setEmployerName(userDTO.getEmployerName());
-		user.setEmployerType(userDTO.getEmployerType());
-		user.setSalary(userDTO.getSalary());
-		user.setPassword(userDTO.getPassword());
-		
-		return usersRepo.save(user);
+		try {
+			Users user = new Users();
+			user.setUserId(userDTO.getUserId());
+			user.setFirstName(userDTO.getFirstName());
+			user.setLastName(userDTO.getLastName());
+			user.setEmailAddress(userDTO.getEmailAddress());
+			user.setContactNumber(userDTO.getContactNumber());
+			user.setUserType(userDTO.getUserType());
+			user.setDateOfBirth(userDTO.getDateOfBirth());
+			user.setAddress(userDTO.getAddress());
+			user.setPanNumber(userDTO.getPanNumber());
+			user.setEmployerName(userDTO.getEmployerName());
+			user.setEmployerType(userDTO.getEmployerType());
+			user.setSalary(userDTO.getSalary());
+			user.setPassword(userDTO.getPassword());
+			
+			UserPolicies userPolicies = new UserPolicies();
+			userPolicies.setStartDate(userDTO.getUserPolicies().get(0).getStartDate());
+			userPolicies.setDurationInYears(userDTO.getUserPolicies().get(0).getDurationInYears());
+			userPolicies.setUser(user); 
+			List<UserPolicies> userPoliciesList = new ArrayList<>();
+			userPoliciesList.add(userPolicies);
+			user.setUserPolicies(userPoliciesList);			
+			
+			logger.info("User registered sucessfully");
+			return usersRepo.save(user);
+		} catch (Exception e) {
+			
+			logger.error("User is not created", e);
+			throw new RuntimeException("Error registering user", e);
+		}
 	}
 
 	@Override
 	public Users updateUser(UsersDTO userDTO) {
-		Users user = new Users();
-		user.setUserId(userDTO.getUserId());
-		user.setFirstName(userDTO.getFirstName());
-		user.setLastName(userDTO.getLastName());
-		user.setEmailAddress(userDTO.getEmailAddress());
-		user.setContactNo(userDTO.getContactNo());
-		user.setUserType(userDTO.getUserType());
-		user.setDateOfBirth(userDTO.getDateOfBirth());
-		user.setAddress(userDTO.getAddress());
-		user.setPanNo(userDTO.getPanNo());
-		user.setEmployerName(userDTO.getEmployerName());
-		user.setEmployerType(userDTO.getEmployerType());
-		user.setSalary(userDTO.getSalary());
-		user.setPassword(userDTO.getPassword());
-		
-		return usersRepo.save(user);
+		try {
+			Optional<Users> optionalUser = usersRepo.findById(userDTO.getUserId());
+			if (optionalUser.isPresent()) {
+				Users user = optionalUser.get();
+				user.setFirstName(userDTO.getFirstName());
+				user.setLastName(userDTO.getLastName());
+				user.setEmailAddress(userDTO.getEmailAddress());
+				user.setContactNumber(userDTO.getContactNumber());
+				user.setUserType(userDTO.getUserType());
+				user.setDateOfBirth(userDTO.getDateOfBirth());
+				user.setAddress(userDTO.getAddress());
+				user.setPanNumber(userDTO.getPanNumber());
+				user.setEmployerName(userDTO.getEmployerName());
+				user.setEmployerType(userDTO.getEmployerType());
+				user.setSalary(userDTO.getSalary());
+				user.setPassword(userDTO.getPassword());
+				user.setUserPolicies(userDTO.getUserPolicies());
+
+				Users updatedUser = usersRepo.save(user);
+				logger.info("User updated successfully: {}", updatedUser);
+				return updatedUser;
+			} else {
+				throw new UserNotFoundException("User not found with ID: " + userDTO.getUserId());
+			}
+		} catch (Exception e) {
+			logger.error("User is not updated", e);
+			throw new RuntimeException("Error updating user", e);
+		}
 	}
 
 	@Override
 	public String deleteByUserId(long userId) {
-		usersRepo.deleteById(userId);
-		return "record deleted";
-		
+		try {
+			if (!usersRepo.existsById(userId)) {
+				throw new UserNotFoundException("User not found with ID: " + userId);
+			}
+			usersRepo.deleteById(userId);
+
+			logger.info("User deleted successfully with ID: {}", userId);
+			return "User deleted successfully with ID: " + userId;
+		} catch (Exception e) {
+			logger.error("Error deleting user", e);
+			throw new RuntimeException("Error deleting user", e);
+		}
 	}
 
 	@Override
 	public UsersDTO getById(long userId) {
-		Optional<Users> optional= usersRepo.findById(userId);
-		Users users = null;
-		UsersDTO userDTO=new UsersDTO();
+		try {
+			Optional<Users> optional = usersRepo.findById(userId);
 			if (optional.isPresent()) {
-				users = optional.get();
-		        if (users != null) {
-		        	userDTO.setEmailAddress(users.getEmailAddress());
-		        	userDTO.setContactNo(users.getContactNo());
-		        	userDTO.setPassword(users.getPassword());
-		        	userDTO.setFirstName(users.getFirstName());
-		        	userDTO.setLastName(users.getLastName());
-		        	userDTO.setDateOfBirth(users.getDateOfBirth());
-		        	userDTO.setPanNo(users.getPanNo());
-		        	userDTO.setEmployerType(users.getEmployerType());
-		        	userDTO.setEmployerName(users.getEmployerName());
-		        	userDTO.setSalary(users.getSalary());
-		        	userDTO.setUserType(users.getUserType());
-	
-		        }
-		    }
-		    return userDTO;
+				Users users = optional.get();
+				UsersDTO userDTO = new UsersDTO();
+				userDTO.setEmailAddress(users.getEmailAddress());
+				userDTO.setContactNumber(users.getContactNumber());
+				userDTO.setPassword(users.getPassword());
+				userDTO.setFirstName(users.getFirstName());
+				userDTO.setLastName(users.getLastName());
+				userDTO.setDateOfBirth(users.getDateOfBirth());
+				userDTO.setPanNumber(users.getPanNumber());
+				userDTO.setEmployerType(users.getEmployerType());
+				userDTO.setEmployerName(users.getEmployerName());
+				userDTO.setSalary(users.getSalary());
+				userDTO.setUserType(users.getUserType());
+				
+				 logger.info("User retrieved successfully by ID: {}", userId);
+
+				return userDTO;
+			} else {
+				throw new UserNotFoundException("User not found with ID: " + userId);
+			}
+		} catch (Exception e) {
+			logger.error("User Cannot be retrived", e);
+			throw new RuntimeException("Error getting user by ID", e);
+		}
 	}
 
 	@Override
 	public Users getUserByEmail(String emailAddress) {
-		
-		return usersRepo.getUserByemailAddress(emailAddress);
+		try {
+			Users user = usersRepo.getUserByEmailAddress(emailAddress);
+			if (user == null) {
+				throw new UserNotFoundException("User not found with email: " + emailAddress);
+			}
+			 logger.info("User retrieved successfully by email: {}", emailAddress);
+			return user;
+			
+		} catch (Exception e) {
+			logger.error("User cannot be retrived with email address", e);
+			throw new RuntimeException("Error getting user by email", e);
+		}
 	}
 
 	@Override
 	public List<Users> getUserByUserType(String userType) {
-		
-		return usersRepo.getUserByUserType(userType);
+		try {
+			List<Users> users = usersRepo.getUserByUserType(userType);
+			if (users.isEmpty()) {
+				throw new UserNotFoundException("No users found with user type: " + userType);
+			}
+			return users;
+		} catch (Exception e) {
+			logger.error("Error getting users by user type", e);
+			throw new RuntimeException("Error getting users by user type", e);
+		}
 	}
 
 	@Override
-	public Users getUserBycontactNo(String contactNo) {
-		return usersRepo.getUserBycontactNo(contactNo);
-	}
+	public Users getUserBycontactNumber(String contactNumber) {
+		try {
+            Users user = usersRepo.getUserByContactNumber(contactNumber);
+            if (user == null) {
+                throw new UserNotFoundException("User not found with contact number: " + contactNumber);
+            }
+
+            logger.info("User retrieved successfully by contact number: {}", contactNumber);
+
+            return user;
+        } catch (Exception e) {
+            logger.error("Error getting user by contact number", e);
+            throw new RuntimeException("Error getting user by contact number", e);
+        }
+    }
+
 
 	@Override
 	public List<Users> getAllUsers() {
-		return usersRepo.findAll();
-	}
+		 try {
+	            List<Users> users = usersRepo.findAll();
+	            if (users.isEmpty()) {
+	                throw new UserNotFoundException("No users found");
+	            }
 
-}
+	            logger.info("Retrieved all users successfully");
+
+	            return users;
+	        } catch (Exception e) {
+	            logger.error("Error getting all users", e);
+	            throw new RuntimeException("Error getting all users", e);
+	        }
+	    }
+	}

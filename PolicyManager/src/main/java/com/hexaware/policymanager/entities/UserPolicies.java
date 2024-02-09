@@ -1,11 +1,15 @@
 package com.hexaware.policymanager.entities;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,55 +18,59 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "UserPolicies")
 public class UserPolicies {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userpolicies_seq_generator")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long userPolicyId;
 
 	@ManyToOne
-	
 	@JoinColumn(name = "UserID")
+	@JsonBackReference(value="UserPolicies-Users")
 	private Users user;
 
 	@ManyToOne
-	
 	@JoinColumn(name = "PolicyID")
+	@JsonBackReference(value="UserPolicies-Policies")
 	private Policies policy;
 
 	@OneToMany(mappedBy = "userPolicy", cascade = CascadeType.ALL)
-	
-	private List<PolicyPayments> policyPayments;
+	@JsonManagedReference(value = "UserPolicies-Claims")
+	private List<Claims> claims;
 
-	
+	@NotNull(message = "Start date cannot be null")
+	@FutureOrPresent(message = "Start date must be in the present or future")
 	private Date startDate;
+	
 	
 	private Date endDate;
 
+	@NotNull(message = "duration cannot be null")
+	@Positive(message="duration should be a positive value")
 	private int durationInYears;
 
 	public UserPolicies() {
 		super();
 	}
 
-	
-
-	public UserPolicies(long userPolicyId, Users user, Policies policy, List<PolicyPayments> policyPayments,
-			@NotNull Date startDate, @NotNull Date endDate, int durationInYears) {
+	public UserPolicies(long userPolicyId, Users user, Policies policy, List<Claims> claims,
+			@NotNull(message = "Start date cannot be null") @FutureOrPresent(message = "Start date must be in the present or future") Date startDate,
+			Date endDate,
+			@NotNull(message = "duration cannot be null") @Positive(message = "duration should be a positive value") int durationInYears) {
 		super();
 		this.userPolicyId = userPolicyId;
 		this.user = user;
 		this.policy = policy;
-		this.policyPayments = policyPayments;
+		this.claims = claims;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.durationInYears = durationInYears;
 	}
-
-
 
 	public long getUserPolicyId() {
 		return userPolicyId;
@@ -88,12 +96,13 @@ public class UserPolicies {
 		this.policy = policy;
 	}
 
-	public List<PolicyPayments> getPolicyPayments() {
-		return policyPayments;
+	@JsonIgnore
+	public List<Claims> getClaims() {
+		return claims;
 	}
 
-	public void setPolicyPayments(List<PolicyPayments> policyPayments) {
-		this.policyPayments = policyPayments;
+	public void setClaims(List<Claims> claims) {
+		this.claims = claims;
 	}
 
 	public Date getStartDate() {
@@ -104,13 +113,6 @@ public class UserPolicies {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
 
 	public int getDurationInYears() {
 		return durationInYears;
@@ -118,12 +120,21 @@ public class UserPolicies {
 
 	public void setDurationInYears(int durationInYears) {
 		this.durationInYears = durationInYears;
+		calculateEndDate();
+	}	
+		private void calculateEndDate() {
+
+        if (startDate != null) {
+            LocalDate localStartDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localEndDate = localStartDate.plusYears(durationInYears);
+            this.endDate = Date.from(localEndDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        }
 	}
 
 	@Override
 	public String toString() {
 		return "UserPolicies [userPolicyId=" + userPolicyId + ", user=" + user + ", policy=" + policy
-				+ ", policyPayments=" + policyPayments + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", claims=" + claims + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", durationInYears=" + durationInYears + "]";
 	}
 

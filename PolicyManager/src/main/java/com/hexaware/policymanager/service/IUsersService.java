@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Users;
-import com.hexaware.policymanager.exception.UserNotFoundException;
 
 public interface IUsersService {
 	public Users registerUser(UsersDTO userDTO);
@@ -13,7 +12,7 @@ public interface IUsersService {
 	public String deleteByUserId(long userId);
 	public UsersDTO getById(long userId);
     public Users getUserByEmail(String email);
-    public List<Users> getUserByUserType(String userType) throws UserNotFoundException;
-    public Users getUserBycontactNo(String contactNo);
+    public List<Users> getUserByUserType(String userType);
+    public Users getUserBycontactNumber(String contactNumber);
 	public List<Users> getAllUsers();
 }
