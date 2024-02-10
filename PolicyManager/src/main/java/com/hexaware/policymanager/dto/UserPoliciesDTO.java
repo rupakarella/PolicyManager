@@ -3,8 +3,8 @@ package com.hexaware.policymanager.dto;
 import java.util.Date;
 import java.util.List;
 
+import com.hexaware.policymanager.entities.Claims;
 import com.hexaware.policymanager.entities.Policies;
-import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.entities.Users;
 
 public class UserPoliciesDTO {
@@ -16,8 +16,8 @@ public class UserPoliciesDTO {
 	private Users user;
 	private Policies policy;
 	private Date endDate;
-	private List<PolicyPayments> policyPayments;
-	
+	private List<Claims> claims;
+	private double maturityAmount;
 	
 	public UserPoliciesDTO() {
 		super();
@@ -25,7 +25,7 @@ public class UserPoliciesDTO {
 
 
 	public UserPoliciesDTO(long userPolicyId, Date startDate, long userId, long policyId, int durationInYears,
-			Users user, Policies policy, Date endDate, List<PolicyPayments> policyPayments) {
+			Users user, Policies policy, Date endDate,double maturityAmount, List<Claims> claims) {
 		super();
 		this.userPolicyId = userPolicyId;
 		this.startDate = startDate;
@@ -35,7 +35,8 @@ public class UserPoliciesDTO {
 		this.user = user;
 		this.policy = policy;
 		this.endDate = endDate;
-		this.policyPayments = policyPayments;
+		this.claims = claims;
+		this.maturityAmount=maturityAmount;
 	}
 
 
@@ -103,21 +104,42 @@ public class UserPoliciesDTO {
 	}
 	
 
-	public List<PolicyPayments> getPolicyPayments() {
-		return policyPayments;
+	public List<Claims> getClaims() {
+		return claims;
 	}
 
 
 
-	public void setPolicyPayments(List<PolicyPayments> policyPayments) {
-		this.policyPayments = policyPayments;
+	public void setClaims(List<Claims> claims) {
+		this.claims= claims;
 	}
+	
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+
+	public double getMaturityAmount() {
+		return maturityAmount;
+	}
+
+
+	public void setMaturityAmount(double maturityAmount) {
+		this.maturityAmount = maturityAmount;
+	}
+
 
 	@Override
 	public String toString() {
 		return "UserPoliciesDTO [userPolicyId=" + userPolicyId + ", startDate=" + startDate + ", userId=" + userId
 				+ ", policyId=" + policyId + ", durationInYears=" + durationInYears + ", user=" + user + ", policy="
-				+ policy + ", endDate=" + endDate + ", policyPayments=" + policyPayments + "]";
+				+ policy + ", endDate=" + endDate + ", claims=" + claims + "]";
 	}
 
 

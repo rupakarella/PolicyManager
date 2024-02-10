@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.policymanager.dto.UserPoliciesDTO;
 import com.hexaware.policymanager.entities.UserPolicies;
+import com.hexaware.policymanager.exception.PolicyNotFoundException;
+import com.hexaware.policymanager.exception.UserNotFoundException;
+import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.service.IUserPoliciesService;
 
 @RestController
@@ -24,30 +27,35 @@ public class UserPoliciesRestController {
 	IUserPoliciesService service;
 
 	@PostMapping(value = "/add")
-	public UserPolicies createUserPolicy(@RequestBody UserPoliciesDTO userPoliciesDTO) {
+	public UserPolicies createUserPolicy(@RequestBody UserPoliciesDTO userPoliciesDTO)throws UserNotFoundException,PolicyNotFoundException  {
 		return service.createUserPolicy(userPoliciesDTO);
 	}
 
 	@PutMapping("/update")
-	public UserPolicies updateUserPolicy(@RequestBody UserPoliciesDTO userPoliciesDTO) {
+	public UserPolicies updateUserPolicy(@RequestBody UserPoliciesDTO userPoliciesDTO)throws UserPolicyNotFoundException {
 		return service.updateUserPolicy(userPoliciesDTO);
 	}
 
-	@DeleteMapping(value = "/delete/{policyId}")
-	public void deleteUserPolicyByPolicyNo(@PathVariable long policyId) {
-		service.deleteUserPolicyById(policyId);
+	@DeleteMapping(value = "/delete/{userPolicyId}")
+	public String deleteUserPolicyByPolicyNo(@PathVariable long userPolicyId)throws UserPolicyNotFoundException {
+		return service.deleteUserPolicyById(userPolicyId);
 	}
 
-	@GetMapping("/getall/{policyId}")
-	public UserPoliciesDTO getById(@PathVariable long policyId) {
-		return service.getbyUserPolicyId(policyId);
+	@GetMapping("/get-userPolicyId/{userPolicyId}")
+	public UserPoliciesDTO getById(@PathVariable long userPolicyId) throws UserPolicyNotFoundException{
+		return service.getbyUserPolicyId(userPolicyId);
 
 	}
 
-	@GetMapping("/getall")
+	@GetMapping("/getAll")
 	public List<UserPolicies> getAllUserPolicies() {
 		return service.getAllUserPolicies();
 
 	}
+	
+	@GetMapping("/getByUserId/{userId}")
+    public List<UserPolicies> getUserPoliciesByUserId(@PathVariable long userId)throws UserNotFoundException {
+        return service.getUserPoliciesByUserId(userId);
+    }
 
 }

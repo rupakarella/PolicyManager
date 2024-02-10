@@ -33,7 +33,7 @@ public class Address {
 	private String state;
 	
 	@OneToOne(mappedBy = "address", cascade = CascadeType.REMOVE)
-	@JsonBackReference
+	@JsonBackReference(value="Users-Address")
 	private Users users;
 
 	public Address() {
@@ -102,7 +102,7 @@ public class Address {
 	@Override
 	public String toString() {
 		return "Address [addressId=" + addressId + ", addressLine=" + addressLine + ", city=" + city + ", cityPincode="
-				+ cityPincode + ", state=" + state + ", users=" + users + "]";
+				+ cityPincode + ", state=" + state + "]";
 	}
 
 	

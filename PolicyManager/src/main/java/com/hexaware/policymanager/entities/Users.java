@@ -72,11 +72,11 @@ public class Users {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "addressId")
-	@JsonManagedReference
+	@JsonManagedReference(value="Users-Address")
 	private Address address;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonManagedReference(value="UserPolicies-Users")
 	private List<UserPolicies> userPolicies;
 
 	public Users() {

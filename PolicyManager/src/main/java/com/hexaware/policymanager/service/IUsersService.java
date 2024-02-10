@@ -5,9 +5,10 @@ import java.util.Optional;
 
 import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Users;
+import com.hexaware.policymanager.exception.DuplicateUserException;
 
 public interface IUsersService {
-	public Users registerUser(UsersDTO userDTO);
+	public Users registerUser(UsersDTO userDTO) throws DuplicateUserException;
 	public Users updateUser(UsersDTO userDTO);
 	public String deleteByUserId(long userId);
 	public UsersDTO getById(long userId);
@@ -15,4 +16,7 @@ public interface IUsersService {
     public List<Users> getUserByUserType(String userType);
     public Users getUserBycontactNumber(String contactNumber);
 	public List<Users> getAllUsers();
+	public String findUserTypeByEmailAddress(String emailAddress);
+	public long findUserIdByEmailAddress(String emailAddress);
+	public String findUserNameByEmailAddress(String emailAddress);
 }
