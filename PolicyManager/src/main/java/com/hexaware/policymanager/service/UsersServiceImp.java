@@ -1,24 +1,23 @@
 package com.hexaware.policymanager.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.UsersDTO;
-import com.hexaware.policymanager.entities.UserPolicies;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.DuplicateUserException;
 import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.repository.AddressRepository;
-import com.hexaware.policymanager.repository.UserPoliciesRepository;
 import com.hexaware.policymanager.repository.UsersRepository;
 
 import jakarta.transaction.Transactional;
+
 @Service
 @Transactional
 
@@ -31,44 +30,43 @@ public class UsersServiceImp implements IUsersService {
 
 	@Autowired
 	AddressRepository addressRepo;
-	
+
 	@Autowired
-	UserPoliciesRepository userRepo;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	@Override
 	public Users registerUser(UsersDTO userDTO) throws DuplicateUserException {
-	    try {
-	        // Check if a user with the same email address already exists
-	        Users existingUser = usersRepo.getUserByEmailAddress(userDTO.getEmailAddress());
-	        if (existingUser != null) {
-	            throw new DuplicateUserException("User with email address " + userDTO.getEmailAddress() + " already exists");
-	        }
+		try {
+			Users existingUser = usersRepo.getUserByEmailAddress(userDTO.getEmailAddress());
+			if (existingUser != null) {
+				throw new DuplicateUserException(
+						"User with email address " + userDTO.getEmailAddress() + " already exists");
+			}
 
-	        // Create a new user
-	        Users user = new Users();
-	        user.setUserId(userDTO.getUserId());
-	        user.setFirstName(userDTO.getFirstName());
-	        user.setLastName(userDTO.getLastName());
-	        user.setEmailAddress(userDTO.getEmailAddress());
-	        user.setContactNumber(userDTO.getContactNumber());
-	        user.setUserType(userDTO.getUserType());
-	        user.setDateOfBirth(userDTO.getDateOfBirth());
-	        user.setAddress(userDTO.getAddress());
-	        user.setPanNumber(userDTO.getPanNumber());
-	        user.setEmployerName(userDTO.getEmployerName());
-	        user.setEmployerType(userDTO.getEmployerType());
-	        user.setSalary(userDTO.getSalary());
-	        user.setPassword(userDTO.getPassword());
+			Users user = new Users();
+			user.setUserId(userDTO.getUserId());
+			user.setFirstName(userDTO.getFirstName());
+			user.setLastName(userDTO.getLastName());
+			user.setEmailAddress(userDTO.getEmailAddress());
+			user.setContactNumber(userDTO.getContactNumber());
+			user.setUserType(userDTO.getUserType());
+			user.setDateOfBirth(userDTO.getDateOfBirth());
+			user.setAddress(userDTO.getAddress());
+			user.setPanNumber(userDTO.getPanNumber());
+			user.setEmployerName(userDTO.getEmployerName());
+			user.setEmployerType(userDTO.getEmployerType());
+			user.setSalary(userDTO.getSalary());
+			user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 
-	        logger.info("User registered successfully");
-	        return usersRepo.save(user);
-	    } catch (DuplicateUserException e) {
-	        throw e; // Rethrow custom exception
-	    } catch (Exception e) {
-	        logger.error("Error registering user", e);
-	        throw new RuntimeException("Error registering user", e);
-	    }
+			logger.info("User registered successfully");
+			return usersRepo.save(user);
+		} catch (DuplicateUserException e) {
+			throw e;
+		} catch (Exception e) {
+			logger.error("Error registering user", e);
+			throw new RuntimeException("Error registering user", e);
+		}
 	}
-
 
 	@Override
 	public Users updateUser(UsersDTO userDTO) {
@@ -87,7 +85,7 @@ public class UsersServiceImp implements IUsersService {
 				user.setEmployerName(userDTO.getEmployerName());
 				user.setEmployerType(userDTO.getEmployerType());
 				user.setSalary(userDTO.getSalary());
-				user.setPassword(userDTO.getPassword());
+				user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 				user.setUserPolicies(userDTO.getUserPolicies());
 
 				Users updatedUser = usersRepo.save(user);
@@ -125,7 +123,7 @@ public class UsersServiceImp implements IUsersService {
 			if (optional.isPresent()) {
 				Users users = optional.get();
 				UsersDTO userDTO = new UsersDTO();
-				userDTO.setUserId(users.getUserId()); 
+				userDTO.setUserId(users.getUserId());
 				userDTO.setEmailAddress(users.getEmailAddress());
 				userDTO.setContactNumber(users.getContactNumber());
 				userDTO.setPassword(users.getPassword());
@@ -137,8 +135,8 @@ public class UsersServiceImp implements IUsersService {
 				userDTO.setEmployerName(users.getEmployerName());
 				userDTO.setSalary(users.getSalary());
 				userDTO.setUserType(users.getUserType());
-				
-				 logger.info("User retrieved successfully by ID: {}", userId);
+
+				logger.info("User retrieved successfully by ID: {}", userId);
 
 				return userDTO;
 			} else {
@@ -157,9 +155,9 @@ public class UsersServiceImp implements IUsersService {
 			if (user == null) {
 				throw new UserNotFoundException("User not found with email: " + emailAddress);
 			}
-			 logger.info("User retrieved successfully by email: {}", emailAddress);
+			logger.info("User retrieved successfully by email: {}", emailAddress);
 			return user;
-			
+
 		} catch (Exception e) {
 			logger.error("User cannot be retrived with email address", e);
 			throw new RuntimeException("Error getting user by email", e);
@@ -183,53 +181,43 @@ public class UsersServiceImp implements IUsersService {
 	@Override
 	public Users getUserBycontactNumber(String contactNumber) {
 		try {
-            Users user = usersRepo.getUserByContactNumber(contactNumber);
-            if (user == null) {
-                throw new UserNotFoundException("User not found with contact number: " + contactNumber);
-            }
+			Users user = usersRepo.getUserByContactNumber(contactNumber);
+			if (user == null) {
+				throw new UserNotFoundException("User not found with contact number: " + contactNumber);
+			}
 
-            logger.info("User retrieved successfully by contact number: {}", contactNumber);
+			logger.info("User retrieved successfully by contact number: {}", contactNumber);
 
-            return user;
-        } catch (Exception e) {
-            logger.error("Error getting user by contact number", e);
-            throw new RuntimeException("Error getting user by contact number", e);
-        }
-    }
-
+			return user;
+		} catch (Exception e) {
+			logger.error("Error getting user by contact number", e);
+			throw new RuntimeException("Error getting user by contact number", e);
+		}
+	}
 
 	@Override
 	public List<Users> getAllUsers() {
-		 try {
-	            List<Users> users = usersRepo.findAll();
-	            if (users.isEmpty()) {
-	                throw new UserNotFoundException("No users found");
-	            }
+		List<Users> users = usersRepo.findAll();
+		logger.info("Retrieved all users successfully");
 
-	            logger.info("Retrieved all users successfully");
-
-	            return users;
-	        } catch (Exception e) {
-	            logger.error("Error getting all users", e);
-	            throw new RuntimeException("Error getting all users", e);
-	        }
-	    }
+		return users;
+	}
 
 	@Override
 	public String findUserTypeByEmailAddress(String emailAddress) {
-		
+
 		return usersRepo.findUserTypeByEmailAddress(emailAddress);
 	}
 
 	@Override
 	public long findUserIdByEmailAddress(String emailAddress) {
-		
+
 		return usersRepo.findUserIdByEmailAddress(emailAddress);
 	}
 
 	@Override
 	public String findUserNameByEmailAddress(String emailAddress) {
-		
+
 		return usersRepo.findUserNameByEmailAddress(emailAddress);
 	}
-	}
+}

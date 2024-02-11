@@ -36,13 +36,13 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(PolicyRegisteredByUserException.class)
-    public ResponseEntity<String> handlePolicyRegisteredByUserException(PolicyRegisteredByUserException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-    }
-	@ExceptionHandler(DuplicateUserException.class)
-	public ResponseEntity<String> handleDuplicateUserException(DuplicateUserException e) {
-	    return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+	public ResponseEntity<String> handlePolicyRegisteredByUserException(PolicyRegisteredByUserException e) {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 	}
 
+	@ExceptionHandler(DuplicateUserException.class)
+	public ResponseEntity<String> handleDuplicateUserException(DuplicateUserException e) {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+	}
 
 }

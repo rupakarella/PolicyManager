@@ -20,20 +20,20 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long addressId;
 
-	@NotBlank(message="addressLine should not be blank")
+	@NotBlank(message = "addressLine should not be blank")
 	private String addressLine;
-	
-	@NotBlank(message="city should not be blank")
+
+	@NotBlank(message = "city should not be blank")
 	private String city;
-	
-	@NotNull(message="cityPincode should not be blank")
+
+	@NotNull(message = "cityPincode should not be blank")
 	private int cityPincode;
-    
-	@NotBlank(message="state should not be blank")
+
+	@NotBlank(message = "state should not be blank")
 	private String state;
-	
+
 	@OneToOne(mappedBy = "address", cascade = CascadeType.REMOVE)
-	@JsonBackReference(value="Users-Address")
+	@JsonBackReference(value = "Users-Address")
 	private Users users;
 
 	public Address() {
@@ -104,8 +104,5 @@ public class Address {
 		return "Address [addressId=" + addressId + ", addressLine=" + addressLine + ", city=" + city + ", cityPincode="
 				+ cityPincode + ", state=" + state + "]";
 	}
-
-	
-	
 
 }

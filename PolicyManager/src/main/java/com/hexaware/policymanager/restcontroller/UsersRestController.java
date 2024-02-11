@@ -3,6 +3,7 @@ package com.hexaware.policymanager.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,70 +20,82 @@ import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.service.IUsersService;
 
 @RestController
-@RequestMapping(value = "/api/users")
+@RequestMapping(value = "/api/v1/users")
 public class UsersRestController {
 
 	@Autowired
-	IUsersService services;
+	IUsersService UserService;
 
 	@PostMapping(value = "/register")
 	public Users registerUser(@RequestBody UsersDTO userDTO)throws RuntimeException, DuplicateUserException  {
 		
-		return services.registerUser(userDTO);
+		return UserService.registerUser(userDTO);
 	}
 
 	@PutMapping(value = "/update")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public Users updateUser(@RequestBody UsersDTO userDTO)throws RuntimeException  {
-		return services.updateUser(userDTO);
+		return UserService.updateUser(userDTO);
 	}
 
 	@DeleteMapping(value = "/delete/{userId}")
+	@PreAuthorize("hasAuthority('Admin')")
 	public String deleteByUserId(@PathVariable long userId) throws UserNotFoundException {
-		return services.deleteByUserId(userId);
+		return UserService.deleteByUserId(userId);
 	}
 
-	@GetMapping(value = "/get/id/{userId}")
+	@GetMapping(value = "/get-userId/{userId}")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public UsersDTO getUserById(@PathVariable long userId) throws UserNotFoundException {
-		return services.getById(userId);
+		return UserService.getById(userId);
 	}
 	
-	@GetMapping(value="/get/email/{email}")
+	@GetMapping(value="/get-email/{email}")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public Users getUserPolicyByEmail(@PathVariable String email) throws UserNotFoundException
 	{
-		return services.getUserByEmail(email);
+		return UserService.getUserByEmail(email);
 	}
 	
-	@GetMapping(value="/get/type/{userType}") 
+	@GetMapping(value="/get-type/{userType}")
+	@PreAuthorize("hasAuthority('Admin')")
 	public List<Users> getUserByUserType(@PathVariable String userType)throws UserNotFoundException 
 	{
-		return services.getUserByUserType(userType);
+		return UserService.getUserByUserType(userType);
 	}
 	
-	@GetMapping(value="/get/contactnumber/{contactNumber}")
+	@GetMapping(value="/get-contactnumber/{contactNumber}")
+	@PreAuthorize("hasAuthority('Admin')")
 	public Users getUserByConatctno(@PathVariable String contactNumber) throws UserNotFoundException
 	{
-		return services.getUserBycontactNumber(contactNumber);
+		return UserService.getUserBycontactNumber(contactNumber);
 	}
 	
-	@GetMapping(value="/getall")
+	@GetMapping(value="/get-all")
+	@PreAuthorize("hasAuthority('Admin')")
 	public List<Users> getAllUsers()
 	{
-		return services.getAllUsers();
+		return UserService.getAllUsers();
 	}
 	@GetMapping(value="/get-userType-by-emailAddress/{emailAddress}")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public String findUserTypeByEmailAddress(@PathVariable String emailAddress) {
 		
-		return services.findUserTypeByEmailAddress(emailAddress);
+		return UserService.findUserTypeByEmailAddress(emailAddress);
 	}
+	
 	@GetMapping(value="/get-userId-by-emailAddress/{emailAddress}")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public long findUserIdByEmailAddress(@PathVariable String emailAddress) {
 		
-		return services.findUserIdByEmailAddress(emailAddress);
+		return UserService.findUserIdByEmailAddress(emailAddress);
 	}
+	
 	@GetMapping(value="/get-userName-by-emailAddress/{emailAddress}")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public String findUserNameByEmailAddress(@PathVariable String emailAddress) {
 		
-		return services.findUserNameByEmailAddress(emailAddress);
+		return UserService.findUserNameByEmailAddress(emailAddress);
 	}
 
 }

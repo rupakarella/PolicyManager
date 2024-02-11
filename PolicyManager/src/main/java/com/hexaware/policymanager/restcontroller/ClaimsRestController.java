@@ -3,6 +3,7 @@ package com.hexaware.policymanager.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,56 +20,54 @@ import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.service.IClaimsService;
 
 @RestController
-@RequestMapping("/api/claims")
+@RequestMapping("/api/v1/claims")
 public class ClaimsRestController {
 	@Autowired
 	IClaimsService claimsService;
-	
-	@PostMapping("/register-claims")
-	public Claims registerClaims(@RequestBody ClaimsDTO claimsDTO)throws UserPolicyNotFoundException
-	{
+
+	@PostMapping("/register")
+	@PreAuthorize("hasAuthority('User')")
+	public Claims registerClaims(@RequestBody ClaimsDTO claimsDTO) throws UserPolicyNotFoundException {
 		return claimsService.registerClaims(claimsDTO);
 	}
-	
-	@PutMapping("/update-claims")
-	public Claims updateClaims(@RequestBody ClaimsDTO claimsDTO) throws ClaimNotFoundException{
-	  try {
-		return claimsService.updateClaims(claimsDTO);
+
+	@PutMapping("/update")
+	@PreAuthorize("hasAuthority('Admin')")
+	public Claims updateClaims(@RequestBody ClaimsDTO claimsDTO) throws ClaimNotFoundException {
+		try {
+			return claimsService.updateClaims(claimsDTO);
+		} catch (ClaimNotFoundException e) {
+			throw new ClaimNotFoundException("Claim not found: " + e.getMessage());
+		}
 	}
-	catch (ClaimNotFoundException e) {
-		throw new ClaimNotFoundException("Claim not found: " + e.getMessage());
-    }
-}
-	
-	
-	@DeleteMapping("/delete-claims-by-id/{claimId}")
-	public String deleteClaimsById(@PathVariable int claimId) throws ClaimNotFoundException
-	{
+
+	@DeleteMapping("/delete/{claimId}")
+	@PreAuthorize("hasAuthority('Admin')")
+	public String deleteClaimsById(@PathVariable int claimId) throws ClaimNotFoundException {
 		return claimsService.deleteClaimsById(claimId);
 	}
-	
-	@GetMapping("/get-claims-by-id/{claimId}")
-	public Claims getClaimsById(@PathVariable int claimId) throws ClaimNotFoundException
-	{
+
+	@GetMapping("/get-by-id/{claimId}")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
+	public Claims getClaimsById(@PathVariable int claimId) throws ClaimNotFoundException {
 		return claimsService.getClaimsById(claimId);
 	}
-	
-	@GetMapping("/find-by-claim-amount/{claimAmount}")
-	public List<Claims> findByClaimAmount(@PathVariable double claimAmount) throws ClaimNotFoundException
-	{
+
+	@GetMapping("/get-by-claim-amount/{claimAmount}")
+	@PreAuthorize("hasAuthority('Admin')")
+	public List<Claims> findByClaimAmount(@PathVariable double claimAmount) throws ClaimNotFoundException {
 		return claimsService.getAllClaimsByClaimAmount(claimAmount);
 	}
-	
-	
-	@GetMapping("/find-by-claim-status/{claimStatus}")
-	public List<Claims> findByClaimStatus(@PathVariable String claimStatus) throws ClaimNotFoundException
-	{
+
+	@GetMapping("/get-by-claim-status/{claimStatus}")
+	@PreAuthorize("hasAuthority('Admin')")
+	public List<Claims> findByClaimStatus(@PathVariable String claimStatus) throws ClaimNotFoundException {
 		return claimsService.getAllClaimsByClaimStatus(claimStatus);
 	}
-	
-	@GetMapping("/get-all-claims")
-	public List<Claims> getAllClaims()
-	{
+
+	@GetMapping("/get-all")
+	@PreAuthorize("hasAuthority('Admin')")
+	public List<Claims> getAllClaims() {
 		return claimsService.getAllClaims();
 	}
 }

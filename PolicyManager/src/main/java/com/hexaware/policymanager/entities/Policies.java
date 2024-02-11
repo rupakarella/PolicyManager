@@ -24,48 +24,39 @@ public class Policies {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long policyId;
 
-	@NotBlank(message="policyName should not be blank")
+	@NotBlank(message = "policyName should not be blank")
 	private String policyName;
-	
-	@NotBlank(message="policyDescription should not be blank")
+
+	@NotBlank(message = "policyDescription should not be blank")
 	private String policyDescription;
 
-	@NotBlank(message="company should not be blank")
+	@NotBlank(message = "company should not be blank")
 	private String company;
 
-	@NotBlank(message="policyType should not be blank")
+	@NotBlank(message = "policyType should not be blank")
 	private String policyType;
 
-//	@Positive(message="maturityAmount should be positive value")
-//	private double maturityAmount;
-
-	@Positive(message="initialDeposit should be positive value")
+	@Positive(message = "initialDeposit should be positive value")
 	private double initialDeposit;
 
-	@NotBlank(message="termPeriod should not be blank")
-	@Pattern(regexp ="^(Monthly|Quaterly|Half-Yearly|Annually)$")
+	@NotBlank(message = "termPeriod should not be blank")
+	@Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$")
 	private String termPeriod;
 
-	@Positive(message="termAmount should be positive value")
+	@Positive(message = "termAmount should be positive value")
 	private double termAmount;
 
-	@NotNull(message="interest should not be null")
+	@NotNull(message = "interest should not be null")
 	private double interest;
-
-//	@OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
-//	@JsonManagedReference(value="UserPolicies-Policies")
-//	private List<UserPolicies> userPolicies;
 
 	public Policies() {
 		super();
 	}
 
-	
 	public Policies(long policyId, @NotBlank(message = "policyName should not be blank") String policyName,
 			@NotBlank(message = "policyDescription should not be blank") String policyDescription,
 			@NotBlank(message = "company should not be blank") String company,
 			@NotBlank(message = "policyType should not be blank") String policyType,
-			
 			@Positive(message = "initialDeposit should be positive value") double initialDeposit,
 			@NotBlank(message = "termPeriod should not be blank") @Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$") String termPeriod,
 			@Positive(message = "termAmount should be positive value") double termAmount,
@@ -76,14 +67,11 @@ public class Policies {
 		this.policyDescription = policyDescription;
 		this.company = company;
 		this.policyType = policyType;
-		//this.maturityAmount = maturityAmount;
 		this.initialDeposit = initialDeposit;
 		this.termPeriod = termPeriod;
 		this.termAmount = termAmount;
 		this.interest = interest;
-		//this.userPolicies = userPolicies;
 	}
-
 
 	public long getPolicyId() {
 		return policyId;
@@ -125,14 +113,6 @@ public class Policies {
 		this.policyType = policyType;
 	}
 
-//	public double getMaturityAmount() {
-//		return maturityAmount;
-//	}
-//
-//	public void setMaturityAmount(double maturityAmount) {
-//		this.maturityAmount = maturityAmount;
-//	}
-
 	public double getInitialDeposit() {
 		return initialDeposit;
 	}
@@ -165,23 +145,12 @@ public class Policies {
 		this.interest = interest;
 	}
 
-//	public List<UserPolicies> getUserPolicies() {
-//		return userPolicies;
-//	}
-//
-//	public void setUserPolicies(List<UserPolicies> userPolicies) {
-//		this.userPolicies = userPolicies;
-//	}
-
 	@Override
 	public String toString() {
 		return "Policies [policyId=" + policyId + ", policyName=" + policyName + ", policyDescription="
-				+ policyDescription + ", company=" + company + ", policyType=" + policyType + 
-				 ", initialDeposit=" + initialDeposit + ", termPeriod=" + termPeriod + ", termAmount="
-				+ termAmount + ", interest=" + interest + "]";
+				+ policyDescription + ", company=" + company + ", policyType=" + policyType + ", initialDeposit="
+				+ initialDeposit + ", termPeriod=" + termPeriod + ", termAmount=" + termAmount + ", interest="
+				+ interest + "]";
 	}
-
-	
-	
 
 }

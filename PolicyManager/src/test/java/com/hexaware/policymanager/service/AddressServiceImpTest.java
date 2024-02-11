@@ -17,10 +17,11 @@ import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Address;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.DuplicateUserException;
+
 @SpringBootTest
 class AddressServiceImpTest {
 	@Autowired
-	IAddressService service;
+	IAddressService addressService;
 	@Autowired
 	IUsersService usersService;
 
@@ -31,13 +32,13 @@ class AddressServiceImpTest {
 	@Test
 	void testCreateAddress() throws DuplicateUserException {
 		AddressDTO addressDTO = new AddressDTO();
-		
-        addressDTO.setAddressId(109);
-        addressDTO.setAddressLine("ganesh Towers");
-        addressDTO.setCity("Hyderabad");
-        addressDTO.setState("Telangana");
-        addressDTO.setCityPincode(26); 
-        UsersDTO userDTO = new UsersDTO();
+
+		addressDTO.setAddressId(109);
+		addressDTO.setAddressLine("ganesh Towers");
+		addressDTO.setCity("Hyderabad");
+		addressDTO.setState("Telangana");
+		addressDTO.setCityPincode(26);
+		UsersDTO userDTO = new UsersDTO();
 		userDTO.setUserId(2000);
 		userDTO.setEmailAddress("madhavi@gmail.com");
 		userDTO.setContactNumber("9703315171");
@@ -50,64 +51,63 @@ class AddressServiceImpTest {
 		userDTO.setEmployerName("Madhavi Patlolla");
 		userDTO.setSalary(42000);
 		userDTO.setUserType("Admin");
-		Users user=usersService.registerUser(userDTO);
+		Users user = usersService.registerUser(userDTO);
 		addressDTO.setUsers(user);
-        service.createAddress(addressDTO);
-        assertNotNull(addressDTO);
+		addressService.createAddress(addressDTO);
+		assertNotNull(addressDTO);
 	}
 
 	@Test
 	void testUpdateAddress() {
-		AddressDTO addressDTO = service.getByAddressId(752);
+		AddressDTO addressDTO = addressService.getByAddressId(752);
 		addressDTO.setAddressLine("rainbow towers");
 		addressDTO.setCity("Vijayawada");
 		addressDTO.setCityPincode(12);
 		addressDTO.setState("Andhra Pradesh");
-		service.updateAddress(addressDTO);
-		AddressDTO updatedAddress = service.getByAddressId(752);
-		assertEquals("Vijayawada",updatedAddress.getCity());
-		
+		addressService.updateAddress(addressDTO);
+		AddressDTO updatedAddress = addressService.getByAddressId(752);
+		assertEquals("Vijayawada", updatedAddress.getCity());
+
 	}
 
 	@Test
 	void testDeleteByAddressId() {
-	
-		 String result=service.deleteByAddressId(752);
-		 //AddressDTO deletedAddressDTO = service.getByAddressId(202);
-		 assertEquals("record deleted", result);     
+
+		String result = addressService.deleteByAddressId(752);
+		assertEquals("record deleted", result);
 	}
 
 	@Test
 	void testGetbyAddressId() {
-		AddressDTO addressDTO = service.getByAddressId(154);
-        assertNotNull(addressDTO);
-        assertEquals(154, addressDTO.getAddressId());
+		AddressDTO addressDTO = addressService.getByAddressId(154);
+		assertNotNull(addressDTO);
+		assertEquals(154, addressDTO.getAddressId());
 	}
 
 	@Test
 	void testGetByState() {
-		List<Address> address=service.getByState("Andhra Pradesh");
+		List<Address> address = addressService.getByState("Andhra Pradesh");
 		assertNotNull(address);
 		for (Address address1 : address) {
-		    String state = address1.getState();
-		    assertEquals("Andhra Pradesh",state);
+			String state = address1.getState();
+			assertEquals("Andhra Pradesh", state);
 		}
-		
+
 	}
 
 	@Test
 	void testGetByCity() {
-		List<Address> address=service.getByCity("Hyderabad");
+		List<Address> address = addressService.getByCity("Hyderabad");
 		assertNotNull(address);
 		for (Address address1 : address) {
-		    String city = address1.getCity();
-		    assertEquals("Hyderabad",city);
+			String city = address1.getCity();
+			assertEquals("Hyderabad", city);
 		}
 	}
 
 	@Test
 	void testGetAllAddress() {
-		List<Address> list = service.getAllAddress();
+		List<Address> list = addressService.getAllAddress();
 		boolean flag = list.isEmpty();
 		assertFalse(flag);
 	}

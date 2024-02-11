@@ -9,12 +9,17 @@ import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 
 public interface IUserPoliciesService {
-	public UserPolicies createUserPolicy(UserPoliciesDTO userpolicyDTO)throws UserNotFoundException,PolicyNotFoundException ;
-	public UserPolicies updateUserPolicy(UserPoliciesDTO userpolicyDTO)throws UserPolicyNotFoundException;
-	public String deleteUserPolicyById(long userPolicyId)throws UserPolicyNotFoundException;
+	public UserPolicies createUserPolicy(UserPoliciesDTO userpolicyDTO)
+			throws UserNotFoundException, PolicyNotFoundException;
+
+	public UserPolicies updateUserPolicy(UserPoliciesDTO userpolicyDTO) throws UserPolicyNotFoundException;
+
+	public String deleteUserPolicyById(long userPolicyId) throws UserPolicyNotFoundException;
+
 	public List<UserPolicies> getAllUserPolicies();
-	public UserPoliciesDTO getbyUserPolicyId(long userPolicyid)throws UserPolicyNotFoundException;
-	public List<UserPolicies> getUserPoliciesByUserId(long userId)throws UserNotFoundException;
-	
+
+	public UserPolicies getbyUserPolicyId(long userPolicyid) throws UserPolicyNotFoundException;
+
+	public List<UserPolicies> getUserPoliciesByUserId(long userId) throws UserNotFoundException;
 
 }

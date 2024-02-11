@@ -3,6 +3,7 @@ package com.hexaware.policymanager.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,42 +21,50 @@ import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.service.IUserPoliciesService;
 
 @RestController
-@RequestMapping("/api/userPolicies")
+@RequestMapping("/api/v1/userPolicies")
 public class UserPoliciesRestController {
 
 	@Autowired
-	IUserPoliciesService service;
+	IUserPoliciesService userPolicyService;
 
-	@PostMapping(value = "/add")
-	public UserPolicies createUserPolicy(@RequestBody UserPoliciesDTO userPoliciesDTO)throws UserNotFoundException,PolicyNotFoundException  {
-		return service.createUserPolicy(userPoliciesDTO);
+	@PostMapping(value = "/register")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
+	public UserPolicies createUserPolicy(@RequestBody UserPoliciesDTO userPoliciesDTO)
+			throws UserNotFoundException, PolicyNotFoundException {
+		return userPolicyService.createUserPolicy(userPoliciesDTO);
 	}
 
 	@PutMapping("/update")
-	public UserPolicies updateUserPolicy(@RequestBody UserPoliciesDTO userPoliciesDTO)throws UserPolicyNotFoundException {
-		return service.updateUserPolicy(userPoliciesDTO);
+	@PreAuthorize("hasAuthority('User')")
+	public UserPolicies updateUserPolicy(@RequestBody UserPoliciesDTO userPoliciesDTO)
+			throws UserPolicyNotFoundException {
+		return userPolicyService.updateUserPolicy(userPoliciesDTO);
 	}
 
 	@DeleteMapping(value = "/delete/{userPolicyId}")
-	public String deleteUserPolicyByPolicyNo(@PathVariable long userPolicyId)throws UserPolicyNotFoundException {
-		return service.deleteUserPolicyById(userPolicyId);
+	@PreAuthorize("hasAuthority('Admin')")
+	public String deleteUserPolicyByPolicyNo(@PathVariable long userPolicyId) throws UserPolicyNotFoundException {
+		return userPolicyService.deleteUserPolicyById(userPolicyId);
 	}
 
 	@GetMapping("/get-userPolicyId/{userPolicyId}")
-	public UserPoliciesDTO getById(@PathVariable long userPolicyId) throws UserPolicyNotFoundException{
-		return service.getbyUserPolicyId(userPolicyId);
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
+	public UserPolicies getById(@PathVariable long userPolicyId) throws UserPolicyNotFoundException {
+		return userPolicyService.getbyUserPolicyId(userPolicyId);
 
 	}
 
-	@GetMapping("/getAll")
+	@GetMapping("/get-all")
+	@PreAuthorize("hasAuthority('Admin')")
 	public List<UserPolicies> getAllUserPolicies() {
-		return service.getAllUserPolicies();
+		return userPolicyService.getAllUserPolicies();
 
 	}
-	
-	@GetMapping("/getByUserId/{userId}")
-    public List<UserPolicies> getUserPoliciesByUserId(@PathVariable long userId)throws UserNotFoundException {
-        return service.getUserPoliciesByUserId(userId);
-    }
+
+	@GetMapping("/get-by-userId/{userId}")
+	@PreAuthorize("hasAuthority('Admin')")
+	public List<UserPolicies> getUserPoliciesByUserId(@PathVariable long userId) throws UserNotFoundException {
+		return userPolicyService.getUserPoliciesByUserId(userId);
+	}
 
 }

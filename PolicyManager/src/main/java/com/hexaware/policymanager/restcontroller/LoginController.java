@@ -18,53 +18,45 @@ import com.hexaware.policymanager.service.JwtService;
 @RestController
 @RequestMapping("/api/v1/login")
 public class LoginController {
-	
+
 	@Autowired
 	UsersRepository user;
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
-    
+	private final AuthenticationManager authenticationManager;
+	private final JwtService jwtService;
 
-    public LoginController
-    (
-            AuthenticationManager authenticationManager,
-            JwtService jwtService)
-            
-    {
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        
-    }
+	public LoginController(AuthenticationManager authenticationManager, JwtService jwtService)
 
-    @PostMapping("/user")
-    public LoginResponse userLogin(@RequestBody AuthRequest authRequest) 
-    {
-    	LoginResponse response = new LoginResponse();
-        authenticate(authRequest.getUsername(), authRequest.getPassword());
+	{
+		this.authenticationManager = authenticationManager;
+		this.jwtService = jwtService;
 
-        String token = jwtService.generateToken(authRequest.getUsername());
-        String type = user.findUserTypeByEmailAddress(authRequest.getUsername());
-        long userId = user.findUserIdByEmailAddress(authRequest.getUsername());
-        String userName = user.findUserNameByEmailAddress(authRequest.getUsername());
+	}
 
-        
-        response.setToken(token);
-        response.setUserId(userId);
-        response.setUserType(type);
-        response.setUserName(userName);
-        
-        return response;
-    }
+	@PostMapping("/authenticate")
+	public LoginResponse userLogin(@RequestBody AuthRequest authRequest) {
+		LoginResponse response = new LoginResponse();
+		authenticate(authRequest.getUsername(), authRequest.getPassword());
 
-    private void authenticate(String username, String password) 
-    {
-        Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password));
+		String token = jwtService.generateToken(authRequest.getUsername());
+		String type = user.findUserTypeByEmailAddress(authRequest.getUsername());
+		long userId = user.findUserIdByEmailAddress(authRequest.getUsername());
+		String userName = user.findUserNameByEmailAddress(authRequest.getUsername());
 
-        if (!authenticate.isAuthenticated()) 
-        {
-            throw new UsernameNotFoundException("Invalid Username or Password / Invalid request");
-        }
-    }
+		response.setToken(token);
+		response.setUserId(userId);
+		response.setUserType(type);
+		response.setUserName(userName);
+
+		return response;
+	}
+
+	private void authenticate(String username, String password) {
+		Authentication authenticate = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+
+		if (!authenticate.isAuthenticated()) {
+			throw new UsernameNotFoundException("Invalid Username or Password / Invalid request");
+		}
+	}
 }

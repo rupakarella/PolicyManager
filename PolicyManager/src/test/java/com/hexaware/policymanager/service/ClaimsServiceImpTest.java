@@ -3,7 +3,6 @@ package com.hexaware.policymanager.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Date;
 import java.util.List;
@@ -14,61 +13,56 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.policymanager.dto.ClaimsDTO;
-import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Claims;
-import com.hexaware.policymanager.entities.UserPolicies;
-import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.ClaimNotFoundException;
-import com.hexaware.policymanager.repository.UserPoliciesRepository;
+
 @SpringBootTest
 class ClaimsServiceImpTest {
-	@Autowired 
-	IClaimsService claimsService;
 	@Autowired
-	UserPoliciesRepository userPoliciesRepo;
-	
+	IClaimsService claimsService;
+
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}
 
 	@Test
 	void testRegisterClaims() {
-		
-		ClaimsDTO claimsDTO=new ClaimsDTO();
+
+		ClaimsDTO claimsDTO = new ClaimsDTO();
 		claimsDTO.setClaimStatus("Rejected");
 		claimsDTO.setClaimAmount(10000);
 		claimsDTO.setClaimDate(Date.valueOf("2024-02-12"));
 		claimsDTO.setUserPolicyId(2);
-		Claims createdClaims=claimsService.registerClaims(claimsDTO);
+		Claims createdClaims = claimsService.registerClaims(claimsDTO);
 		assertNotNull(createdClaims);
-		assertEquals("Rejected",createdClaims.getClaimStatus());
-		assertEquals(2,createdClaims.getUserPolicy().getUserPolicyId());
+		assertEquals("Rejected", createdClaims.getClaimStatus());
+		assertEquals(2, createdClaims.getUserPolicy().getUserPolicyId());
 	}
 
 	@Test
 	void testUpdateClaims() throws ClaimNotFoundException {
-		Claims claims=claimsService.getClaimsById(2);
-		ClaimsDTO claimsDTO=new ClaimsDTO();
+		Claims claims = claimsService.getClaimsById(2);
+		ClaimsDTO claimsDTO = new ClaimsDTO();
 		claimsDTO.setClaimId(claims.getClaimId());
 		claimsDTO.setClaimStatus("Rejected");
 		claimsDTO.setClaimAmount(10000);
 		claimsDTO.setClaimDate(Date.valueOf("2024-02-12"));
 		claimsDTO.setUserPolicyId(2);
-		Claims updatedClaims=claimsService.updateClaims(claimsDTO);
-		assertEquals(10000,updatedClaims.getClaimAmount());
+		Claims updatedClaims = claimsService.updateClaims(claimsDTO);
+		assertEquals(10000, updatedClaims.getClaimAmount());
 	}
 
 	@Test
 	void testDeleteClaimsById() throws ClaimNotFoundException {
-		String result=claimsService.deleteClaimsById(202);
-		assertEquals("Record deleted",result);
+		String result = claimsService.deleteClaimsById(202);
+		assertEquals("Record deleted", result);
 	}
 
 	@Test
 	void testGetClaimsById() throws ClaimNotFoundException {
 		Claims claims = claimsService.getClaimsById(52);
 		assertNotNull(claims);
-		assertEquals(52,claims.getClaimId());
+		assertEquals(52, claims.getClaimId());
 	}
 
 	@Test

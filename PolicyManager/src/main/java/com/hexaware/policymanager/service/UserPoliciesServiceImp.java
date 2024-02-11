@@ -32,7 +32,7 @@ public class UserPoliciesServiceImp implements IUserPoliciesService {
 	UserPoliciesRepository userPoliciesRepo;
 
 	@Autowired
-	UsersRepository userRepo;
+	UsersRepository usersRepo;
 
 	@Autowired
 	PoliciesRepository policiesRepo;
@@ -43,7 +43,7 @@ public class UserPoliciesServiceImp implements IUserPoliciesService {
 	@Override
 	public UserPolicies createUserPolicy(UserPoliciesDTO userpolicyDTO)throws UserNotFoundException,PolicyNotFoundException {
 	    logger.info("Creating user policy for User ID: {} and Policy ID: {}", userpolicyDTO.getUserId(), userpolicyDTO.getPolicyId());
-		Optional<Users> optionalUser = userRepo.findById(userpolicyDTO.getUserId());
+		Optional<Users> optionalUser = usersRepo.findById(userpolicyDTO.getUserId());
 	    if (optionalUser.isEmpty()) {
 	    	logger.error("User not found with ID: " + userpolicyDTO.getUserId());
 	    	throw new UserNotFoundException("User not found with ID: " + userpolicyDTO.getUserId());
@@ -97,27 +97,13 @@ public class UserPoliciesServiceImp implements IUserPoliciesService {
     }
 	
 	@Override
-	public UserPoliciesDTO getbyUserPolicyId(long userPolicyId) throws UserPolicyNotFoundException {
+	public UserPolicies getbyUserPolicyId(long userPolicyId) throws UserPolicyNotFoundException {
 	    logger.info("Fetching user policy with ID: {}", userPolicyId);
 
 	    Optional<UserPolicies> optionalUserPolicy = userPoliciesRepo.findById(userPolicyId);
 	    if (optionalUserPolicy.isPresent()) {
 	        UserPolicies userPolicies = optionalUserPolicy.get();
-	        UserPoliciesDTO userPoliciesDTO = new UserPoliciesDTO();
-	        userPoliciesDTO.setUserPolicyId(userPolicies.getUserPolicyId());
-	        userPoliciesDTO.setStartDate(userPolicies.getStartDate());
-	        userPoliciesDTO.setDurationInYears(userPolicies.getDurationInYears());
-	        
-	        if (userPolicies.getUser() != null) {
-	            userPoliciesDTO.setUserId(userPolicies.getUser().getUserId());
-	        }
-	        
-	        if (userPolicies.getPolicy() != null) {
-	            userPoliciesDTO.setPolicyId(userPolicies.getPolicy().getPolicyId());
-	            // Set other policy properties if needed
-	        }
-
-	        return userPoliciesDTO;
+	        return userPolicies;
 	    } else {
 	        logger.error("User policy not found with ID: {}", userPolicyId);
 	        throw new UserPolicyNotFoundException("User policy not found with ID: " + userPolicyId);
