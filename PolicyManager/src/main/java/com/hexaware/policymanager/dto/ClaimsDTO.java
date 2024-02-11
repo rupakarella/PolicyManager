@@ -10,6 +10,7 @@ public class ClaimsDTO {
 	private double claimAmount;
 	private String claimStatus;
 	private UserPolicies userPolicy;
+	private long userPolicyId;
 	public ClaimsDTO() {
 		super();
 	}
@@ -51,11 +52,20 @@ public class ClaimsDTO {
 	public void setUserPolicy(UserPolicies userPolicy) {
 		this.userPolicy = userPolicy;
 	}
+	public long getUserPolicyId() {
+		
+		return userPolicyId;
+	}
+	
+	public void setUserPolicyId(long userPolicyId) {
+		this.userPolicyId = userPolicyId;
+	}
 	@Override
 	public String toString() {
 		return "ClaimsDTO [claimId=" + claimId + ", claimDate=" + claimDate + ", claimAmount=" + claimAmount
 				+ ", claimStatus=" + claimStatus + ", userPolicy=" + userPolicy + "]";
 	}
+	
 	
 	
 }

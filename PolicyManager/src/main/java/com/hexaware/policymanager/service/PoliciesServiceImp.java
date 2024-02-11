@@ -1,6 +1,5 @@
 package com.hexaware.policymanager.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,15 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.PoliciesDTO;
-import com.hexaware.policymanager.dto.UserPoliciesDTO;
 import com.hexaware.policymanager.entities.Policies;
 import com.hexaware.policymanager.entities.UserPolicies;
 import com.hexaware.policymanager.exception.PolicyNotFoundException;
+import com.hexaware.policymanager.exception.PolicyRegisteredByUserException;
 import com.hexaware.policymanager.repository.PoliciesRepository;
 import com.hexaware.policymanager.repository.UserPoliciesRepository;
 
 import jakarta.transaction.Transactional;
-
 
 @Service
 @Transactional
@@ -27,157 +25,144 @@ public class PoliciesServiceImp implements IPoliciesService {
 	Logger logger = LoggerFactory.getLogger(PoliciesServiceImp.class);
 
 	@Autowired
-	PoliciesRepository policyrepo;
+	PoliciesRepository policiesRepo;
 
 	@Autowired
-	UserPoliciesRepository userRepo;
+	UserPoliciesRepository userPoliciesRepo;
 
 	@Override
 	public Policies createPolicy(PoliciesDTO policyDTO) {
-	    Policies policy = new Policies();
-	    policy.setPolicyId(policyDTO.getPolicyId());
-	    policy.setPolicyName(policyDTO.getPolicyName());
-	    policy.setPolicyDescription(policyDTO.getPolicyDescription());
-	    policy.setCompany(policyDTO.getCompany());
-	    policy.setPolicyType(policyDTO.getPolicyType());
-	    policy.setMaturityAmount(policyDTO.getMaturityAmount());
-	    policy.setInitialDeposit(policyDTO.getInitialDeposit());
-	    policy.setTermPeriod(policyDTO.getTermPeriod());
-	    policy.setTermAmount(policyDTO.getTermAmount());
-	    policy.setInterest(policyDTO.getInterest());
+		logger.info("Creating new policy");
+		Policies policy = new Policies();
+		policy.setPolicyId(policyDTO.getPolicyId());
+		policy.setPolicyName(policyDTO.getPolicyName());
+		policy.setPolicyDescription(policyDTO.getPolicyDescription());
+		policy.setCompany(policyDTO.getCompany());
+		policy.setPolicyType(policyDTO.getPolicyType());
+		policy.setInitialDeposit(policyDTO.getInitialDeposit());
+		policy.setTermPeriod(policyDTO.getTermPeriod());
+		policy.setTermAmount(policyDTO.getTermAmount());
+		policy.setInterest(policyDTO.getInterest());
 
-	    Policies savedPolicy = policyrepo.save(policy);
-
-	    List<UserPolicies> userPoliciesList = new ArrayList<>();
-	    for (UserPolicies userPolicyDTO : policyDTO.getUserPolicies()) {
-	        UserPolicies userPolicies = new UserPolicies();
-	        userPolicies.setPolicy(savedPolicy);
-	        userPolicies.setStartDate(userPolicyDTO.getStartDate());
-	        userPolicies.setDurationInYears(userPolicyDTO.getDurationInYears());
-	        userPoliciesList.add(userPolicies);
-	        userRepo.save(userPolicies);
-	    }
-
-	    savedPolicy.setUserPolicies(userPoliciesList);
-	    policyrepo.save(savedPolicy);
-	    return savedPolicy;
-	}
-
-
-
-	@Override
-	public Policies updatePolicy(PoliciesDTO policyDTO) {
-
-		try {
-			Optional<Policies> Policy = policyrepo.findById(policyDTO.getPolicyId());
-			if (Policy.isPresent()) {
-				Policies existingPolicy = Policy.get();
-				existingPolicy.setPolicyName(policyDTO.getPolicyName());
-				existingPolicy.setPolicyDescription(policyDTO.getPolicyDescription());
-				existingPolicy.setCompany(policyDTO.getCompany());
-				existingPolicy.setPolicyType(policyDTO.getPolicyType());
-				existingPolicy.setMaturityAmount(policyDTO.getMaturityAmount());
-				existingPolicy.setInitialDeposit(policyDTO.getInitialDeposit());
-				existingPolicy.setTermPeriod(policyDTO.getTermPeriod());
-				existingPolicy.setTermAmount(policyDTO.getTermAmount());
-				existingPolicy.setInterest(policyDTO.getInterest());
-				existingPolicy.setUserPolicies(policyDTO.getUserPolicies());
-
-				logger.info("Policy Updated successfully");
-				return policyrepo.save(existingPolicy);
-			} else {
-				throw new PolicyNotFoundException("Policy not found with ID: " + policyDTO.getPolicyId());
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("Error updating policy", e);
-		}
+		return policiesRepo.save(policy);
 	}
 
 	@Override
-	public Policies deleteByPolicyId(long policyId) {
-		try {
-			Policies deletedPolicy = policyrepo.findById(policyId).orElse(null);
-			policyrepo.deleteById(policyId);
+	public Policies updatePolicy(PoliciesDTO policyDTO) throws PolicyNotFoundException {
+		logger.info("Updating policy");
+		Optional<Policies> Policy = policiesRepo.findById(policyDTO.getPolicyId());
+		if (Policy.isPresent()) {
+			Policies existingPolicy = Policy.get();
+			existingPolicy.setPolicyName(policyDTO.getPolicyName());
+			existingPolicy.setPolicyDescription(policyDTO.getPolicyDescription());
+			existingPolicy.setCompany(policyDTO.getCompany());
+			existingPolicy.setPolicyType(policyDTO.getPolicyType());
+			existingPolicy.setInitialDeposit(policyDTO.getInitialDeposit());
+			existingPolicy.setTermPeriod(policyDTO.getTermPeriod());
+			existingPolicy.setTermAmount(policyDTO.getTermAmount());
+			existingPolicy.setInterest(policyDTO.getInterest());
+			logger.info("Policy Updated Successfully");
+			return policiesRepo.save(existingPolicy);
+		} else
+			logger.error("PolicyId not found");
+		throw new PolicyNotFoundException("Policy with ID " + policyDTO.getPolicyId() + " not found");
+	}
 
-			logger.info("Policy deleted succesfully with ID: {}" + policyId);
-			return deletedPolicy;
+	@Override
+	public String deleteByPolicyId(long policyId) throws PolicyNotFoundException, PolicyRegisteredByUserException {
+		logger.info("Deleting policy with ID: {}", policyId);
 
-		} catch (PolicyNotFoundException e) {
-			throw e;
+		Optional<UserPolicies> userPolicies = userPoliciesRepo.findById(policyId);
+		if (!userPolicies.isEmpty()) {
+			throw new PolicyRegisteredByUserException(
+					"Policy with ID " + policyId + " is registered by user cannot be deleted");
 		}
+
+		Policies deletedPolicy = policiesRepo.findById(policyId)
+				.orElseThrow(() -> new PolicyNotFoundException("Policy with ID " + policyId + " not found"));
+		policiesRepo.deleteById(policyId);
+
+		logger.info("Policy deleted successfully with ID: {}", policyId);
+		return "Policy deleted succesfully";
 	}
 
 	@Override
 	public List<Policies> getPolicyByPolicyType(String policyType) throws PolicyNotFoundException {
 
-		List<Policies> policies = policyrepo.findByPolicyType(policyType);
-
+		logger.info("Fetching policies by policy type: {}", policyType);
+		List<Policies> policies = policiesRepo.findByPolicyType(policyType);
 		if (policies.isEmpty()) {
+			logger.warn("No policies found for policy type: {}", policyType);
 			throw new PolicyNotFoundException("No policies found for policy type: " + policyType);
 		}
-		logger.info("Policies retrieved by policy type '{}': {}", policyType, policies);
-
+		logger.info("Policies retrieved by policy type: {}", policies);
 		return policies;
-
 	}
 
 	@Override
-	public List<Policies> getPolicyByCompany(String company) {
-		List<Policies> policies = policyrepo.findByCompany(company);
+	public List<Policies> getPolicyByCompany(String company) throws PolicyNotFoundException {
+		logger.info("Fetching policies by company: {}", company);
+		List<Policies> policies = policiesRepo.findByCompany(company);
 		if (policies.isEmpty()) {
+			logger.warn("No policies found for company: {}", company);
 			throw new PolicyNotFoundException("No policies found for company: " + company);
 		}
-		logger.info("Policies retrieved by company '{}': {}", company, policies);
+		logger.info("Policies retrieved by company: {}", policies);
 		return policies;
 	}
 
 	@Override
-	public List<Policies> getBytermAmountLessThan(double termAmount) {
-		List<Policies> policies = policyrepo.findBytermAmountLessThan(termAmount);
-        if (policies.isEmpty()) {
-            throw new PolicyNotFoundException("No policies found with term amount less than: " + termAmount);
-        }
-        logger.info("Policies retrieved with term amount less than '{}': {}", termAmount, policies);
-        return policies;
-    }
-	
+	public List<Policies> getBytermAmountLessThan(double termAmount) throws PolicyNotFoundException {
+		logger.info("Fetching policies with term amount less than: {}", termAmount);
+		List<Policies> policies = policiesRepo.findBytermAmountLessThan(termAmount);
+		if (policies.isEmpty()) {
+			logger.warn("No policies found with term amount less than: {}", termAmount);
+			throw new PolicyNotFoundException("No policies found with term amount less than: " + termAmount);
+		}
+		logger.info("Policies retrieved with term amount less than: {}", termAmount);
+		return policies;
+	}
+
 	@Override
-	public List<Policies> getBytermAmountGreaterThan(double termAmount) {
-		List<Policies> policies = policyrepo.findBytermAmountGreaterThan(termAmount);
-        if (policies.isEmpty()) {
-            throw new PolicyNotFoundException("No policies found with term amount greater than: " + termAmount);
-        }
-        logger.info("Policies retrieved with term amount greater than '{}': {}", termAmount, policies);
-        return policies;
-    }
+	public List<Policies> getBytermAmountGreaterThan(double termAmount) throws PolicyNotFoundException {
+		logger.info("Fetching policies with term amount greater than: {}", termAmount);
+		List<Policies> policies = policiesRepo.findBytermAmountGreaterThan(termAmount);
+		if (policies.isEmpty()) {
+			logger.warn("No policies found with term amount greater than: {}", termAmount);
+			throw new PolicyNotFoundException("No policies found with term amount greater than: " + termAmount);
+		}
+		logger.info("Policies retrieved with term amount greater than: {}", termAmount);
+		return policies;
+	}
 
 	@Override
 	public List<Policies> getAllPolicies() {
-		List<Policies> policies = policyrepo.findAll();
-		logger.info("Retrieved all policies successfully: {}", policies);
+
+		List<Policies> policies = policiesRepo.findAll();
+		logger.info("retrived all policies succesfully" + policies);
 		return policies;
 	}
 
 	@Override
-	public PoliciesDTO getbyPolicyId(long policyId) throws PolicyNotFoundException {
+	public PoliciesDTO getByPolicyId(long policyId) throws PolicyNotFoundException {
+		logger.info("Fetching policy by ID: {}", policyId);
+		Optional<Policies> optional = policiesRepo.findById(policyId);
+		Policies policies = optional
+				.orElseThrow(() -> new PolicyNotFoundException("Policy with ID " + policyId + " not found"));
 
-		Optional<Policies> optional = policyrepo.findById(policyId);
-		if (!optional.isPresent()) {
-			throw new PolicyNotFoundException("Policy not found with ID: " + policyId);
-		}
-		Policies policies = optional.get();
 		PoliciesDTO policiesDTO = new PoliciesDTO();
 		policiesDTO.setPolicyId(policies.getPolicyId());
 		policiesDTO.setPolicyName(policies.getPolicyName());
 		policiesDTO.setPolicyDescription(policies.getPolicyDescription());
 		policiesDTO.setCompany(policies.getCompany());
 		policiesDTO.setPolicyType(policies.getPolicyType());
-		policiesDTO.setMaturityAmount(policies.getMaturityAmount());
 		policiesDTO.setInitialDeposit(policies.getInitialDeposit());
 		policiesDTO.setTermPeriod(policies.getTermPeriod());
 		policiesDTO.setTermAmount(policies.getTermAmount());
 		policiesDTO.setInterest(policies.getInterest());
-		logger.info("Retrieved policy by ID '{}': {}", policyId, policiesDTO);
+
+		logger.info("Policy retrieved successfully!");
 		return policiesDTO;
 	}
+
 }

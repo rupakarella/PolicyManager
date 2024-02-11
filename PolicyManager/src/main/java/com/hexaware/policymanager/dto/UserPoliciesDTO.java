@@ -17,7 +17,7 @@ public class UserPoliciesDTO {
 	private Policies policy;
 	private Date endDate;
 	private List<Claims> claims;
-	
+	private double maturityAmount;
 	
 	public UserPoliciesDTO() {
 		super();
@@ -25,7 +25,7 @@ public class UserPoliciesDTO {
 
 
 	public UserPoliciesDTO(long userPolicyId, Date startDate, long userId, long policyId, int durationInYears,
-			Users user, Policies policy, Date endDate, List<Claims> claims) {
+			Users user, Policies policy, Date endDate,double maturityAmount, List<Claims> claims) {
 		super();
 		this.userPolicyId = userPolicyId;
 		this.startDate = startDate;
@@ -36,6 +36,7 @@ public class UserPoliciesDTO {
 		this.policy = policy;
 		this.endDate = endDate;
 		this.claims = claims;
+		this.maturityAmount=maturityAmount;
 	}
 
 
@@ -112,6 +113,27 @@ public class UserPoliciesDTO {
 	public void setClaims(List<Claims> claims) {
 		this.claims= claims;
 	}
+	
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+
+	public double getMaturityAmount() {
+		return maturityAmount;
+	}
+
+
+	public void setMaturityAmount(double maturityAmount) {
+		this.maturityAmount = maturityAmount;
+	}
+
 
 	@Override
 	public String toString() {

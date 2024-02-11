@@ -101,10 +101,9 @@ public class Address {
 
 	@Override
 	public String toString() {
-	    return "Address [addressId=" + addressId + ", addressLine=" + addressLine + ", city=" + city + ", cityPincode="
-	            + cityPincode + ", state=" + state + "]";
+		return "Address [addressId=" + addressId + ", addressLine=" + addressLine + ", city=" + city + ", cityPincode="
+				+ cityPincode + ", state=" + state + "]";
 	}
-
 
 	
 	

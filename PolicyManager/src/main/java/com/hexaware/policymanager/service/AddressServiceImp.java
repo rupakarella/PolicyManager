@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.AddressDTO;
@@ -29,6 +30,9 @@ public class AddressServiceImp implements IAddressService {
 	@Autowired
 	UsersRepository usersRepo;
 
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Override
 	public Address createAddress(AddressDTO addressDTO) {
 		try {
@@ -40,6 +44,7 @@ public class AddressServiceImp implements IAddressService {
 			address.setState(addressDTO.getState());
 
 			Users user = addressDTO.getUsers();
+			user.setPassword(bCryptPasswordEncoder.encode(addressDTO.getUsers().getPassword()));
 			address.setUsers(addressDTO.getUsers());
 			user.setAddress(address);
 			usersRepo.save(user);

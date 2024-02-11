@@ -9,18 +9,19 @@ public class AddressDTO {
 	private int cityPincode;
 	private String state;
 	private Users users;
+	private long userId;
 	public AddressDTO() {
 		super();
 	}
 	
-	public AddressDTO(long addressId, String addressLine, String city, int cityPincode, String state, Users users) {
+	public AddressDTO(long addressId, String addressLine, String city, int cityPincode, String state,long userId) {
 		super();
 		this.addressId = addressId;
 		this.addressLine = addressLine;
 		this.city = city;
 		this.cityPincode = cityPincode;
 		this.state = state;
-		this.users = users;
+		this.userId = userId;
 	}
 
 	public long getAddressId() {
@@ -60,12 +61,22 @@ public class AddressDTO {
 
 	public void setUsers(Users users) {
 		this.users = users;
+		
+	
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public long getUserId() {
+		return userId;
 	}
 
 	@Override
 	public String toString() {
 		return "AddressDTO [addressId=" + addressId + ", addressLine=" + addressLine + ", city=" + city
-				+ ", cityPincode=" + cityPincode + ", state=" + state + ", users=" + users + "]";
+				+ ", cityPincode=" + cityPincode + ", state=" + state + ", userId=" + userId + "]";
 	}
 
 		

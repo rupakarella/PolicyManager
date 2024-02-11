@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,45 +31,46 @@ public class UserPolicies {
 
 	@ManyToOne
 	@JoinColumn(name = "UserID")
-	@JsonBackReference(value="UserPolicies-Users")
+	@JsonBackReference(value = "UserPolicies-Users")
 	private Users user;
 
 	@ManyToOne
 	@JoinColumn(name = "PolicyID")
-	@JsonBackReference(value="UserPolicies-Policies")
 	private Policies policy;
 
-	@OneToMany(mappedBy = "userPolicy", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "userPolicy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonManagedReference(value = "UserPolicies-Claims")
 	private List<Claims> claims;
 
 	@NotNull(message = "Start date cannot be null")
 	@FutureOrPresent(message = "Start date must be in the present or future")
 	private Date startDate;
-	
-	
+
 	private Date endDate;
+	private double maturityAmount;
 
 	@NotNull(message = "duration cannot be null")
-	@Positive(message="duration should be a positive value")
+	@Positive(message = "duration should be a positive value")
 	private int durationInYears;
 
 	public UserPolicies() {
 		super();
 	}
 
-	public UserPolicies(long userPolicyId, Users user, Policies policy, List<Claims> claims,
+	public UserPolicies(Users user, Policies policy, List<Claims> claims,
 			@NotNull(message = "Start date cannot be null") @FutureOrPresent(message = "Start date must be in the present or future") Date startDate,
-			Date endDate,
+			Date endDate, double maturityAmount,
 			@NotNull(message = "duration cannot be null") @Positive(message = "duration should be a positive value") int durationInYears) {
 		super();
-		this.userPolicyId = userPolicyId;
 		this.user = user;
 		this.policy = policy;
 		this.claims = claims;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.maturityAmount = maturityAmount;
 		this.durationInYears = durationInYears;
+		calculateEndDate();
+		calculateMaturityAmount();
 	}
 
 	public long getUserPolicyId() {
@@ -96,7 +97,6 @@ public class UserPolicies {
 		this.policy = policy;
 	}
 
-	@JsonIgnore
 	public List<Claims> getClaims() {
 		return claims;
 	}
@@ -113,31 +113,50 @@ public class UserPolicies {
 		this.startDate = startDate;
 	}
 
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
 	public int getDurationInYears() {
 		return durationInYears;
 	}
 
+	public double getMaturityAmount() {
+		return maturityAmount;
+	}
+
+	public void setMaturityAmount(double maturityAmount) {
+		this.maturityAmount = maturityAmount;
+	}
+
 	public void setDurationInYears(int durationInYears) {
 		this.durationInYears = durationInYears;
 		calculateEndDate();
-	}	
-		private void calculateEndDate() {
-
-        if (startDate != null) {
-            LocalDate localStartDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate localEndDate = localStartDate.plusYears(durationInYears);
-            this.endDate = Date.from(localEndDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        }
+		calculateMaturityAmount();
 	}
 
-	@Override
-	public String toString() {
-		return "UserPolicies [userPolicyId=" + userPolicyId + ", user=" + user + ", policy=" + policy
-				+ ", claims=" + claims + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", durationInYears=" + durationInYears + "]";
+	public Date calculateEndDate() {
+		if (startDate != null) {
+			java.util.Date utilStartDate = new java.util.Date(startDate.getTime());
+			LocalDate localStartDate = utilStartDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate localEndDate = localStartDate.plusYears(durationInYears);
+			this.endDate = java.sql.Date.valueOf(localEndDate);
+		}
+		return endDate;
 	}
 
-	
-
+	public double calculateMaturityAmount() {
+		if (policy != null) {
+			double initialDeposit = policy.getInitialDeposit();
+			double termAmount = policy.getTermAmount();
+			double interest = policy.getInterest();
+			this.maturityAmount = initialDeposit + (durationInYears * termAmount)
+					+ ((durationInYears * termAmount) * (interest / 100));
+		}
+		return durationInYears;
+	}
 }

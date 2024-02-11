@@ -17,22 +17,22 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name="Claims")
+@Table(name = "Claims")
 public class Claims {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int claimId;
-	
-	@NotNull(message="ClaimDate should not be null")
+
+	@NotNull(message = "ClaimDate should not be null")
 	private Date claimDate;
-	
-	@NotNull(message="ClaimAmount should not be null")
+
+	@NotNull(message = "ClaimAmount should not be null")
 	private double claimAmount;
-	
-	@NotBlank(message="ClaimStatus should not be blank")
-	@Pattern(regexp ="^(Pending|Approved|Rejected)$", message= "Status should be either Pending, Approved or Rejected")
+
+	@NotBlank(message = "ClaimStatus should not be blank")
+	@Pattern(regexp = "^(Pending|Approved|Rejected)$", message = "Status should be either Pending, Approved or Rejected")
 	private String claimStatus;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "UserPolicyID")
 	@JsonBackReference(value = "UserPolicies-Claims")
@@ -53,8 +53,6 @@ public class Claims {
 		this.claimStatus = claimStatus;
 		this.userPolicy = userPolicy;
 	}
-
-
 
 	public int getClaimId() {
 		return claimId;
@@ -101,7 +99,5 @@ public class Claims {
 		return "Claims [claimId=" + claimId + ", claimDate=" + claimDate + ", claimAmount=" + claimAmount
 				+ ", claimStatus=" + claimStatus + ", userPolicy=" + userPolicy + "]";
 	}
-	
-	
-	
+
 }

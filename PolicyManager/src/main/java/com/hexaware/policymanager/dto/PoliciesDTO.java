@@ -10,12 +10,10 @@ public class PoliciesDTO {
 	private String policyDescription;
 	private String company;
 	private String policyType;
-	private double maturityAmount;
 	private double initialDeposit;
 	private String termPeriod;
 	private double termAmount;
 	private double interest;
-	private List<UserPolicies> userPolicies;
 
 	public PoliciesDTO() {
 		super();
@@ -23,7 +21,7 @@ public class PoliciesDTO {
 	}
 
 	public PoliciesDTO(long policyId, String policyName, String policyDescription, String company, String policyType,
-			double maturityAmount, double initialDeposit, String termPeriod, double termAmount, double interest,
+			 double initialDeposit, String termPeriod, double termAmount, double interest,
 			List<UserPolicies> userPolicies) {
 		super();
 		this.policyId = policyId;
@@ -31,12 +29,10 @@ public class PoliciesDTO {
 		this.policyDescription = policyDescription;
 		this.company = company;
 		this.policyType = policyType;
-		this.maturityAmount = maturityAmount;
 		this.initialDeposit = initialDeposit;
 		this.termPeriod = termPeriod;
 		this.termAmount = termAmount;
 		this.interest = interest;
-		this.userPolicies = userPolicies;
 	}
 
 	public long getPolicyId() {
@@ -78,15 +74,7 @@ public class PoliciesDTO {
 	public void setPolicyType(String policyType) {
 		this.policyType = policyType;
 	}
-
-	public double getMaturityAmount() {
-		return maturityAmount;
-	}
-
-	public void setMaturityAmount(double maturityAmount) {
-		this.maturityAmount = maturityAmount;
-	}
-
+	
 	public double getInitialDeposit() {
 		return initialDeposit;
 	}
@@ -119,20 +107,12 @@ public class PoliciesDTO {
 		this.interest = interest;
 	}
 
-	public List<UserPolicies> getUserPolicies() {
-		return userPolicies;
-	}
-
-	public void setUserPolicies(List<UserPolicies> userPolicies) {
-		this.userPolicies = userPolicies;
-	}
-
 	@Override
 	public String toString() {
 		return "PoliciesDTO [policyId=" + policyId + ", policyName=" + policyName + ", policyDescription="
-				+ policyDescription + ", company=" + company + ", policyType=" + policyType + ", maturityAmount="
-				+ maturityAmount + ", initialDeposit=" + initialDeposit + ", termPeriod=" + termPeriod + ", termAmount="
-				+ termAmount + ", interest=" + interest + ", userPolicies=" + userPolicies + "]";
+				+ policyDescription + ", company=" + company + ", policyType=" + policyType + 
+				 ", initialDeposit=" + initialDeposit + ", termPeriod=" + termPeriod + ", termAmount="
+				+ termAmount + ", interest=" + interest + "]";
 	}
 
 	
