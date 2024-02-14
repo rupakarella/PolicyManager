@@ -13,6 +13,7 @@ import com.hexaware.policymanager.dto.AddressDTO;
 import com.hexaware.policymanager.entities.Address;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.AddressNotFoundException;
+import com.hexaware.policymanager.exception.DuplicateUserException;
 import com.hexaware.policymanager.repository.AddressRepository;
 import com.hexaware.policymanager.repository.UsersRepository;
 
@@ -34,8 +35,13 @@ public class AddressServiceImp implements IAddressService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
-	public Address createAddress(AddressDTO addressDTO) {
+	public Address createAddress(AddressDTO addressDTO)throws DuplicateUserException {
 		try {
+			Users existingUser = usersRepo.getUserByEmailAddress(addressDTO.getUsers().getEmailAddress());
+			if (existingUser != null) {
+				throw new DuplicateUserException(
+						"User with email address " + addressDTO.getUsers().getEmailAddress() + " already exists");
+			}
 			Address address = new Address();
 			address.setAddressId(addressDTO.getAddressId());
 			address.setAddressLine(addressDTO.getAddressLine());
@@ -52,7 +58,11 @@ public class AddressServiceImp implements IAddressService {
 			Address createdAddress = addressRepo.save(address);
 			logger.info("Address created succesfully: {}", createdAddress);
 			return createdAddress;
-		} catch (Exception e) {
+		}
+		catch (DuplicateUserException e) {
+			throw e;
+		}
+		catch (Exception e) {
 			logger.error("Error creating address", e);
 			throw new RuntimeException("Error creating address", e);
 		}
@@ -84,7 +94,7 @@ public class AddressServiceImp implements IAddressService {
 	}
 
 	@Override
-	public String deleteByAddressId(long addressId) {
+	public String deleteByAddressId(long addressId) throws AddressNotFoundException{
 		try {
 			if (!addressRepo.existsById(addressId)) {
 				throw new AddressNotFoundException("Address not found with ID: " + addressId);
@@ -99,7 +109,7 @@ public class AddressServiceImp implements IAddressService {
 	}
 
 	@Override
-	public AddressDTO getByAddressId(long addressId) {
+	public AddressDTO getByAddressId(long addressId) throws AddressNotFoundException{
 		try {
 			Optional<Address> optional = addressRepo.findById(addressId);
 			if (optional.isPresent()) {

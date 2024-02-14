@@ -1,7 +1,5 @@
 package com.hexaware.policymanager.exception;
 
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,6 +40,11 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(DuplicateUserException.class)
 	public ResponseEntity<String> handleDuplicateUserException(DuplicateUserException e) {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(PaymentNotFoundException.class)
+	public ResponseEntity<String> handlePaymentNotFoundException(PaymentNotFoundException e) {
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 	}
 

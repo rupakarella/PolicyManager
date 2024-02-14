@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +18,8 @@ import jakarta.validation.constraints.NotNull;
 public class Address {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AddressSequenceGenerator")
+	@SequenceGenerator(name = "AddressSequenceGenerator", sequenceName = "AddressSeq", allocationSize = 1,initialValue =70000)
 	private long addressId;
 
 	@NotBlank(message = "addressLine should not be blank")

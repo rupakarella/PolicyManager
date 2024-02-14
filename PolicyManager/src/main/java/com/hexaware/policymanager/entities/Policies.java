@@ -1,15 +1,10 @@
 package com.hexaware.policymanager.entities;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +16,8 @@ import jakarta.validation.constraints.Positive;
 public class Policies {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PoliciesSequenceGenerator")
+	@SequenceGenerator(name = "PoliciesSequenceGenerator", sequenceName = "PoliciesSeq", allocationSize = 1,initialValue =100000)
 	private long policyId;
 
 	@NotBlank(message = "policyName should not be blank")
@@ -40,7 +36,7 @@ public class Policies {
 	private double initialDeposit;
 
 	@NotBlank(message = "termPeriod should not be blank")
-	@Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$")
+	@Pattern(regexp = "^(Monthly|Quarterly|Half-Yearly|Annually)$")
 	private String termPeriod;
 
 	@Positive(message = "termAmount should be positive value")

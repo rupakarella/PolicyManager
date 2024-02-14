@@ -1,6 +1,6 @@
 package com.hexaware.policymanager.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.hexaware.policymanager.entities.Address;
@@ -13,7 +13,7 @@ public class UsersDTO {
 	private String password;
 	private String firstName;
 	private String lastName;
-	private Date dateOfBirth;
+	private LocalDate dateOfBirth;
 	private String panNumber;
 	private String employerType;
 	private String employerName;
@@ -27,7 +27,7 @@ public class UsersDTO {
 	}
 
 	public UsersDTO(long userId, String emailAddress, String contactNumber, String password, String firstName,
-			String lastName, Date dateOfBirth, String panNumber, String employerType, String employerName,
+			String lastName, LocalDate dateOfBirth, String panNumber, String employerType, String employerName,
 			double salary, String userType, Address address, List<UserPolicies> userPolicies) {
 		super();
 		this.userId = userId;
@@ -94,11 +94,11 @@ public class UsersDTO {
 		this.lastName = lastName;
 	}
 
-	public Date getDateOfBirth() {
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 

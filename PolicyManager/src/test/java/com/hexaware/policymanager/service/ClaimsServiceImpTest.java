@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -31,7 +31,7 @@ class ClaimsServiceImpTest {
 		ClaimsDTO claimsDTO = new ClaimsDTO();
 		claimsDTO.setClaimStatus("Rejected");
 		claimsDTO.setClaimAmount(10000);
-		claimsDTO.setClaimDate(Date.valueOf("2024-02-12"));
+		claimsDTO.setClaimDate(LocalDate.of(2024, 02, 16));
 		claimsDTO.setUserPolicyId(2);
 		Claims createdClaims = claimsService.registerClaims(claimsDTO);
 		assertNotNull(createdClaims);
@@ -46,7 +46,7 @@ class ClaimsServiceImpTest {
 		claimsDTO.setClaimId(claims.getClaimId());
 		claimsDTO.setClaimStatus("Rejected");
 		claimsDTO.setClaimAmount(10000);
-		claimsDTO.setClaimDate(Date.valueOf("2024-02-12"));
+		claimsDTO.setClaimDate(LocalDate.of(2024, 02, 16));
 		claimsDTO.setUserPolicyId(2);
 		Claims updatedClaims = claimsService.updateClaims(claimsDTO);
 		assertEquals(10000, updatedClaims.getClaimAmount());

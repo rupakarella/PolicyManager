@@ -30,7 +30,7 @@ public class ClaimsServiceImp implements IClaimsService {
 	UserPoliciesRepository userPoliciesRepo;
 
 	@Override
-	public Claims registerClaims(ClaimsDTO claimsDTO) {
+	public Claims registerClaims(ClaimsDTO claimsDTO) throws UserPolicyNotFoundException{
 		logger.info("Registering new claim");
 		Claims claims = new Claims();
 		claims.setClaimDate(claimsDTO.getClaimDate());
@@ -46,7 +46,7 @@ public class ClaimsServiceImp implements IClaimsService {
 			logger.info("Claim registered successfully", savedClaim);
 			return savedClaim;
 		} else {
-			logger.warn("User policy not found with ID: {0}", claimsDTO.getUserPolicyId());
+			logger.warn("User policy not found with ID: {}", claimsDTO.getUserPolicyId());
 			throw new UserPolicyNotFoundException("UserPolicy not found with ID: " + claimsDTO.getUserPolicyId());
 		}
 	}
