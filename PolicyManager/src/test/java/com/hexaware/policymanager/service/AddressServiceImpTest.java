@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -45,7 +45,7 @@ class AddressServiceImpTest {
 		userDTO.setPassword("madhavi@123");
 		userDTO.setFirstName("Madhavi");
 		userDTO.setLastName("Patlolla");
-		userDTO.setDateOfBirth(Date.valueOf("2001-06-15"));
+		userDTO.setDateOfBirth(LocalDate.of(2001, 12, 11));
 		userDTO.setPanNumber("SGKPP9871G");
 		userDTO.setEmployerType("Permanent");
 		userDTO.setEmployerName("Madhavi Patlolla");

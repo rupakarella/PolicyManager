@@ -1,30 +1,33 @@
 package com.hexaware.policymanager.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.hexaware.policymanager.entities.Claims;
 import com.hexaware.policymanager.entities.Policies;
+import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.entities.Users;
 
 public class UserPoliciesDTO {
 	private long userPolicyId;
-	private Date startDate;
+	private LocalDate startDate;
 	private long userId;
 	private long policyId;
 	private int durationInYears;
 	private Users user;
 	private Policies policy;
-	private Date endDate;
+	private LocalDate endDate;
 	private List<Claims> claims;
+	private List<PolicyPayments> policyPayments;
 	private double maturityAmount;
 
 	public UserPoliciesDTO() {
 		super();
 	}
 
-	public UserPoliciesDTO(long userPolicyId, Date startDate, long userId, long policyId, int durationInYears,
-			Users user, Policies policy, Date endDate, double maturityAmount, List<Claims> claims) {
+	public UserPoliciesDTO(long userPolicyId, LocalDate startDate, long userId, long policyId, int durationInYears,
+			Users user, Policies policy, LocalDate endDate, List<Claims> claims, List<PolicyPayments> policyPayments,
+			double maturityAmount) {
 		super();
 		this.userPolicyId = userPolicyId;
 		this.startDate = startDate;
@@ -35,6 +38,7 @@ public class UserPoliciesDTO {
 		this.policy = policy;
 		this.endDate = endDate;
 		this.claims = claims;
+		this.policyPayments = policyPayments;
 		this.maturityAmount = maturityAmount;
 	}
 
@@ -46,11 +50,11 @@ public class UserPoliciesDTO {
 		this.userPolicyId = userPolicyId;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
@@ -76,7 +80,6 @@ public class UserPoliciesDTO {
 
 	public void setDurationInYears(int durationInYears) {
 		this.durationInYears = durationInYears;
-
 	}
 
 	public Users getUser() {
@@ -103,11 +106,11 @@ public class UserPoliciesDTO {
 		this.claims = claims;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
@@ -119,11 +122,20 @@ public class UserPoliciesDTO {
 		this.maturityAmount = maturityAmount;
 	}
 
+	public List<PolicyPayments> getPolicyPayments() {
+		return policyPayments;
+	}
+
+	public void setPolicyPayments(List<PolicyPayments> policyPayments) {
+		this.policyPayments = policyPayments;
+	}
+
 	@Override
 	public String toString() {
 		return "UserPoliciesDTO [userPolicyId=" + userPolicyId + ", startDate=" + startDate + ", userId=" + userId
 				+ ", policyId=" + policyId + ", durationInYears=" + durationInYears + ", user=" + user + ", policy="
-				+ policy + ", endDate=" + endDate + ", claims=" + claims + "]";
+				+ policy + ", endDate=" + endDate + ", claims=" + claims + ", policyPayments=" + policyPayments
+				+ ", maturityAmount=" + maturityAmount + "]";
 	}
 
 }

@@ -50,9 +50,9 @@ public class PoliciesServiceImp implements IPoliciesService {
 	@Override
 	public Policies updatePolicy(PoliciesDTO policyDTO) throws PolicyNotFoundException {
 		logger.info("Updating policy");
-		Optional<Policies> Policy = policiesRepo.findById(policyDTO.getPolicyId());
-		if (Policy.isPresent()) {
-			Policies existingPolicy = Policy.get();
+		Optional<Policies> policy = policiesRepo.findById(policyDTO.getPolicyId());
+		if (policy.isPresent()) {
+			Policies existingPolicy = policy.get();
 			existingPolicy.setPolicyName(policyDTO.getPolicyName());
 			existingPolicy.setPolicyDescription(policyDTO.getPolicyDescription());
 			existingPolicy.setCompany(policyDTO.getCompany());

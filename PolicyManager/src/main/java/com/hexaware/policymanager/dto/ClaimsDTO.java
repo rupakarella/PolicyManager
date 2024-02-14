@@ -1,12 +1,12 @@
 package com.hexaware.policymanager.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.hexaware.policymanager.entities.UserPolicies;
 
 public class ClaimsDTO {
 	private int claimId;
-	private Date claimDate;
+	private LocalDate claimDate;
 	private double claimAmount;
 	private String claimStatus;
 	private UserPolicies userPolicy;
@@ -16,7 +16,8 @@ public class ClaimsDTO {
 		super();
 	}
 
-	public ClaimsDTO(int claimId, Date claimDate, double claimAmount, String claimStatus, UserPolicies userPolicy) {
+	public ClaimsDTO(int claimId, LocalDate claimDate, double claimAmount, String claimStatus,
+			UserPolicies userPolicy) {
 		super();
 		this.claimId = claimId;
 		this.claimDate = claimDate;
@@ -33,11 +34,11 @@ public class ClaimsDTO {
 		this.claimId = claimId;
 	}
 
-	public Date getClaimDate() {
+	public LocalDate getClaimDate() {
 		return claimDate;
 	}
 
-	public void setClaimDate(Date claimDate) {
+	public void setClaimDate(LocalDate claimDate) {
 		this.claimDate = claimDate;
 	}
 

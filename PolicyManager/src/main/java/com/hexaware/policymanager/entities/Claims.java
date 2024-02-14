@@ -1,16 +1,16 @@
 package com.hexaware.policymanager.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,11 +20,12 @@ import jakarta.validation.constraints.Pattern;
 @Table(name = "Claims")
 public class Claims {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ClaimsSequenceGenerator")
+	@SequenceGenerator(name = "ClaimsSequenceGenerator", sequenceName = "ClaimsSeq", allocationSize = 1,initialValue =130000)
 	private int claimId;
 
 	@NotNull(message = "ClaimDate should not be null")
-	private Date claimDate;
+	private LocalDate claimDate;
 
 	@NotNull(message = "ClaimAmount should not be null")
 	private double claimAmount;
@@ -42,7 +43,7 @@ public class Claims {
 		super();
 	}
 
-	public Claims(int claimId, @NotNull(message = "ClaimDate should not be null") Date claimDate,
+	public Claims(int claimId, @NotNull(message = "ClaimDate should not be null") LocalDate claimDate,
 			@NotNull(message = "ClaimAmount should not be null") double claimAmount,
 			@NotBlank(message = "ClaimStatus should not be blank") @Pattern(regexp = "^(Pending|Approved|Rejected)$", message = "Status should be either Pending, Approved or Rejected") String claimStatus,
 			UserPolicies userPolicy) {
@@ -62,11 +63,11 @@ public class Claims {
 		this.claimId = claimId;
 	}
 
-	public Date getClaimDate() {
+	public LocalDate getClaimDate() {
 		return claimDate;
 	}
 
-	public void setClaimDate(Date claimDate) {
+	public void setClaimDate(LocalDate claimDate) {
 		this.claimDate = claimDate;
 	}
 

@@ -1,9 +1,8 @@
 package com.hexaware.policymanager.entities;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -14,12 +13,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -27,7 +28,8 @@ import jakarta.validation.constraints.Size;
 public class Users {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UsersSequenceGenerator")
+	@SequenceGenerator(name = "UsersSequenceGenerator", sequenceName = "UsersSeq", allocationSize = 1,initialValue =10000)
 	private long userId;
 
 	@NotBlank(message = "emailAddress should not be blank")
@@ -49,19 +51,19 @@ public class Users {
 	private String lastName;
 
 	@Past(message = "Date of birth must be in the past")
-	private Date dateOfBirth;
+	private LocalDate dateOfBirth;
 
 	@NotBlank(message = "panNumber should not be blank")
-	@Pattern(regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$", message = "Invalid PAN number format")
+	@Pattern(regexp = "^[A-Z]{5}\\d{4}[A-Z]{1}$", message = "Invalid PAN number format")
 	private String panNumber;
 
-	@NotBlank(message = "employerType should be blank")
+	@NotBlank(message = "employerType should not be blank")
 	@Size(max = 25, message = "String length cannot exceed 25 characters")
 	private String employerType;
 
 	private String employerName;
 
-	@Positive(message = "Salary must be a positive")
+	@PositiveOrZero(message = "Salary must be a positive")
 	private double salary;
 
 	@NotBlank(message = "userType should not be blank")
@@ -88,10 +90,10 @@ public class Users {
 			String password,
 			@NotBlank(message = "firstName should not be blank") @Pattern(regexp = "^[a-zA-Z\\s]+$") String firstName,
 			@NotBlank(message = "lastName should not be blank") @Pattern(regexp = "^[a-zA-Z\\s]+$") String lastName,
-			@Past(message = "Date of birth must be in the past") Date dateOfBirth,
-			@NotBlank(message = "panNumber should not be blank") @Pattern(regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$", message = "Invalid PAN number format") String panNumber,
-			@NotBlank(message = "employerType should be blank") @Size(max = 25, message = "String length cannot exceed 25 characters") String employerType,
-			String employerName, @Positive(message = "Salary must be a positive") double salary,
+			@Past(message = "Date of birth must be in the past") LocalDate dateOfBirth,
+			@NotBlank(message = "panNumber should not be blank") @Pattern(regexp = "^[A-Z]{5}\\d{4}[A-Z]{1}$", message = "Invalid PAN number format") String panNumber,
+			@NotBlank(message = "employerType should not be blank") @Size(max = 25, message = "String length cannot exceed 25 characters") String employerType,
+			String employerName, @PositiveOrZero(message = "Salary must be a positive") double salary,
 			@NotBlank(message = "userType should not be blank") @Pattern(regexp = "^(Admin|User)$", message = "userType should be either 'Admin' or 'User'") String userType,
 			Address address, List<UserPolicies> userPolicies) {
 		super();
@@ -110,6 +112,8 @@ public class Users {
 		this.address = address;
 		this.userPolicies = userPolicies;
 	}
+
+
 
 	public long getUserId() {
 		return userId;
@@ -159,11 +163,11 @@ public class Users {
 		this.lastName = lastName;
 	}
 
-	public Date getDateOfBirth() {
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 

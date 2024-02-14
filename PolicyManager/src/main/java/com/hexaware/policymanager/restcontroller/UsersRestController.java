@@ -24,78 +24,78 @@ import com.hexaware.policymanager.service.IUsersService;
 public class UsersRestController {
 
 	@Autowired
-	IUsersService UserService;
+	IUsersService usersService;
 
 	@PostMapping(value = "/register")
 	public Users registerUser(@RequestBody UsersDTO userDTO)throws RuntimeException, DuplicateUserException  {
 		
-		return UserService.registerUser(userDTO);
+		return usersService.registerUser(userDTO);
 	}
 
 	@PutMapping(value = "/update")
 	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public Users updateUser(@RequestBody UsersDTO userDTO)throws RuntimeException  {
-		return UserService.updateUser(userDTO);
+		return usersService.updateUser(userDTO);
 	}
 
 	@DeleteMapping(value = "/delete/{userId}")
 	@PreAuthorize("hasAuthority('Admin')")
 	public String deleteByUserId(@PathVariable long userId) throws UserNotFoundException {
-		return UserService.deleteByUserId(userId);
+		return usersService.deleteByUserId(userId);
 	}
 
 	@GetMapping(value = "/get-userId/{userId}")
 	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public UsersDTO getUserById(@PathVariable long userId) throws UserNotFoundException {
-		return UserService.getById(userId);
+		return usersService.getById(userId);
 	}
 	
 	@GetMapping(value="/get-email/{email}")
 	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public Users getUserPolicyByEmail(@PathVariable String email) throws UserNotFoundException
 	{
-		return UserService.getUserByEmail(email);
+		return usersService.getUserByEmail(email);
 	}
 	
 	@GetMapping(value="/get-type/{userType}")
 	@PreAuthorize("hasAuthority('Admin')")
 	public List<Users> getUserByUserType(@PathVariable String userType)throws UserNotFoundException 
 	{
-		return UserService.getUserByUserType(userType);
+		return usersService.getUserByUserType(userType);
 	}
 	
 	@GetMapping(value="/get-contactnumber/{contactNumber}")
 	@PreAuthorize("hasAuthority('Admin')")
 	public Users getUserByConatctno(@PathVariable String contactNumber) throws UserNotFoundException
 	{
-		return UserService.getUserBycontactNumber(contactNumber);
+		return usersService.getUserBycontactNumber(contactNumber);
 	}
 	
 	@GetMapping(value="/get-all")
 	@PreAuthorize("hasAuthority('Admin')")
 	public List<Users> getAllUsers()
 	{
-		return UserService.getAllUsers();
+		return usersService.getAllUsers();
 	}
 	@GetMapping(value="/get-userType-by-emailAddress/{emailAddress}")
 	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public String findUserTypeByEmailAddress(@PathVariable String emailAddress) {
 		
-		return UserService.findUserTypeByEmailAddress(emailAddress);
+		return usersService.findUserTypeByEmailAddress(emailAddress);
 	}
 	
 	@GetMapping(value="/get-userId-by-emailAddress/{emailAddress}")
 	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public long findUserIdByEmailAddress(@PathVariable String emailAddress) {
 		
-		return UserService.findUserIdByEmailAddress(emailAddress);
+		return usersService.findUserIdByEmailAddress(emailAddress);
 	}
 	
 	@GetMapping(value="/get-userName-by-emailAddress/{emailAddress}")
 	@PreAuthorize("hasAnyAuthority('Admin','User')")
 	public String findUserNameByEmailAddress(@PathVariable String emailAddress) {
 		
-		return UserService.findUserNameByEmailAddress(emailAddress);
+		return usersService.findUserNameByEmailAddress(emailAddress);
 	}
 
 }

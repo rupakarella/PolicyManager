@@ -15,7 +15,6 @@ import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.PolicyNotFoundException;
 import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
-import com.hexaware.policymanager.repository.ClaimsRepository;
 import com.hexaware.policymanager.repository.PoliciesRepository;
 import com.hexaware.policymanager.repository.UserPoliciesRepository;
 import com.hexaware.policymanager.repository.UsersRepository;
@@ -24,7 +23,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class UserPoliciesServiceImp implements IUserPoliciesService {
+public class UserPoliciesServiceImp implements IUserPoliciesService{
 
 	Logger logger=LoggerFactory.getLogger(UserPoliciesServiceImp.class);
 	
@@ -37,8 +36,6 @@ public class UserPoliciesServiceImp implements IUserPoliciesService {
 	@Autowired
 	PoliciesRepository policiesRepo;
 
-	@Autowired
-	ClaimsRepository claimsRepo;
 
 	@Override
 	public UserPolicies createUserPolicy(UserPoliciesDTO userpolicyDTO)throws UserNotFoundException,PolicyNotFoundException {
