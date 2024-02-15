@@ -3,6 +3,8 @@ package com.hexaware.policymanager.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,48 +16,63 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.policymanager.dto.AddressDTO;
 import com.hexaware.policymanager.entities.Address;
+import com.hexaware.policymanager.exception.AddressNotFoundException;
+import com.hexaware.policymanager.exception.DuplicateUserException;
 import com.hexaware.policymanager.service.IAddressService;
 
 @RestController
-@RequestMapping("/api/address")
+@RequestMapping("/api/v1/address")
 public class AddressRestController {
 	@Autowired
-	IAddressService service;
-	@PostMapping("/add")
-	public Address createAddress(@RequestBody AddressDTO addressDTO)
+	IAddressService addressService;
+	
+	@PostMapping("/register")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
+	public Address createAddress(@RequestBody AddressDTO addressDTO) throws DuplicateUserException
 	{
-		return service.createAddress(addressDTO);
+		return addressService.createAddress(addressDTO);
 	}
+	
 	@PutMapping("/update")
-	public Address updateAddress(@RequestBody AddressDTO addressDTO)
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
+	public Address updateAddress(@RequestBody AddressDTO addressDTO)throws AddressNotFoundException
 	{
-		return service.updateAddress(addressDTO);
+		return addressService.updateAddress(addressDTO);
 	}
+	
 	@DeleteMapping("/delete/{addressId}")
-	public void deleteByAddressId(@PathVariable long addressId)
+	@PreAuthorize("hasAuthority('User')")
+	public String deleteByAddressId(@PathVariable long addressId) throws AddressNotFoundException
 	{
-		service.deleteByAddressId(addressId);
+		return addressService.deleteByAddressId(addressId);
 	}
-	@GetMapping("/getbyid/{addressId}")
-	public AddressDTO getbyAddressId(@PathVariable long addressId)
+	
+	@GetMapping("/get-by-id/{addressId}")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
+	public AddressDTO getByAddressId(@PathVariable long addressId)throws AddressNotFoundException
 	{
-		return service.getbyAddressId(addressId);
+		return addressService.getByAddressId(addressId);
 	}
-	@GetMapping("/get/state/{state}")
-	public List<Address> getAddressByState(@PathVariable String state)
+	
+	@GetMapping("/get-state/{state}")
+	@PreAuthorize("hasAuthority('Admin')")
+	public List<Address> getAddressByState(@PathVariable String state)throws AddressNotFoundException
 	{
-		return service.getByState(state);
+		return addressService.getByState(state);
 		
 	}
-	@GetMapping("/get/city/{city}")
-	public List<Address> getAddressByCity(@PathVariable String city)
+	
+	@GetMapping("/get-by-city/{city}")
+    @PreAuthorize("hasAuthority('Admin')")
+	public List<Address> getAddressByCity(@PathVariable String city)throws AddressNotFoundException
 	{
-		return service.getByCity(city);
+		return addressService.getByCity(city);
 		
 	}
-	@GetMapping("/getall")
+	@GetMapping("/get-all")
+	@PreAuthorize("hasAuthority('Admin')")
 	public List<Address> getAllAddress()
 	{
-		return service.getAllAddress();
+		return addressService.getAllAddress();
 	}
 }

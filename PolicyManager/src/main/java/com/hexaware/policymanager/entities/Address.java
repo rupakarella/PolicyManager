@@ -2,64 +2,55 @@ package com.hexaware.policymanager.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "Addresses")
+@Table(name = "Address")
 public class Address {
 
 	@Id
-	@Column(name = "addressId")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_generator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AddressSequenceGenerator")
+	@SequenceGenerator(name = "AddressSequenceGenerator", sequenceName = "AddressSeq", allocationSize = 1,initialValue =70000)
 	private long addressId;
 
-	@Column(name = "addressLine")
-	@NotEmpty
+	@NotBlank(message = "addressLine should not be blank")
 	private String addressLine;
-	
-	
-	@NotEmpty
+
+	@NotBlank(message = "city should not be blank")
 	private String city;
-	@NotEmpty
-	@Column(name = "cityPincode")
+
+	@NotNull(message = "cityPincode should not be blank")
 	private int cityPincode;
-    
-	@NotEmpty
-	@Column(name = "state")
+
+	@NotBlank(message = "state should not be blank")
 	private String state;
-	
-	@OneToOne(mappedBy = "address")
+
+	@OneToOne(mappedBy = "address", cascade = CascadeType.REMOVE)
+	@JsonBackReference(value = "Users-Address")
 	private Users users;
 
 	public Address() {
 		super();
-
 	}
 
-	public Address(long addressId, String addressLine,String city, int cityPincode, String state, Users users) {
+	public Address(long addressId, @NotBlank String addressLine, @NotBlank String city, @NotNull int cityPincode,
+			@NotBlank String state, Users users) {
 		super();
 		this.addressId = addressId;
 		this.addressLine = addressLine;
+		this.city = city;
 		this.cityPincode = cityPincode;
 		this.state = state;
 		this.users = users;
-		this.city = city;
-	}
-
-	
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
 	}
 
 	public long getAddressId() {
@@ -76,6 +67,14 @@ public class Address {
 
 	public void setAddressLine(String addressLine) {
 		this.addressLine = addressLine;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public int getCityPincode() {
@@ -105,10 +104,7 @@ public class Address {
 	@Override
 	public String toString() {
 		return "Address [addressId=" + addressId + ", addressLine=" + addressLine + ", city=" + city + ", cityPincode="
-				+ cityPincode + ", state=" + state + ", users=" + users + "]";
+				+ cityPincode + ", state=" + state + "]";
 	}
-
-	
-	
 
 }

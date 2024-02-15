@@ -3,76 +3,80 @@ package com.hexaware.policymanager.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.policymanager.dto.PolicyPaymentsDTO;
 import com.hexaware.policymanager.entities.PolicyPayments;
+import com.hexaware.policymanager.exception.PaymentNotFoundException;
 
 @SpringBootTest
 class PolicyPaymentsServiceImpTest {
-
+	
 	@Autowired
-	IPolicyPaymentsService service;
+	IPolicyPaymentsService paymentsService;
 
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+	}
+
+	void testMakePayment() {
+		PolicyPaymentsDTO policyPaymentsDTO = new PolicyPaymentsDTO();
+		policyPaymentsDTO.setPaymentDate(LocalDate.of(2024, 02, 19));
+		policyPaymentsDTO.setPaymentStatus("Pending");
+		policyPaymentsDTO.setPaymentMethod("Credit Card");
+		policyPaymentsDTO.setUserPolicyId(40002);
+		PolicyPayments createdPayments = paymentsService.makePayment(policyPaymentsDTO);
+		assertNotNull(createdPayments);
+		assertEquals("Pending", createdPayments.getPaymentStatus());
+		assertEquals(40002, createdPayments.getUserPolicies().getUserPolicyId());
+	}
 	@Test
-	void testCreatePolicyPayment() {
-		PolicyPaymentsDTO policypaymentDTO = new PolicyPaymentsDTO();
-		policypaymentDTO.setPaymentId(55);
-		policypaymentDTO.setTransactionId(8000);
-		policypaymentDTO.setPaymentDate(LocalDate.now());
-		policypaymentDTO.setBank("SBI");
-		policypaymentDTO.setAmount(10000.0);
-		policypaymentDTO.setFine(500.0);
-		policypaymentDTO.setPaymentStatus("Pending");
-
-		service.createPolicyPayment(policypaymentDTO);
-		assertNotNull(policypaymentDTO);
+	void testUpdatePayment() throws PaymentNotFoundException {
+		PolicyPayments policyPayments = paymentsService.getByPaymentId(1);
+		PolicyPaymentsDTO policyPaymentsDTO = new PolicyPaymentsDTO();
+		policyPaymentsDTO.setPaymentId(policyPayments.getPaymentId());
+		policyPaymentsDTO.setPaymentDate(LocalDate.of(2024, 02, 16));
+		policyPaymentsDTO.setPaymentStatus("Completed");
+		policyPaymentsDTO.setPaymentMethod("Credit Card");
+		policyPaymentsDTO.setUserPolicyId(1);
+		PolicyPayments updatedPayments = paymentsService.updatePayment(policyPaymentsDTO);
+		assertEquals("Completed", updatedPayments.getPaymentStatus());
 
 	}
 
 	@Test
-	void testUpdatePolicyPayment() {
-		PolicyPaymentsDTO policypaymentDTO = service.getPolicyPaymentBytransactionId(6000);
-		policypaymentDTO.setBank("HDFC");
-		policypaymentDTO.setPaymentDate(LocalDate.now());
-		policypaymentDTO.setAmount(25000.0);
-		policypaymentDTO.setFine(5000.0);
-		policypaymentDTO.setPaymentStatus("Pending");
-
-		service.updatePolicyPayment(policypaymentDTO);
-
-		PolicyPaymentsDTO updatedPayment = service.getPolicyPaymentBytransactionId(6000);
-		assertEquals("HDFC",updatedPayment.getBank());
+	void testDeletePayment() throws PaymentNotFoundException {
+		String result = paymentsService.deletePayment(9000001);
+		assertEquals("Payment deleted", result);
 	}
 
 	@Test
-	void testDeletePolicyPaymentByTransactionId() {
-		service.deletePolicyPaymentByTransactionId(5000);
-		PolicyPaymentsDTO deletedpaymentDTO = service.getPolicyPaymentBytransactionId(5000);
-		assertNull(deletedpaymentDTO, "Deleted policy should be null");
-
+	void testGetByPaymentId() throws PaymentNotFoundException {
+		PolicyPayments payments = paymentsService.getByPaymentId(9000002);
+		assertNotNull(payments);
+		assertEquals(9000002, payments.getPaymentId());
 	}
 
 	@Test
-	void testGetPolicyPaymentBytransactionId() {
-		PolicyPaymentsDTO policypaymentDTO = service.getPolicyPaymentBytransactionId(6000);
-		assertNotNull(policypaymentDTO);
-		assertEquals(6000, policypaymentDTO.getTransactionId());
-
-	}
-
-	@Test
-	void testGetAllPolicyPayments() {
-		List<PolicyPayments> policyDTO = service.getAllPolicyPayments();
-		boolean flag = policyDTO.isEmpty();
+	void testGetAllPayments() {
+		List<PolicyPayments> list = paymentsService.getAllPayments();
+		boolean flag = list.isEmpty();
 		assertFalse(flag);
+	}
+
+	@Test
+	void testGetPaymentsByPaymentStatus() throws PaymentNotFoundException {
+		List<PolicyPayments> paymentsList = paymentsService.getPaymentsByPaymentStatus("Completed");
+		for (PolicyPayments policyPayments : paymentsList) {
+			assertEquals("Completed", policyPayments.getPaymentStatus());
+		}
 	}
 
 }
