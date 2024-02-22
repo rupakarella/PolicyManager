@@ -1,0 +1,196 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'afacad';
+  background-image: url("../../../assets/design_blurred.png"); /* Update the path if necessary */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+  padding: 0; /* Adjusted for overall inner spacing */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures that table borders are collapsed into a single border */
+  margin-bottom: 1rem; /* Adds space below the table */
+  background: rgba(255, 255, 255, 0.8); /* If you want a white background for the table */
+}
+
+th, td {
+  padding: 0.75rem; /* Adds padding inside each cell */
+  text-align: left; /* Aligns text to the left */
+  border: 1px solid #dee2e6; /* Adds a border to each cell */
+}
+
+thead th {
+  background: rgba(255, 255, 255, 0.8);/* Adds a background color to the header cells */
+  border-bottom: 2px solid #dee2e6; /* Adds a thicker border to the bottom of header cells */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgba(242, 242, 242, 0.8);/* Zebra striping for odd rows */
+}
+
+
+.policy-registration {
+  width: 80%; /* Adjust the width as needed */
+  margin: 2rem auto; /* Adds margin to the top and bottom, auto centers it horizontally */
+  padding: 3rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
+  border-radius: 10px; /* Optional: rounds the corners */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Aligns child elements (form groups) to the center */
+}
+
+.manage-policies,
+.policy-registration {
+  margin-bottom: 2rem; /* Add space between the sections */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+
+.policy-form {
+  background: rgba(255, 255, 255, 0.8);
+  display: block;
+  max-width: 1024px;
+  margin: auto;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between; 
+  width: 100%; 
+  max-width: 1000px; 
+  margin-bottom: 1rem; 
+}
+
+.form-group {
+  flex: 1; 
+  margin: 0 10px;
+  margin-top: 20px; 
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 1rem; 
+  font-size: 1.2rem;
+  color: #333; 
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem; 
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center; /* This will center the button horizontally */
+  width: 100%; 
+  padding-top: 1rem; /* Adds some space above the submit button */
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #1E55B3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.table, .policy-form {
+  margin: auto; /* This centers the table/form within their containers */
+}
+
+
+button:hover {
+  background-color: #114194; /* New color for the hover state */
+}
+
+button[disabled] {
+  background-color: #ccc;
+  cursor: default;
+}
+
+h2 {
+  color: #1E55B3;
+  text-align: center;
+  margin: 0 0 2rem 0; 
+}
+
+  .form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem; /* Increased font size */
+    min-height: 150px; /* Or any other height that looks good for your design */
+    width: 100%; 
+    box-sizing: border-box; /* Ensures padding does not add to the width */
+  resize: vertical; /* Allows the user to resize the textarea vertically */
+}
+  
+
+  @media (max-width: 768px) {
+    .policy-registration {
+      width: 90%;
+      padding: 2rem;  /* Makes the form wider on smaller screens */
+    }
+
+    .form-row {
+      flex-direction: column;
+      max-width: none;
+    }
+
+    .form-group {
+      margin: 0 0 1rem 0; /* Adjust margin for mobile */
+      width: 100%; /* Full width for mobile */
+    }
+
+    .form-actions {
+      padding-top: 0;
+    }
+  }
+
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  
+  .navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: transparent; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+  }
+
+  .navbar-logo {
+    height: 45px; 
+    width: 180px;
+  }
+

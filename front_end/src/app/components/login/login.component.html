@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="login.component.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="login-container">
+    <form [formGroup]="loginForm" novalidate>
+      <div class="login-form">
+      <h2>LOGIN</h2>
+      <p>Please enter your Email id and password!</p>
+      <div class="input-group">
+        <input type="email" placeholder="Email" name="email" required>
+        <div class="error" style="color:red;" *ngIf="submitted && !email.valid">
+          Email is required.
+        </div>
+      </div>
+
+      <div class="input-group">
+        <input type="password" placeholder="Password" name="password" required pattern=".{5,}">
+        <div class="error" style="color:red;" *ngIf="submitted && !password.valid">
+          Password is required and must be at least 5 characters.
+        </div>
+      </div>
+      <button type="submit">Login</button>
+      <div class="register-link">
+        Don't have an account? <a href="#">Register</a>
+      </div>
+
+      <nav class="navbar">
+        <img src="\assets\logo-no-background.png" alt="Logo" class="navbar-logo">
+        <div class="nav-buttons">
+          <button class="nav-button" routerLink="/search-policies">Search Policies</button>
+        </div>
+      </nav>
+      </div>
+      </form>
+      </div>
+  </body>
+
