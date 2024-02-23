@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="policies-container">
     <h2>Manage Policies</h2>
     <div class="policies-list">
       <!-- Table for displaying registered policies -->
@@ -56,37 +56,29 @@
     </div>
 
 
-
     <div class="policy-registration-form">
       <h2>Policy Registration</h2>
 
       <form [formGroup]="policyForm" (ngSubmit)="onSubmit()" class="policy-form">
+        <div class="form-row">
           <div class="form-group">
             <label for="policyName">Policy Name *</label>
-            <input type="text" formControlName="policyName" placeholder="Policy Name" class="form-control"
-              [ngClass]="{ 'is-invalid': policyForm.get('policyName')?.touched && policyForm.get('policyName')?.invalid }">
-            <div *ngIf="policyForm.get('policyName')?.touched && policyForm.get('policyName')?.invalid"
-              class="invalid-feedback">
-              <div *ngIf="policyForm.get('policyName')?.errors?.['required']">Policy Name is required.</div>
-            </div>
+            <input type="text" id="policyName" formControlName="policyName" class="form-control">
+
+
+
           </div>
+
 
           <div class="form-group">
             <label for="company">Company *</label>
-            <input type="text" id="company" formControlName="company" class="form-control"
-              [ngClass]="{ 'is-invalid': policyForm.get('company')?.touched && policyForm.get('company')?.invalid }">
-            <div *ngIf="policyForm.get('company')?.touched && policyForm.get('company')?.invalid"
-              class="invalid-feedback">
-              <div *ngIf="policyForm.get('company')?.errors?.['required']">Company is required.</div>
-            </div>
+            <input type="text" id="company" formControlName="company" required>
           </div>
-
 
 
           <div class="form-group">
             <label for="policyType">Policy Type *</label>
-            <select id="policyType" formControlName="policyType" class="form-control"
-              [ngClass]="{ 'is-invalid': policyForm.get('policyType')?.touched && policyForm.get('policyType')?.invalid }">
+            <select id="policyType" formControlName="policyType" required>
               <option value="">Select Policy Type</option>
               <option value="Vehicle Insurance">Vehicle Insurance</option>
               <option value="Travel Insurance">Travel Insurance</option>
@@ -95,78 +87,51 @@
               <option value="Child Insurance">Child Insurance</option>
               <option value="Retirement Plans">Retirement Plans</option>
             </select>
-            <div *ngIf="policyForm.get('policyType')?.touched && policyForm.get('policyType')?.invalid"
-              class="invalid-feedback">
-              <div *ngIf="policyForm.get('policyType')?.errors?.['required']">Policy Type is required.</div>
-            </div>
           </div>
-
+        </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="termPeriod">Term Period *</label>
-            <select id="termPeriod" formControlName="termPeriod" class="form-control"
-              [ngClass]="{ 'is-invalid': policyForm.get('termPeriod')?.touched &&
-              policyForm.get('termPeriod')?.invalid }">
+            <select id="termPeriod" formControlName="termPeriod" required>
               <option value="">Select Term Period</option>
               <option value="Monthly">Monthly</option>
               <option value="Quarterly">Quarterly</option>
               <option value="Half-Yearly">Half-Yearly</option>
               <option value="Annually">Annually</option>
             </select>
-            <div *ngIf="policyForm.get('termPeriod')?.touched && policyForm.get('termPeriod')?.invalid"
-              class="invalid-feedback">
-              <div *ngIf="policyForm.get('termPeriod')?.errors?.['required']">Term Period is required.</div>
-              <div *ngIf="policyForm.get('termPeriod')?.errors?.['pattern']">Invalid Term Period.</div>
-            </div>
           </div>
 
           <div class="form-group">
             <label for="termAmount">Term Amount *</label>
-            <input type="number" id="termAmount" formControlName="termAmount" class="form-control"
-              [ngClass]="{ 'is-invalid': policyForm.get('termAmount')?.touched && policyForm.get('termAmount')?.invalid }"
-              min="1">
-            <div *ngIf="policyForm.get('termAmount')?.touched && policyForm.get('termAmount')?.invalid"
-              class="invalid-feedback">
-              <div *ngIf="policyForm.get('termAmount')?.errors?.['required']">Term Amount is required.</div>
-              <div *ngIf="policyForm.get('termAmount')?.errors?.['min']">Term Amount must be greater than 0.</div>
-            </div>
+            <input type="number" id="termAmount" formControlName="termAmount" required min="1">
           </div>
 
 
           <div class="form-group">
             <label for="interest">Interest *</label>
-            <input type="number" id="interest" formControlName="interest" class="form-control"
-              [ngClass]="{ 'is-invalid': policyForm.get('interest')?.touched && policyForm.get('interest')?.invalid }"
-              min="0">
-            <div *ngIf="policyForm.get('interest')?.touched && policyForm.get('interest')?.invalid"
-              class="invalid-feedback">
-              <div *ngIf="policyForm.get('interest')?.errors?.['required']">Interest is required.</div>
-              <div *ngIf="policyForm.get('interest')?.errors?.['min']">Interest cannot be negative.</div>
-            </div>
+            <input type="number" id="interest" formControlName="interest" required min="0">
           </div>
         </div>
 
         <div class="form-group full-width">
           <label for="policyDescription">Policy Description *</label>
-          <textarea id="policyDescription" formControlName="policyDescription" class="form-control" rows="4"
-            [ngClass]="{ 'is-invalid': policyForm.get('policyDescription')?.touched && policyForm.get('policyDescription')?.invalid }"
-            maxlength="500"></textarea>
-          <div *ngIf="policyForm.get('policyDescription')?.touched && policyForm.get('policyDescription')?.invalid"
-            class="invalid-feedback">
-            <div *ngIf="policyForm.get('policyDescription')?.errors?.['required']">Policy Description is required.</div>
-          </div>
+          <textarea id="policyDescription" formControlName="policyDescription" required maxlength="500"
+            rows="4"></textarea>
         </div>
+
+        <nav class="navbar">
+          <img src="\assets\logo-no-background.png" alt="Logo" class="navbar-logo">
+        </nav>
 
 
         <div class="form-actions">
           <button type="submit" [disabled]="!policyForm.valid">Register Policy</button>
         </div>
-
-        <nav class="navbar">
-          <img src="assets\logo-no-background.png" alt="Logo" class="navbar-logo">
-        </nav>
       </form>
     </div>
+    <footer>
+      <p>&copy; 2024 PoliCare. All rights reserved.</p>
+    </footer>
   </div>
 </body>

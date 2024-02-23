@@ -11,7 +11,7 @@ import { Users } from 'src/app/models/users.model';
 export class RegistrationComponent implements OnInit {
   usersForm!: FormGroup;
   submitted = false;
-
+  showPassword = true;
   constructor(private formBuilder: FormBuilder, route:ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -40,6 +40,10 @@ export class RegistrationComponent implements OnInit {
   get f() {
     return this.usersForm.controls;
   }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   onSubmit() {
     this.submitted = true;
     if (this.usersForm.invalid) {

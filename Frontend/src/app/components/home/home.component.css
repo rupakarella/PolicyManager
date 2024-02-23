@@ -7,7 +7,7 @@
 .body{
     min-height: 100vh;
   }
-.container{
+.home-container{
     width: 100%;
     min-height: 100vh;
     background-image: url("../../../assets/policy.png");
@@ -35,7 +35,7 @@
     display:flex;
     justify-content:flex-end;
     align-items:center;
-    margin-top:10px;
+    margin-top:5px;
 }
 .navbar ul li{
     list-style: none;
@@ -93,4 +93,17 @@
 }
 .content a:hover{
     background-color: #114194;
+}
+footer {
+    background-color: transparent; /* Background color for the footer */
+    color: #1E55B3; /* Text color for the footer */
+    padding: 0px; /* Padding around the content inside the footer */
+    text-align: center; /* Align the content in the center */
+    position: fixed; /* Fixed position at the bottom of the viewport */
+    width: 100%; /* Full width */
+    bottom: 0; /* Stick to the bottom */
+}
+
+footer p {
+    margin: 0; /* Remove default margin */
 }
