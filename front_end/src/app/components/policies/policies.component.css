@@ -2,7 +2,7 @@ body, html {
   height: 100%;
   margin: 0;
   font-family: 'afacad';
-  background-image: url("../../../assets/design_blurred.png"); /* Update the path if necessary */
+  background-image: url("../../../assets/policy.png"); /* Update the path if necessary */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -10,7 +10,7 @@ body, html {
   flex-direction: column;
 }
 
-.container {
+.policies-container {
   width: 80%;
   margin: auto;
   padding: 0; /* Adjusted for overall inner spacing */
@@ -167,6 +167,7 @@ h2 {
 
     .form-actions {
       padding-top: 0;
+      justify-content: center;
     }
   }
 
@@ -193,4 +194,16 @@ h2 {
     height: 45px; 
     width: 180px;
   }
+  footer {
+    background-color: transparent; /* Background color for the footer */
+    color: #1E55B3; /* Text color for the footer */
+    padding: 0px; /* Padding around the content inside the footer */
+    text-align: center; /* Align the content in the center */
+    position: fixed; /* Fixed position at the bottom of the viewport */
+    width: 100%; /* Full width */
+    bottom: 0; /* Stick to the bottom */
+}
 
+footer p {
+    margin: 0; /* Remove default margin */
+}

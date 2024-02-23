@@ -1,0 +1,40 @@
+body, html {
+    height: 100%; /* Ensure minimum height for the html document */
+    margin: 0; /* Reset default margin */
+  }
+
+body {
+    background-image: url("../../../assets/policy.png");
+    background-size: cover; /* Cover the entire page */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-attachment: fixed; /* Fix the background */
+}
+
+.navbar-logo {
+    height: 45px; 
+    width: 180px;
+  }
+
+.navbar{
+    background-color: transparent;
+
+
+}
+
+.navbar-brand img {
+    height: 50px;
+  }
+  .logout-btn {
+    text-decoration: none;
+    color: #fff;
+    background-color: #dc3545;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+  }
+  .logout-btn:hover {
+    color: #fff;
+    background-color: #bd2130;
+  }
+  

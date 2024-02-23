@@ -10,23 +10,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="home-container">
         <div class="row">
             <nav class="navbar">
                 <img src="\assets\logo-no-background.png">
                 <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Search Policies</a></li>
+                    <li><a routerLink="/">Home</a></li>
+                    <li><a routerLink="/policies">Search Policies</a></li>
                     <li><a routerLink="/login">Login</a></li>
                     <li><a routerLink="/registration">Register</a></li>
+
                 </ul>
             </nav>
             <div class="content">
                 <h1>We offer top-notch policies to keep you and your family safe.</h1>
                 <p>Our goal is to provide you with the best plans for your peace of mind.</p>
-                <a href="">Explore Policies</a>
+                <a routerLink="/policies">Explore Policies</a>
             </div>
         </div>
+        <footer>
+            <p>&copy; 2024 PoliCare. All rights reserved.</p>
+        </footer>
     </div>
+    
 </body>
 </html>

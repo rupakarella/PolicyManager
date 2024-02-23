@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,14 @@
   <link rel="stylesheet" href="policies.component.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap"
+    rel="stylesheet">
 
 
-</head> 
+</head>
+
 <body>
-<div class="container">
+  <div class="policies-container">
     <h2>Manage Policies</h2>
     <div class="policies-list">
       <!-- Table for displaying registered policies -->
@@ -51,20 +54,20 @@
         </tbody>
       </table>
     </div>
-  
+
 
     <div class="policy-registration-form">
-        <h2>Policy Registration</h2>
+      <h2>Policy Registration</h2>
 
-         <form [formGroup]="policyForm" (ngSubmit)="onSubmit()" class="policy-form">
-          <div class="form-row">
-             <div class="form-group">
-              <label for="policyName">Policy Name *</label>
-               <input type="text" id="policyName" formControlName="policyName" class="form-control">
-               
+      <form [formGroup]="policyForm" (ngSubmit)="onSubmit()" class="policy-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="policyName">Policy Name *</label>
+            <input type="text" id="policyName" formControlName="policyName" class="form-control">
 
 
-             </div> 
+
+          </div>
 
 
           <div class="form-group">
@@ -86,7 +89,7 @@
             </select>
           </div>
         </div>
-        
+
         <div class="form-row">
           <div class="form-group">
             <label for="termPeriod">Term Period *</label>
@@ -112,8 +115,9 @@
         </div>
 
         <div class="form-group full-width">
-            <label for="policyDescription">Policy Description *</label>
-            <textarea id="policyDescription" formControlName="policyDescription" required maxlength="500" rows="4"></textarea>
+          <label for="policyDescription">Policy Description *</label>
+          <textarea id="policyDescription" formControlName="policyDescription" required maxlength="500"
+            rows="4"></textarea>
         </div>
 
         <nav class="navbar">
@@ -126,14 +130,8 @@
         </div>
       </form>
     </div>
+    <footer>
+      <p>&copy; 2024 PoliCare. All rights reserved.</p>
+    </footer>
   </div>
-          
-
-
-          
-
-
-    
-  
-    
-   
+</body>

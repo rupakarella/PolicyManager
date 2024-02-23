@@ -1,42 +1,37 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LoginComponent } from './components/login/login.component';
-import { PoliciesComponent } from './components/policies/policies.component';
-import { PolicyDetailsComponent } from './components/policy-details/policy-details.component';
-import { UsersComponent } from './components/users/users.component';
-import { UserDetailsComponent } from './components/user-details/user-details.component';
-import { ClaimsComponent } from './components/claims/claims.component';
-import { ClaimDetailsComponent } from './components/claim-details/claim-details.component';
 import { PaymentsComponent } from './components/payments/payments.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { UsersComponent } from './components/users/users.component';
+import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
+import { ClaimsComponent } from './components/claims/claims.component';
+import { LoginComponent } from './components/login/login.component';
+import { PoliciesComponent } from './components/policies/policies.component';
 import { HomeComponent } from './components/home/home.component';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
-    LoginComponent,
-    PoliciesComponent,
-    PolicyDetailsComponent,
-    UsersComponent,
-    UserDetailsComponent,
-    ClaimsComponent,
-    ClaimDetailsComponent,
     PaymentsComponent,
     NavbarComponent,
+    UsersComponent,
+    UserDashboardComponent,
+    ClaimsComponent,
+    LoginComponent,
+    PoliciesComponent,
     HomeComponent,
- 
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
