@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>manage-users</title>
+    <link rel="stylesheet" href="manage-users.component.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap"
+    rel="stylesheet">
+</head>
+<body>
+
+<div class = "search-table">
+    <table class = "table table-borderes">
+        <thead class = "thead">
+            <tr>
+                <th>User Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Mobile Number</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <th>User Type</th>
+                <th>Employer Type</th>
+                <th>Employer Name</th>
+                <th>Pan Number</th>
+                <th>Salary</th>
+                <th>Address</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody class = "tbody">
+            <tr *ngFor="let user of users">
+            <td>{{user.userId}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.contactNumber}}</td>
+            <td>{{user.emailAddress}}</td> 
+            <td>{{user.dateOfBirth}}</td>
+            <td>{{user.userType}}</td>
+            <td>{{user.employerType}}</td>
+            <td>{{user.employerName}}</td>
+            <td>{{user.panNumber}}</td>
+            <td>{{user.salary}}</td>
+            <td>{{user.address.addressLine}}, {{user.address.city}}, {{user.address.state}}, {{user.address.cityPincode}}</td>
+            <td><button class="btn btn-primary">Edit</button></td>
+            </tr>
+        </tbody>
+    
+    </table>
+       
+</div>
+
+
+

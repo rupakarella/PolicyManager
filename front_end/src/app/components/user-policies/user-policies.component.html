@@ -1,0 +1,40 @@
+<section class="search-bg">
+  <div>
+      <div style="text-align: center; padding-top: 15px;">
+          <h3 style="color: white;">Your Profile</h3>
+  
+      </div>
+      <div class = "search-table">
+          <table class = "table table-borderes">
+              <thead class = "thead">
+                  <tr>
+                      <th>userPolicyId</th>
+                      <th>userId</th>
+                      <th>startDate</th>
+                      <th>endDate</th>
+                      <th>maturityAmount</th>
+                      <th>durationInYears</th>
+                      <th>policyId</th>
+                      <th>policyName</th>
+                  </tr>
+              </thead>
+              <tbody class = "tbody">
+                  <tr *ngIf=" userPolicies">
+                      <td>{{userPolicies.userPolicyId}}</td>
+                      <td>{{userPolicies.startDate}}</td>
+                      <td>{{userPolicies.endDate}}</td>
+                      <td>{{userPolicies.user.userId}}</td>
+                      <td>{{userPolicies.maturityAmount}}</td>
+                      <td>{{userPolicies.durationInYears}}</td>
+                      <td>{{userPolicies.policy.policyId}}</td>
+                      <td>{{userPolicies.policy.policyName}}</td>
+
+                      
+                      <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#UserModal">Edit Details</button></td>
+                  </tr>
+              </tbody>
+          
+          </table>
+             
+      </div>
+     </div>
