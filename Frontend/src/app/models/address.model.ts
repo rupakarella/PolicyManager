@@ -1,4 +1,4 @@
-import { Users } from "./users.model";
+// import { Users } from "./users.model";
 
 export interface Address {
     addressId: number;
@@ -6,6 +6,5 @@ export interface Address {
     city: string;
     cityPincode: number;
     state: string;
-    users: Users; 
   }
   

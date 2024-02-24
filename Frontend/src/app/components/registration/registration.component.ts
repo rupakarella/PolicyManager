@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Users } from 'src/app/models/users.model';
+import { UserService } from 'src/app/service/user.service';
+
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +14,7 @@ export class RegistrationComponent implements OnInit {
   usersForm!: FormGroup;
   submitted = false;
   showPassword = true;
-  constructor(private formBuilder: FormBuilder, route:ActivatedRoute) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
     this.usersForm = this.formBuilder.group({
@@ -47,13 +49,19 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.usersForm.invalid) {
-      console.log(this.usersForm.value);
       return;
     }
-    else {
-      alert('Form submission successful ');
+
+    this.userService.registerUser(this.usersForm.value)
+      .subscribe({
+        next: data => {
+          console.log('Registration successful');
+          alert('Registration successful');
+          this.router.navigate(['/login']);
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        }
+      });
     }
-
   }
-
-}

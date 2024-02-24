@@ -15,5 +15,5 @@ export interface Users {
     salary: number;
     userType: string;
     address: Address;
-    userPolicies: UserPolicies[];
+    // userPolicies: UserPolicies[];
   }
