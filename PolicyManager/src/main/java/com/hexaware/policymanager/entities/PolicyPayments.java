@@ -22,7 +22,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
-@Table(name = "Policy Payments")
+@Table(name = "PolicyPayments")
 public class PolicyPayments {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PolicyPaymentsSequenceGenerator")
@@ -46,7 +46,7 @@ public class PolicyPayments {
 	private String paymentMethod;
 
 	@ManyToOne
-	@JoinColumn(name = "UserPoliciesID")
+	@JoinColumn(name = "UserPolicyID")
 	@JsonBackReference(value = "UserPolicies-PolicyPayments")
 	private UserPolicies userPolicies;
 

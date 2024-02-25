@@ -15,6 +15,17 @@ export class UserPoliciesComponent implements OnInit {
   constructor(private userPoliciesService: UserPoliciesService) { }
 
   ngOnInit(): void {
+    // this.userPolicies.forEach(userPolicy => {
+    //   // Convert start date to Date object
+    //   const startDate = new Date(userPolicy.startDate);
+      
+    //   // Add duration in years to start date to calculate end date
+    //   const endDate = new Date(startDate.getTime()); // Create a copy of start date
+    //   endDate.setFullYear(endDate.getFullYear() + userPolicy.durationInYears); // Add duration
+      
+    //   // Update userPolicy's end date
+    //   userPolicy.endDate = endDate.toISOString().split('T')[0]; // Convert to string in 'yyyy-mm-dd' format
+    // });
     this.getUserPoliciesByUserId();
   }
 

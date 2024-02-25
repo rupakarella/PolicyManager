@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.PolicyPaymentsDTO;
 import com.hexaware.policymanager.entities.PolicyPayments;
@@ -15,6 +16,9 @@ import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.repository.PolicyPaymentsRepository;
 import com.hexaware.policymanager.repository.UserPoliciesRepository;
 
+import jakarta.transaction.Transactional;
+@Service
+@Transactional
 public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 	Logger logger = LoggerFactory.getLogger(PolicyPaymentsServiceImp.class);
 

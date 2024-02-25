@@ -10,10 +10,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.policymanager.dto.PolicyPaymentsDTO;
 import com.hexaware.policymanager.entities.PolicyPayments;
-
+@SpringBootTest
 class PolicyPaymentsServiceImpTest {
 	@Autowired
 	IPolicyPaymentsService paymentsService;
@@ -28,22 +29,22 @@ class PolicyPaymentsServiceImpTest {
 		policyPaymentsDTO.setPaymentDate(LocalDate.of(2024, 02, 16));
 		policyPaymentsDTO.setPaymentStatus("Pending");
 		policyPaymentsDTO.setPaymentMethod("Credit Card");
-		policyPaymentsDTO.setUserPolicyId(1);
+		policyPaymentsDTO.setUserPolicyId(40000);
 		PolicyPayments createdPayments = paymentsService.makePayment(policyPaymentsDTO);
 		assertNotNull(createdPayments);
 		assertEquals("Pending", createdPayments.getPaymentStatus());
-		assertEquals(2, createdPayments.getUserPolicies().getUserPolicyId());
+		assertEquals(40000, createdPayments.getUserPolicies().getUserPolicyId());
 	}
 
 	@Test
 	void testUpdatePayment() {
-		PolicyPayments policyPayments = paymentsService.getByPaymentId(1);
+		PolicyPayments policyPayments = paymentsService.getByPaymentId(102);
 		PolicyPaymentsDTO policyPaymentsDTO = new PolicyPaymentsDTO();
 		policyPaymentsDTO.setPaymentId(policyPayments.getPaymentId());
 		policyPaymentsDTO.setPaymentDate(LocalDate.of(2024, 02, 16));
 		policyPaymentsDTO.setPaymentStatus("Completed");
 		policyPaymentsDTO.setPaymentMethod("Credit Card");
-		policyPaymentsDTO.setUserPolicyId(1);
+		policyPaymentsDTO.setUserPolicyId(40000);
 		PolicyPayments updatedPayments = paymentsService.updatePayment(policyPaymentsDTO);
 		assertEquals("Completed", updatedPayments.getPaymentStatus());
 
@@ -51,7 +52,7 @@ class PolicyPaymentsServiceImpTest {
 
 	@Test
 	void testDeletePayment() {
-		String result = paymentsService.deletePayment(202);
+		String result = paymentsService.deletePayment(102);
 		assertEquals("Payment deleted", result);
 	}
 
@@ -71,9 +72,9 @@ class PolicyPaymentsServiceImpTest {
 
 	@Test
 	void testGetPaymentsByPaymentStatus() {
-		List<PolicyPayments> paymentsList = paymentsService.getPaymentsByPaymentStatus("Completed");
+		List<PolicyPayments> paymentsList = paymentsService.getPaymentsByPaymentStatus("Pending");
 		for (PolicyPayments policyPayments : paymentsList) {
-			assertEquals("Completed", policyPayments.getPaymentStatus());
+			assertEquals("Pending", policyPayments.getPaymentStatus());
 		}
 	}
 

@@ -19,7 +19,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
@@ -29,7 +28,7 @@ public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UsersSequenceGenerator")
-	@SequenceGenerator(name = "UsersSequenceGenerator", sequenceName = "UsersSeq", allocationSize = 1,initialValue =10000)
+	@SequenceGenerator(name = "UsersSequenceGenerator", sequenceName = "UsersSeq", allocationSize = 1, initialValue = 10000)
 	private long userId;
 
 	@NotBlank(message = "emailAddress should not be blank")
@@ -112,8 +111,6 @@ public class Users {
 		this.address = address;
 		this.userPolicies = userPolicies;
 	}
-
-
 
 	public long getUserId() {
 		return userId;

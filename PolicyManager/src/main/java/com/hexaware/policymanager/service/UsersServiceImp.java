@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.policymanager.dto.AddressDTO;
 import com.hexaware.policymanager.dto.UsersDTO;
+import com.hexaware.policymanager.entities.Address;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.DuplicateUserException;
 import com.hexaware.policymanager.exception.UserNotFoundException;
@@ -135,6 +137,8 @@ public class UsersServiceImp implements IUsersService {
 				userDTO.setEmployerName(users.getEmployerName());
 				userDTO.setSalary(users.getSalary());
 				userDTO.setUserType(users.getUserType());
+				userDTO.setAddress(users.getAddress());
+				 
 
 				logger.info("User retrieved successfully by ID: {}", userId);
 

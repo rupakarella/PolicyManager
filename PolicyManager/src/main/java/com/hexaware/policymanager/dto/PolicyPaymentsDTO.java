@@ -19,7 +19,7 @@ public class PolicyPaymentsDTO {
 	}
 
 	public PolicyPaymentsDTO(long paymentId, LocalDate paymentDate, String paymentStatus, double totalAmount,
-			double fine, String paymentMethod, UserPolicies userPolicies) {
+			double fine, String paymentMethod, UserPolicies userPolicies, long userPolicyId) {
 		super();
 		this.paymentId = paymentId;
 		this.paymentDate = paymentDate;
@@ -28,6 +28,7 @@ public class PolicyPaymentsDTO {
 		this.fine = fine;
 		this.paymentMethod = paymentMethod;
 		this.userPolicies = userPolicies;
+		this.userPolicyId=userPolicyId;
 	}
 
 	public long getPaymentId() {

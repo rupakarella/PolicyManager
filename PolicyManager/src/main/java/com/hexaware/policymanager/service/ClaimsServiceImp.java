@@ -35,7 +35,7 @@ public class ClaimsServiceImp implements IClaimsService {
 		Claims claims = new Claims();
 		claims.setClaimDate(claimsDTO.getClaimDate());
 		claims.setClaimAmount(claimsDTO.getClaimAmount());
-		claims.setClaimStatus(claimsDTO.getClaimStatus());
+		//claims.setClaimStatus(claimsDTO.getClaimStatus());
 
 		Optional<UserPolicies> optionalUserPolicy = userPoliciesRepo.findById(claimsDTO.getUserPolicyId());
 

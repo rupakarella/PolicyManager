@@ -1,0 +1,216 @@
+*{
+    font-family: afacad;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: transparent;
+    background-image: url("../../../assets/policy.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+.tbody tr td button img{
+    background-color: transparent;
+    width: 17px;
+    height: 20px;
+
+}
+
+.navbar img{
+    width:180px;
+    height:45px;
+  }
+
+  .nav-button {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top:2px;
+    padding: 10px 20px;
+    background-color: #1E55B3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'afacad';
+    font-size: 15px;
+  }
+
+  footer {
+    color: #1E55B3; /* Text color for the footer */
+    padding: 10px 0; /* Padding around the content inside the footer */
+    text-align: center; /* Align the content in the center */
+    width: 100%; /* Full width */
+    bottom: 0;
+    z-index: 10; 
+    position: fixed;
+    background-color: #a1caf0;
+  }
+
+  .navbar {
+    display: flex; /* Use flexbox to layout children */
+    justify-content: space-between; /* Space out the logo and the navigation buttons */
+    align-items: center; /* Center items vertically */
+    top: 0; /* Align the navbar to the top of the viewport */
+    left: 0; /* Align the navbar to the left of the viewport */
+    width: 100%; /* Ensure the navbar spans the full width */
+    background-color:transparent;/* Set a background color for the navbar */
+    /* z-index: 100;  */
+  }
+
+
+
+  .filter {
+    display: flex;
+    justify-content: flex-start;  
+    padding-left: 20px; 
+    margin-top: 0px; 
+  }
+
+  .filter label {
+    color: #333; 
+    margin-right: 10px; 
+    font-family: 'Afacad', sans-serif;
+    font-size: 1rem;
+  }
+
+  select {
+    padding: 10px 20px; 
+    font-family: 'afacad', sans-serif; /* Use the same font-family as the navbar */
+    font-size: 1rem; /* Adjust font-size as needed */
+    border: 2px solid #1E55B3; /* Border color to match navbar button */
+    border-radius: 5px; /* Rounded corners like the navbar buttons */
+    background-color:rgba(255, 255, 255, 0.8);  /* Background color to match navbar buttons */
+    appearance: none; /* Standard way to remove default arrow */
+    background-image: url('../../../assets/caret-down.png');
+    background-repeat: no-repeat;
+    background-position: right 5px center; /* Position the icon to the right */
+    background-size: 20px; /* Size of the background icon */
+  }
+
+  #filterOption:focus,
+#filterOption:hover {
+  outline: none; /* Removes the outline on focus */
+  background-color: #fff; /* Keeps the background color consistent on hover */
+}
+
+/* Add custom styling for when the select box is open */
+#filterOption:active,
+#filterOption:checked {
+  background-color: #fff; /* Slightly darker shade on active/click */
+}
+
+/* Ensure the dropdown options are styled correctly */
+#filterOption option {
+  background-color: #fff; /* White background for dropdown options */
+  color: #333; /* Dark text color for options */
+}
+
+/* Adjust the margin for the select filter div */
+.select-filter-div {
+  margin-bottom: 20px; /* Add space below the dropdown */
+}
+
+/* Example class for the container of the select dropdown */
+.edit-form {
+  /* ... other styles ... */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Align children in the center horizontally */
+  justify-content: center; /* Align children in the center vertically */
+}
+
+input[type="text"],
+input[type="number"]{
+    padding: 10px 20px; /* Same padding as the button for uniform height */
+    font-family: 'Afacad', sans-serif; /* Same font family as the button */
+    font-size: 1rem; /* Same font size as the button */
+    border: 2px solid #fff; /* Same border as the button */
+    border-radius: 5px; /* Same border-radius as the button for rounded corners */
+    margin-right: 10px; /* Space between the input field and the button */
+    outline: none; /* Remove the default focus outline */
+  }
+
+  input[type="text"]:focus,
+  input[type="text"]:hover {
+    border-color: #163e70; /* Slightly darker border color for focus/hover */
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #1E55B3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Afacad', sans-serif;
+    font-size: 1rem;
+  }
+
+  
+  .table {
+    width: 100%; /* Make the table use the full width */
+    table-layout: auto; /* Enable a fixed table layout */
+    border-collapse: collapse; 
+    margin-bottom:50px ;/* Collapse borders for a cleaner look */
+  }
+  
+  .table th, .table td {
+    text-align: left; /* Align text to the left */
+    padding: 8px; /* Add padding for spacing */
+    border: 1px solid #ddd;
+    word-wrap: break-word; /* Add a border for definition */
+  }
+  
+ 
+  .table th:nth-child(5), /* Email header */
+.table td:nth-child(5) { /* Email data cells */
+  min-width: 150px; /* Set a minimum width for email column */
+}
+
+.table th, .table td {
+    width: auto; /* Set width to auto for all columns */
+  }
+
+  @media screen and (max-width: 768px) {
+    .table, .table thead, .table tbody, .table th, .table td, .table tr {
+      display: block; /* Set display to block for responsive layout */
+    }
+    .table thead tr {
+      position: absolute; /* Take the header out of the flow */
+      top: -9999px; /* Position it off-screen */
+      left: -9999px; /* Position it off-screen */
+    }
+    .table tr { 
+      border: 1px solid #ccc; /* Add border to each row */
+    }
+    .table td {
+      border: none; /* Remove borders from data cells */
+      position: relative; /* Set relative positioning */
+      padding-left: 50%; /* Add left padding for labels */
+      text-align: right; /* Align text to the right for labels */
+    }
+    .table td:before {
+      content: attr(data-label); /* Use a data attribute for labels */
+      position: absolute; /* Position the label absolutely */
+      left: 10px; /* Add some spacing from the left */
+      width: 45%; /* Set the width of the label */
+      padding-right: 10px; /* Add right padding */
+      white-space: nowrap; /* Prevent wrapping */
+      text-align: left; /* Align text to the left */
+    }
+  }
+  
+  /* Ensure the table doesn't get too narrow on small screens */
+  @media screen and (max-width: 480px) {
+    .table td {
+      padding-left: 20%; /* Adjust padding for smaller screens */
+    }
+    .table td:before {
+      width: 70%; /* Adjust label width for smaller screens */
+    }
+  }

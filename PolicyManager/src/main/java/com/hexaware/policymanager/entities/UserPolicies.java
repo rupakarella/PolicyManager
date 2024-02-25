@@ -37,7 +37,7 @@ public class UserPolicies {
 	@JoinColumn(name = "PolicyID")
 	private Policies policy;
 	
-	@OneToMany(mappedBy = "userPolicy", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "userPolicies", cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "UserPolicies-PolicyPayments")
 	private List<PolicyPayments> policyPayments;
 

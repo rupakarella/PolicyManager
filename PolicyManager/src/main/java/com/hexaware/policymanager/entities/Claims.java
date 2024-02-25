@@ -30,9 +30,9 @@ public class Claims {
 	@NotNull(message = "ClaimAmount should not be null")
 	private double claimAmount;
 
-	@NotBlank(message = "ClaimStatus should not be blank")
-	@Pattern(regexp = "^(Pending|Approved|Rejected)$", message = "Status should be either Pending, Approved or Rejected")
-	private String claimStatus;
+	//@NotBlank(message = "ClaimStatus should not be blank")
+	//@Pattern(regexp = "^(Pending|Approved|Rejected)$", message = "Status should be either Pending, Approved or Rejected")
+	private String claimStatus="Pending";
 
 	@ManyToOne
 	@JoinColumn(name = "UserPolicyID")

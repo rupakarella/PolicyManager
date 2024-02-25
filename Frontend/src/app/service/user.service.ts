@@ -31,6 +31,53 @@ export class UserService {
     const headers =  new HttpHeaders().set("Authorization",tokenString);
     return this.http.put(this.baseUrl+"update",user,{headers,responseType:'json'});
   }
+  getAllUsers()
+  {
+    let tokenString = "Bearer "+localStorage.getItem("token");
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization",tokenString);
+    return this.http.get<Users>(this.baseUrl+"get-all",{headers,responseType:'json'});
+  }
+
+
+  getUserByUserType(userType: string) {
+    let tokenString = "Bearer "+localStorage.getItem("token");
+    const headers =  new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200',
+      'Authorization': tokenString
+    }).set("Authorization",tokenString);
+    return this.http.get<Users[]>(this.baseUrl+"get-type/"+ userType,{headers,responseType:'json'});
+  }
+
+  getUserByContactNumber(contactNumber: string) {
+    let tokenString = "Bearer " + localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization", tokenString);
+    return this.http.get<Users[]>(this.baseUrl + "get-contactnumber/" + contactNumber, { headers, responseType: 'json' });
+  }
+  getUserByEmail(email: string): Observable<Users> {
+    let tokenString = "Bearer " + localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization", tokenString);
+    return this.http.get<Users>(this.baseUrl + "get-email/" + email, { headers, responseType: 'json' });
+  }
+
+  deleteUserById(userId: number): Observable<any> {
+    let tokenString = "Bearer " + localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization", tokenString);
+    return this.http.delete<any>(this.baseUrl+ "delete/" + userId, { headers });
+  }
+
 
  
 }

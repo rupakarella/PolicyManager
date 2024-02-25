@@ -5,12 +5,14 @@ import { Claims } from "./claims.model";
 
 export interface UserPolicies {
     userPolicyId: number;
-    user: Users;
-    policy: Policy;
-    policyPayments: Payments[];
-    claims: Claims[];
+    user?: Users;
+    policy?: Policy;
+    userId:number;
+    policyId:number;
+    policyPayments?: Payments[];
+    claims?: Claims[];
     startDate: Date;
-    endDate: Date;
-    maturityAmount: number;
+    maturityAmount?: number;
     durationInYears: number;
+    endDate?: Date;
   }

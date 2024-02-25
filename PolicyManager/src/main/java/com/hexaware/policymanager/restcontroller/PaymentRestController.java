@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.exception.PaymentNotFoundException;
 import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.service.IPolicyPaymentsService;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/payments")
 public class PaymentRestController {
@@ -26,7 +27,7 @@ public class PaymentRestController {
 	IPolicyPaymentsService paymentsService;
 
 	@PostMapping("/register")
-	@PreAuthorize("hasAuthority('Admin')")
+	@PreAuthorize("hasAnyAuthority('User','Admin')")
 	public PolicyPayments makePayments(@RequestBody PolicyPaymentsDTO policyPaymentsDTO)
 			throws UserPolicyNotFoundException {
 		return paymentsService.makePayment(policyPaymentsDTO);
@@ -61,7 +62,7 @@ public class PaymentRestController {
 		return paymentsService.getAllPayments();
 	}
 
-	@GetMapping("/get-by-payment-status/{claimStatus}")
+	@GetMapping("/get-by-payment-status/{paymentStatus}")
 	@PreAuthorize("hasAuthority('Admin')")
 	public List<PolicyPayments> getPaymentsByPaymentStatus(@PathVariable String paymentStatus)
 			throws PaymentNotFoundException {
