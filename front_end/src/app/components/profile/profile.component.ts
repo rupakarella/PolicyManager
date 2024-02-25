@@ -11,15 +11,16 @@ import { JwtService } from 'src/app/service/jwt.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: Users | undefined;
+  user!: Users;
   isEdit: boolean = false;
   usersForm!: FormGroup;
   submitted = false;
   showPassword = true;
+  response: any;
   public loggedIn=false;
   public UserloggedIn=false;
   public AdminloggedIn=false;
-  
+
 
   constructor(private userService: UserService, private router: Router,private formBuilder: FormBuilder,private jwtService:JwtService) { 
   this.usersForm = this.formBuilder.group({
@@ -52,6 +53,7 @@ export class ProfileComponent implements OnInit {
       this.AdminloggedIn = this.jwtService.isAdminLoggedIn();
       this.router.navigate(['/profile']);
     }
+
   }
   logoutUser()
   {
@@ -62,7 +64,6 @@ export class ProfileComponent implements OnInit {
     alert("Logged Out");
     this.router.navigate(['/']);
   }
-  
 
 
   getUserById() {
@@ -86,19 +87,45 @@ export class ProfileComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  onUpdate(user: Users) {
-    // Call your service method to update the user
-    // this.userService.updateUser(user).subscribe(
-    //   (response) => {
-    //     console.log('User updated successfully:', response);
-    //     this.isEdit = false; // Switch back to profile view after successful update
-    //     // Optionally, you can refresh the user data after update
-    //     this.getUserById();
-    //   },
-    //   (error) => {
-    //     console.log('Error updating user:', error);
-    //     // Handle error scenario
-    //   }
-    // );
+  onUpdate()
+   {
+     this.user.userId=+localStorage.getItem('userId')!;
+     this.user.emailAddress=this.usersForm.value.emailAddress;
+     this.user.contactNumber=this.usersForm.value.contactNumber;
+     this.user.password=this.usersForm.value.password;
+     this.user.firstName=this.usersForm.value.firstName;
+     this.user.lastName=this.usersForm.value.lastName;
+     this.user.dateOfBirth=this.usersForm.value.dateOfBirth;
+     this.user.panNumber=this.usersForm.value.panNumber;
+     this.user.employerType=this.usersForm.value.employerType;
+     this.user.employerName=this.usersForm.value.employerName;
+     this.user.salary=this.usersForm.value.salary;
+     this.user.userType=this.usersForm.value.userType;
+     this.user.address.addressLine=this.usersForm.value.address.addressLine;
+     this.user.address.city=this.usersForm.value.address.city;
+     this.user.address.cityPincode=this.usersForm.value.address.cityPincode;
+     this.user.address.state=this.usersForm.value.address.state;
+
+      
+      let response = this.userService.updateUser(this.user);
+
+      response.subscribe
+      ( 
+        responseData => 
+        {
+          this.response = responseData; 
+          console.log(responseData);
+          alert("User Details Updated!");
+          this.router.navigate(['/login']);
+
+
+        },
+        error =>
+        {
+          console.log(error);
+          alert("Error while updating details");
+          window.location.reload();
+
+        });
   }
 }

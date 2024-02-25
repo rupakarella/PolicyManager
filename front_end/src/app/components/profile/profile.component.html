@@ -18,17 +18,17 @@
         <nav class="navbar">
             <img src="\assets\logo-no-background.png">
             <div class="nav-buttons">
-                <button class="nav-button" routerLink="/policies">Search Policies</button>
+                <button class="nav-button" routerLink="/explore-policies">Search Policies</button>
                 <button class="nav-button" routerLink="/">Home</button>
                 <button class="nav-button" routerLink="/profile">Profile</button>
+                <button class="nav-button" routerLink="/user-policies">My Policies</button>
                 <button (click)="logoutUser()" *ngIf="loggedIn" class="nav-button">Logout</button>
-                
             </div>
         </nav>
         <div class="profile-page">
             <h2>Profile <button class="edit-button" (click)="onEditClicked()">Edit</button></h2>
             <div *ngIf="isEdit" class="edit-form">
-                <form [formGroup]="usersForm" (ngSubmit)="onUpdate(user)" class="users-form">
+                <form [formGroup]="usersForm" (ngSubmit)="onUpdate()" class="users-form">
                     <div class="overview">
                       <h3>Edit Details</h3>
                     </div>

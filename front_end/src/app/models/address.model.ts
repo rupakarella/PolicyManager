@@ -7,5 +7,4 @@ export interface Address {
     city: string;
     cityPincode: number;
     state: string;
-    users: Users; 
   }

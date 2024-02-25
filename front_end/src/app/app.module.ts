@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PaymentsComponent } from './components/payments/payments.component';
+
 import { UsersComponent } from './components/users/users.component';
 
 import { ClaimsComponent } from './components/claims/claims.component';
@@ -15,8 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserPoliciesComponent } from './components/user-policies/user-policies.component';
-import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { ExplorePoliciesComponent } from './components/explore-policies/explore-policies.component';
 
 
 
@@ -33,8 +34,8 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
     UserDashboardComponent,
     ProfileComponent,
     UserPoliciesComponent,
-    AdminDashboardComponent,
-    ManageUsersComponent
+    ManageUsersComponent,
+    ExplorePoliciesComponent
     
   ],
   imports: [
@@ -42,6 +43,7 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule
    
   ],
   providers: [],

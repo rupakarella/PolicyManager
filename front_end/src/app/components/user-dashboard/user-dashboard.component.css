@@ -2,9 +2,9 @@
   margin:0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: 'afacad'!important;
+  font-family: 'afacad';
 } 
-.profile-container{
+.user-dashboard{
   width: 100%;
   height: 100vh;
   background-color: transparent;
@@ -13,27 +13,9 @@
   background-position: center;
   background-size: cover;
   padding: 0;
-  margin: 0; 
+  margin: 0; /* Add this to ensure there's no margin */
   border: none;
   box-shadow: none;
-}
-.profile-page{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.8);
-  padding: 60px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 600px;
-  text-align: center;
- 
-}
-.into-columns{
- 
-  display:flex;
- 
 }
 .nav-buttons {
   font-family: 'afacad';
@@ -78,60 +60,4 @@ footer {
 
 footer p {
   margin: 0; /* Remove default margin */
-}
-.general
-{
-  margin-right:5px;
-  text-align: left;
-}
-.contact
-{
-  margin-left:65px;
-  text-align: left;
-}
-
-
-h5{
-  color:#1E55B3;
-  margin-bottom: 5px;
-}
-.address{
-  margin-top:10px;
-}
-
-
-.profile-page h2 {
-  color: #1E55B3;
-  display: flex;
-  margin-bottom: 25px;
-  margin-top: -25px;
-  text-align: left;
-
-}
-
-.edit-button {
-  padding: 10px 20px;
-  background-color: #1E55B3;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-family: 'afacad';
-  font-size: 15px;
-  margin-left:auto;
-}
-.password-toggle-btn {
-position: relative;
-top: 12px;
-right: 30px; /* Adjust as needed */
-transform: translateY(-50%);
-background: transparent !important;
-border: none;
-padding: 0;
-cursor: pointer;
-z-index: 2;
-align-content: end;
-/* left:175px; */
-
 }

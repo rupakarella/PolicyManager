@@ -49,7 +49,6 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.usersForm.invalid) {
-      console.log("Registration failed");
       return;
     }
 

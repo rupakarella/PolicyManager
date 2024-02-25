@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserPolicies } from 'src/app/models/userpolicies.model';
-import { UserPolicyService } from 'src/app/service/user-policies.service';
+import { UserPoliciesService } from 'src/app/service/user-policies.service';
 
 @Component({
   selector: 'app-user-policies',
@@ -9,22 +9,26 @@ import { UserPolicyService } from 'src/app/service/user-policies.service';
 })
 
 export class UserPoliciesComponent implements OnInit {
-  userPolicies: UserPolicies | undefined;
+  userPolicies: UserPolicies[]=[];
+  response:any;
 
-  constructor(private userPolicyService: UserPolicyService) { }
+  constructor(private userPoliciesService: UserPoliciesService) { }
 
   ngOnInit(): void {
     this.getUserPoliciesByUserId();
   }
+  
 
   getUserPoliciesByUserId() {
-    this.userPolicyService.getUserPoliciesbyUserId(localStorage.getItem('userId')).subscribe(
-      (data: UserPolicies) => {
-        this.userPolicies = data;
+    this.userPoliciesService.getUserPoliciesbyUserId(localStorage.getItem('userId')).subscribe(
+      (response) => {
+        this.userPolicies=response;
       },
       (error) => {
         console.log('Error fetching user policies:', error);
+        this.userPolicies = []; 
       }
     );
   }
+  
 }
