@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>user-dashboard</title>
+    <link rel="stylesheet" href="user-policies.component.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="user-policies-container">
+        <nav class="navbar">
+            <img src="\assets\logo-no-background.png">
+            <div class="nav-buttons">
+                <button class="nav-button" routerLink="/explore-policies">Search Policies</button>
+                <button class="nav-button" routerLink="/">Home</button>
+                <button class="nav-button" routerLink="/profile">Profile</button>
+
+            </div>
+        </nav>
+            <div>
+                <table class="table">
+                    <thead class="thead">
+                        <tr>
+                            <th>UserPolicyId</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Maturity Amount</th>
+                            <th>Duration In Years</th>
+                            <th>Policy Id</th>
+                            <th>Policy Name</th>
+                            <th>Initial Deposit</th>
+                            <th>Term Period</th>
+                            <th>Term Amount</th>
+                            <th>Interest</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let userPolicy of userPolicies">
+                            <td>{{ userPolicy.userPolicyId }}</td>
+                            <td>{{ userPolicy.startDate }}</td>
+                            <!-- <td>{{ userPolicy.endDate }}</td>
+                            <td>{{ userPolicy.maturityAmount }}</td> -->
+                            <td>{{ userPolicy.durationInYears }}</td>
+                             <td *ngIf="userPolicy">{{ userPolicy.policyId }}</td>
+                            <!-- <td *ngIf="userPolicy.policy">{{ userPolicy.policy.policyName }}</td>
+                            <td *ngIf="userPolicy.policy">{{ userPolicy.policy.initialDeposit}}</td>
+                            <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termPeriod }}</td>
+                            <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termAmount }}</td>
+                            <td *ngIf="userPolicy.policy">{{ userPolicy.policy.interest }}</td> --> 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        
+        <footer>
+            <p>&copy; 2024 PoliCare. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>
