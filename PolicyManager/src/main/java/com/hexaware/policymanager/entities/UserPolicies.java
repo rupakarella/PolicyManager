@@ -3,7 +3,7 @@ package com.hexaware.policymanager.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -30,7 +30,8 @@ public class UserPolicies {
 
 	@ManyToOne
 	@JoinColumn(name = "UserID")
-	@JsonBackReference(value = "UserPolicies-Users")
+//	@JsonBackReference(value = "UserPolicies-Users")
+//	@JsonIgnore
 	private Users user;
 
 	@ManyToOne
@@ -38,11 +39,11 @@ public class UserPolicies {
 	private Policies policy;
 	
 	@OneToMany(mappedBy = "userPolicies", cascade = CascadeType.ALL)
-	@JsonManagedReference(value = "UserPolicies-PolicyPayments")
+	@JsonIgnore
 	private List<PolicyPayments> policyPayments;
 
 	@OneToMany(mappedBy = "userPolicy", cascade = CascadeType.ALL)
-	@JsonManagedReference(value = "UserPolicies-Claims")
+	@JsonIgnore
 	private List<Claims> claims;
 
 	@NotNull(message = "Start date cannot be null")

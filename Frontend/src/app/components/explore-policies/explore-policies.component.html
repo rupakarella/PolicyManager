@@ -20,8 +20,12 @@
 
                 <button class="nav-button" routerLink="/profile">Profile</button>
                 <button class="nav-button" routerLink="/user-policies">My Policies</button>
+<<<<<<< HEAD
                 <button *ngIf=isAdminLoggedIn() class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
                 <button *ngIf=isUserLoggedIn() class="nav-button" routerLink="/user-dashboard">Dashboard</button>
+=======
+                <button class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
+>>>>>>> rupa
                 <button (click)="logoutUser()" *ngIf="loggedIn" class="nav-button">Logout</button>
             </div>
         </nav>

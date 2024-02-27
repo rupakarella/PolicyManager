@@ -25,6 +25,7 @@ export class UserPoliciesComponent implements OnInit {
 
   ngOnInit(): void {
     
+<<<<<<< HEAD
     if(this.isUserLoggedIn())
     {
       this.getUserPoliciesByUserId();
@@ -75,6 +76,9 @@ export class UserPoliciesComponent implements OnInit {
 
   get f(){
     return this.editUPForm.controls;
+=======
+    this.getUserPoliciesByUserId();
+>>>>>>> rupa
   }
 
   getUserPoliciesByUserId() {
@@ -88,6 +92,7 @@ export class UserPoliciesComponent implements OnInit {
       }
     );
   }
+<<<<<<< HEAD
   getAllUserPolicies(){
     this.userPoliciesService.getAllUserPolicies().subscribe(
       (response) => {
@@ -99,6 +104,8 @@ export class UserPoliciesComponent implements OnInit {
       }
     );
   }
+=======
+>>>>>>> rupa
   isAdminLoggedIn() {
     return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'Admin';
   }
@@ -106,6 +113,7 @@ export class UserPoliciesComponent implements OnInit {
   isUserLoggedIn() {
     return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
   }
+<<<<<<< HEAD
   deleteUserPolicy(userPolicyId:number)
   {
     this.userPoliciesService.deleteUserPolicy(this.userPolicies[0].userPolicyId).subscribe(
@@ -142,6 +150,8 @@ export class UserPoliciesComponent implements OnInit {
       console.error('Please enter a valid Id');
     }
   }
+=======
+>>>>>>> rupa
   
   onGetUserPolicyByUserId(): void {
     this.getUserPolicyByUserId(this.userId);

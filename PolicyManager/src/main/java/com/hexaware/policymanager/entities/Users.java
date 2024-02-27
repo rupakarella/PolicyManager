@@ -3,6 +3,7 @@ package com.hexaware.policymanager.entities;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -75,7 +76,8 @@ public class Users {
 	private Address address;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@JsonManagedReference(value = "UserPolicies-Users")
+//	@JsonBackReference(value = "UserPolicies-Users")
+	@JsonIgnore
 	private List<UserPolicies> userPolicies;
 
 	public Users() {

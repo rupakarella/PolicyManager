@@ -2,7 +2,7 @@ package com.hexaware.policymanager.entities;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +37,6 @@ public class PolicyPayments {
 	@Pattern(regexp = "^(Pending|Completed)$", message = "paymentStatus should be either Pending or Completed")
 	private String paymentStatus;
 
-
 	private double totalAmount;
 	private double fine;
 
@@ -47,7 +46,7 @@ public class PolicyPayments {
 
 	@ManyToOne
 	@JoinColumn(name = "UserPolicyID")
-	@JsonBackReference(value = "UserPolicies-PolicyPayments")
+//	@JsonManagedReference(value = "UserPolicies-PolicyPayments")
 	private UserPolicies userPolicies;
 
 	public PolicyPayments() {
