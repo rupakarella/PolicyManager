@@ -19,7 +19,7 @@ export class AdminDashboardComponent {
     this.loggedIn = this.jwtService.isUserLoggedIn() || this.jwtService.isAdminLoggedIn();
     this.UserloggedIn =this.jwtService.isUserLoggedIn();
     this.AdminloggedIn = this.jwtService.isAdminLoggedIn();
-    this.router.navigate(['/manage-users']);
+    // this.router.navigate(['/manage-users']);
   }
 
   logoutUser()

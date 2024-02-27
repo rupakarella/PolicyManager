@@ -20,6 +20,7 @@
 
                 <button class="nav-button" routerLink="/profile">Profile</button>
                 <button class="nav-button" routerLink="/user-policies">My Policies</button>
+                <button class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
                 <button (click)="logoutUser()" *ngIf="loggedIn" class="nav-button">Logout</button>
             </div>
         </nav>
@@ -145,10 +146,11 @@
 
                         <td *ngIf="isUserLoggedIn()"><button type="button" class="btn button"
                                 (click)="buyPolicy(policy.policyId)">Buy Now</button></td>
-                        <td *ngIf="isAdminLoggedIn()" (click)="updatePolicy(policy)"><button type="button">Edit</button>
+                        <td *ngIf="isAdminLoggedIn()" (click)="updatePolicy(policy)"><button type="button"><img src="../../../assets/edit.png"
+                            alt="Edit"></button>
                         </td>
-                        <td *ngIf="isAdminLoggedIn()" (click)="deletePolicy(policy.policyId)"><button
-                                class="btn btn-danger">Delete</button></td>
+                        <td *ngIf="isAdminLoggedIn()" (click)="deletePolicy(policy.policyId)"><button><img src="../../../assets/delete.png"
+                                alt="Delete"></button>
 
                     </tr>
                 </tbody>

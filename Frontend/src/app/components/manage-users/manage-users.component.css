@@ -42,11 +42,11 @@ body, html {
 
   footer {
     color: #1E55B3; /* Text color for the footer */
-    padding: 10px 0; /* Padding around the content inside the footer */
+    padding: 0px 0; /* Padding around the content inside the footer */
     text-align: center; /* Align the content in the center */
     width: 100%; /* Full width */
     bottom: 0;
-    z-index: 10; 
+    z-index: 0; 
     position: fixed;
     background-color: #a1caf0;
   }
