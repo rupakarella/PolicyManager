@@ -121,20 +121,6 @@ filterByContactNumber() {
     );
   }
 }
-  filterByEmail() {
-    if (this.emailAddress) {
-      this.userService.getUserByEmail(this.emailAddress).subscribe(
-        (response: Users) => {
-          this.users = [response]; // Update the users array with the filtered result
-          console.log(this.users);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
-  }
-
 
 filterByUserId() {
   if (this.userId) {

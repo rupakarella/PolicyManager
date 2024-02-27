@@ -6,6 +6,7 @@ export interface Claims {
     claimDate: Date;
     claimAmount: number;
     claimStatus: string;
-    userPolicy: UserPolicies;
+    userPolicy?: UserPolicies;
+    userPolicyId?:number;
 
 }

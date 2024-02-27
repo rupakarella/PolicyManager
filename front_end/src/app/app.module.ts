@@ -16,8 +16,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserPoliciesComponent } from './components/user-policies/user-policies.component';
-import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { ExplorePoliciesComponent } from './components/explore-policies/explore-policies.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+
+
 
 
 
@@ -34,8 +37,9 @@ import { ExplorePoliciesComponent } from './components/explore-policies/explore-
     UserDashboardComponent,
     ProfileComponent,
     UserPoliciesComponent,
+    ExplorePoliciesComponent,
+    AdminDashboardComponent,
     ManageUsersComponent,
-    ExplorePoliciesComponent
     
   ],
   imports: [

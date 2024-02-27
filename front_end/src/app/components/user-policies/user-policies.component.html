@@ -18,7 +18,7 @@
             <img src="\assets\logo-no-background.png">
             <div class="nav-buttons">
                 <button class="nav-button" routerLink="/explore-policies">Search Policies</button>
-                <button class="nav-button" routerLink="/">Home</button>
+                <button *ngIf="isUserLoggedIn()" class="nav-button" routerLink="/user-dashboard">Dashboard</button>
                 <button class="nav-button" routerLink="/profile">Profile</button>
 
             </div>
@@ -44,15 +44,15 @@
                         <tr *ngFor="let userPolicy of userPolicies">
                             <td>{{ userPolicy.userPolicyId }}</td>
                             <td>{{ userPolicy.startDate }}</td>
-                            <!-- <td>{{ userPolicy.endDate }}</td>
-                            <td>{{ userPolicy.maturityAmount }}</td> -->
+                            <td>{{ userPolicy.endDate }}</td>
+                            <td>{{ userPolicy.maturityAmount }}</td>
                             <td>{{ userPolicy.durationInYears }}</td>
-                             <td *ngIf="userPolicy">{{ userPolicy.policyId }}</td>
-                            <!-- <td *ngIf="userPolicy.policy">{{ userPolicy.policy.policyName }}</td>
+                            <td *ngIf="userPolicy.policy">{{ userPolicy.policy.policyId }}</td>
+                            <td *ngIf="userPolicy.policy">{{ userPolicy.policy.policyName }}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.initialDeposit}}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termPeriod }}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termAmount }}</td>
-                            <td *ngIf="userPolicy.policy">{{ userPolicy.policy.interest }}</td> --> 
+                            <td *ngIf="userPolicy.policy">{{ userPolicy.policy.interest }}</td>
                         </tr>
                     </tbody>
                 </table>
