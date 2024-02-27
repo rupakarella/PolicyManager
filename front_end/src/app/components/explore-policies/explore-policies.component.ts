@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Policy } from 'src/app/models/policy.model';
 import { UserPolicies } from 'src/app/models/userpolicies.model';
 import { Users } from 'src/app/models/users.model';
+import { JwtService } from 'src/app/service/jwt.service';
 import { PolicyService } from 'src/app/service/policy.service';
 import { UserPoliciesService } from 'src/app/service/user-policies.service';
 
@@ -14,50 +15,64 @@ import { UserPoliciesService } from 'src/app/service/user-policies.service';
 })
 export class ExplorePoliciesComponent implements OnInit {
 
-
   policies: Policy[] = [];
-
   userPolicies: UserPolicies = {
     userPolicyId: 0,
     userId: 0,
     policyId: 0,
     startDate: new Date(),
-
     durationInYears: 0
   };
-
+  policy!: Policy;
+  isEdit: boolean = false;
   buyForm: FormGroup;
   showBuyForm: boolean = false;
   policyId: number = 0;
-  isAdmin: boolean = false;
-  isUser: boolean = false;
+  response: any;
+  policiesForm!: FormGroup;
   selectedPolicyType: string = '';
   selectedFilterMethod: string = '';
   company: string = '';
   greaterThanAmount: number = 0;
-  lessThanAmount: number = 0;
-  policy: Policy[] = [];
-
-
-
+  lessThanAmount: number=0;
+  public loggedIn=false;
+  public UserloggedIn=false;
+  public AdminloggedIn=false;
   constructor(
     private policyService: PolicyService,
     private formBuilder: FormBuilder,
     private userPoliciesService: UserPoliciesService,
-    private router: Router
+    private router: Router,
+    private jwtService: JwtService
   ) {
     this.buyForm = this.formBuilder.group({
       startDate: ['', Validators.required],
       durationInYears: ['', Validators.required]
     });
+    this.policiesForm = this.formBuilder.group({
+      policyName: ['', Validators.required],
+      policyDescription: ['', Validators.required],
+      company: ['', Validators.required],
+      policyType: ['', [Validators.required]],
+      initialDeposit: [0, [Validators.required, Validators.min(1)]],
+      termPeriod: ['', [Validators.required, Validators.pattern('^(Monthly|Quarterly|Half-Yearly|Annually)$')]],
+      termAmount: [0, [Validators.required, Validators.min(1)]],
+      interest: [0, [Validators.required, Validators.min(0)]]
+    });
   }
 
   ngOnInit(): void {
     this.loadPolicies();
-    this.isAdmin = true;
-    this.isUser = false;
   }
-
+  logoutUser()
+  {
+    this.jwtService.logout();
+    this.loggedIn=false;
+    this.UserloggedIn=false;
+    this.AdminloggedIn=false;
+    alert("Logged Out");
+    this.router.navigate(['/']);
+  }
 
   isAdminLoggedIn() {
     return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'Admin';
@@ -108,7 +123,6 @@ export class ExplorePoliciesComponent implements OnInit {
       }
     );
   }
-
   deletePolicy(policyId: number) {
     this.policyService.deletePolicy(policyId).subscribe(
       (response) => {
@@ -121,11 +135,52 @@ export class ExplorePoliciesComponent implements OnInit {
       }
     );
   }
+  updatePolicy(policies: Policy) {
+    this.isEdit = true;
+    this.policy = policies;
+    this.policiesForm.patchValue({
+      policyId: policies.policyId,
+      policyName: policies.policyName,
+      policyDescription: policies.policyDescription,
+      company: policies.company,
+      policyType: policies.policyType,
+      initialDeposit: policies.initialDeposit,
+      termPeriod: policies.termPeriod,
+      termAmount: policies.termAmount,
+      interest: policies.interest
+    })
+  }
+  get f1() {
+    return this.policiesForm.controls;
+  }
+  onUpdate() {
+    this.policy.policyName = this.policiesForm.value.policyName;
+    this.policy.policyDescription = this.policiesForm.value.policyDescription;
+    this.policy.company = this.policiesForm.value.company;
+    this.policy.initialDeposit = this.policiesForm.value.initialDeposit;
+    this.policy.policyType=this.policiesForm.value.policyType;
+    this.policy.termPeriod = this.policiesForm.value.termPeriod;
+    this.policy.termAmount = this.policiesForm.value.termAmount;
+    this.policy.interest = this.policiesForm.value.interest;
 
-
+    let response = this.policyService.updatePolicy(this.policy);
+    response.subscribe(
+      responseData => {
+        this.response = responseData;
+        console.log(responseData);
+        alert("Policy Details Updated!");
+        window.location.reload();
+      },
+      error => {
+        console.log(error);
+        alert("Error while updating details");
+        window.location.reload();
+      }
+    );
+  }
   onFilterMethodChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
-    if (value === 'getPolicyByPolicyType' || value === 'getPoliciesByCompany'||value==='getByAmountGreaterThan'||value==='getByAmountLessThan') {
+    if (value === 'getPolicyByPolicyType' || value === 'getPoliciesByCompany' || value=='getByAmountGreaterThan'|| value=='getByAmountLessThan') {
       this.selectedFilterMethod = value;
     }
   }
@@ -149,7 +204,6 @@ export class ExplorePoliciesComponent implements OnInit {
         }
       });
   }
-
   onGetPoliciesByCompany(): void {
     this.getPoliciesByCompany(this.company);
   }
@@ -168,7 +222,6 @@ export class ExplorePoliciesComponent implements OnInit {
         }
       });
   }
-
   onGetPoliciesByAmountGreaterThan(): void {
     this.getByAmountGreaterThan(this.greaterThanAmount);
   }
@@ -187,22 +240,24 @@ export class ExplorePoliciesComponent implements OnInit {
       console.error('Please enter a valid amount greater than zero');
     }
   }
-
-  onGetPoliciesByAmountLessThan():void {
+  onGetPoliciesByAmountLessThan(): void {
     this.getByAmountLessThan(this.lessThanAmount);
-    }
-  getByAmountLessThan(lessThanAmount: number):void {
+  }
+
+  getByAmountLessThan(lessThanAmount: number): void {
     if (this.lessThanAmount > 0) {
-      this.policyService.getByAmountLessThan(lessThanAmount).subscribe(
+      this.policyService.getByAmountLessThan(this.lessThanAmount).subscribe(
         (response) => {
           this.policies = response; // Update policies array with the fetched policies
         },
         (error) => {
-          console.error('Error fetching policies by amount greater than:', error);
+          console.error('Error fetching policies by amount less than:', error);
         }
       );
     } else {
       console.error('Please enter a valid amount greater than zero');
     }
   }
+
+
 }

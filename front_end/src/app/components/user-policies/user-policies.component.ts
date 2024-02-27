@@ -15,9 +15,9 @@ export class UserPoliciesComponent implements OnInit {
   constructor(private userPoliciesService: UserPoliciesService) { }
 
   ngOnInit(): void {
+    
     this.getUserPoliciesByUserId();
   }
-  
 
   getUserPoliciesByUserId() {
     this.userPoliciesService.getUserPoliciesbyUserId(localStorage.getItem('userId')).subscribe(
@@ -29,6 +29,13 @@ export class UserPoliciesComponent implements OnInit {
         this.userPolicies = []; 
       }
     );
+  }
+  isAdminLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'Admin';
+  }
+
+  isUserLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
   }
   
 }

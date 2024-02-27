@@ -61,3 +61,72 @@ footer {
 footer p {
   margin: 0; /* Remove default margin */
 }
+.user-button {
+  margin-left: 120px;
+  margin-right: 10px;
+  width:180px;
+  height:120px;
+  /* transform: translate(25%, 50%);  */
+  padding: 20px 30px;
+  background-color: #1E55B3;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'afacad';
+  font-size: 25px;
+  
+  
+}
+
+/* .user-dashboard-buttons1{
+  display:flex;
+  margin-bottom:75px;
+  
+}
+.user-dashboard-buttons2{
+  display:flex;
+  
+} */
+.user-dashboard-buttons {
+  position: relative;
+  display: flex;
+ 
+  justify-content: center;
+  align-items: center;
+  height: 300px; /* Adjust height as needed */
+}
+
+.user-dashboard-buttons1,
+.user-dashboard-buttons2 {
+  position: absolute;
+  display:flex;
+}
+
+.user-dashboard-buttons1 {
+  top: 70px;
+  left:300px;
+  
+}
+
+.user-dashboard-buttons2 {
+  top:350px;
+  bottom: 0;
+  left:300px;
+  right: 0;
+  display:flex;
+}
+
+/* .user-button {
+  width: 120px; 
+  height: 40px;
+  margin: 5px;
+} */
+
+.user-button.middle {
+  position: absolute;
+  top: 90%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+}

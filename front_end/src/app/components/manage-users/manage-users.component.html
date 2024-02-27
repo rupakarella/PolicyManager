@@ -18,8 +18,10 @@
       <img src="\assets\logo-no-background.png">
       <div class="nav-buttons">
           <button class="nav-button" routerLink="/explore-policies">Manage Policies</button>
-          <button class="nav-button" routerLink="/profile">Profile</button>
           <button class="nav-button" routerLink="/user-policies">My Policies</button>
+          <button class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
+          <button class="nav-button" routerLink="/profile">Profile</button>
+        
       </div>
   </nav>
     <div *ngIf="isEdit" class="edit-form">
@@ -198,7 +200,7 @@
 
   </div>
 
-  <div  [hidden]="isEdit"class="edit-form">
+  <div  [hidden]="isEdit" class="edit-form">
     
 
 
@@ -207,7 +209,6 @@
         <option value="">Select Filter</option>
         <option value="userType">Search UserType</option>
         <option value="contactNumber">Search by Contact Number</option>
-        <option value="userTypeByEmail">Get User by Email Address</option>
         <option value="userById">Search By UserId</option>
       </select>
       <div *ngIf="selectedFilter === 'userType'">
@@ -223,11 +224,6 @@
     <div *ngIf="selectedFilter === 'contactNumber'">
       <input type="text" id="contactNumberFilter" [(ngModel)]="contactNumber" placeholder="Enter Contact Number">
       <button (click)="filterByContactNumber()">Filter</button>
-    </div>
-
-    <div *ngIf="selectedFilter === 'Email'">
-      <input type="text" id="emailAddressFilter" [(ngModel)]="emailAddress" placeholder="Enter Email Address">
-      <button (click)="filterByEmail()">Filter</button>
     </div>
 
     <div *ngIf="selectedFilter === 'userById'">
@@ -289,5 +285,3 @@
   </div>
   </body>
   </html>
-
-   

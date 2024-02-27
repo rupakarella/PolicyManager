@@ -8,17 +8,20 @@ import { JwtService } from 'src/app/service/jwt.service';
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent {
-
-  constructor(private router: Router) { }
-  
-
-  ngOnInit(): void 
-  {
-    
-    this.router.navigate(['/profile']);
-  }
-
-
-
+  public loggedIn=true;
+  public UserloggedIn=false;
+  public AdminloggedIn=false;
+  constructor(private router:Router,private jwtService:JwtService){}
+ngOnInit():void{
+  // this.router.navigate(['/profile']);
 }
-
+logoutUser()
+  {
+    this.jwtService.logout();
+    this.loggedIn=false;
+    this.UserloggedIn=false;
+    this.AdminloggedIn=false;
+    alert("Logged Out");
+    this.router.navigate(['/']);
+  }
+}

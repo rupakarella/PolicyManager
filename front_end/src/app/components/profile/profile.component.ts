@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   submitted = false;
   showPassword = true;
   response: any;
-  public loggedIn=false;
+  public loggedIn=true;
   public UserloggedIn=false;
   public AdminloggedIn=false;
 
@@ -65,6 +65,13 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  isAdminLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'Admin';
+  }
+
+  isUserLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
+  }
 
   getUserById() {
     this.userService.getUserById(localStorage.getItem('userId')).subscribe(

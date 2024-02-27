@@ -56,9 +56,7 @@ formData: any;
         this.jwtService.loginUser(response);
         if (response.userType === 'Admin') {
           alert("Admin Login Successful");
-          // window.location.href="/admin-dashboard";
-          window.location.href="/manage-users";
-
+          window.location.href="/admin-dashboard";
         } else if (response.userType === 'User') {
           alert("User Login Successful");
           window.location.href="/user-dashboard";

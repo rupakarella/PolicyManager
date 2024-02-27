@@ -10,6 +10,7 @@ import { UserPoliciesComponent } from './components/user-policies/user-policies.
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { ExplorePoliciesComponent } from './components/explore-policies/explore-policies.component';
+import { ClaimsComponent } from './components/claims/claims.component';
 
 const routes: Routes = [
   { path:'policies',component: PoliciesComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path:'admin-dashboard', component: AdminDashboardComponent},
   {path:'manage-users',component:ManageUsersComponent},
   {path:"explore-policies",component:ExplorePoliciesComponent},
+  {path:"claims",component:ClaimsComponent},
 ];
 
 @NgModule({
