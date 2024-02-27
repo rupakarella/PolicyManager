@@ -2,7 +2,7 @@ package com.hexaware.policymanager.entities;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +36,7 @@ public class Claims {
 
 	@ManyToOne
 	@JoinColumn(name = "UserPolicyID")
-	@JsonBackReference(value = "UserPolicies-Claims")
+//	@JsonManagedReference(value = "UserPolicies-Claims")
 	private UserPolicies userPolicy;
 
 	public Claims() {

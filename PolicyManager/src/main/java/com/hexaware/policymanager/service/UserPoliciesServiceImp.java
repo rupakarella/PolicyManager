@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.UserPoliciesDTO;
 import com.hexaware.policymanager.entities.Policies;
+import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.entities.UserPolicies;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.PolicyNotFoundException;
@@ -70,6 +71,13 @@ public class UserPoliciesServiceImp implements IUserPoliciesService{
             UserPolicies userpolicy = optionalUserPolicy.get();
             userpolicy.setStartDate(userpolicyDTO.getStartDate());
             userpolicy.setDurationInYears(userpolicyDTO.getDurationInYears());
+            Optional<Policies> optionalPolicy = policiesRepo.findById(userpolicyDTO.getPolicyId());
+    	    if (optionalPolicy.isEmpty()) {
+    	    	logger.error("Policy not found with ID:{}", userpolicyDTO.getPolicyId());
+    	    	throw new PolicyNotFoundException("Policy not found with ID: " + userpolicyDTO.getPolicyId());
+    	    }
+    	    Policies policy = optionalPolicy.get();
+    	    userpolicy.setPolicy(policy);
             UserPolicies updatedUserPolicy = userPoliciesRepo.save(userpolicy);
 
             logger.info("User policy updated successfully");
