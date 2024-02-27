@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {  Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AuthRequest } from 'src/app/models/AuthRequest';
 import { JwtService } from 'src/app/service/jwt.service';
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit{
 
   authRequest: AuthRequest = new AuthRequest();
 formData: any;
-  constructor(private formBuilder: FormBuilder,route:ActivatedRoute,private jwtService:JwtService) { }
+  constructor(private formBuilder: FormBuilder,private router:Router,private jwtService:JwtService) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -56,10 +56,10 @@ formData: any;
         this.jwtService.loginUser(response);
         if (response.userType === 'Admin') {
           alert("Admin Login Successful");
-          window.location.href="/admin-dashboard";
+          this.router.navigate(['/admin-dashboard']);
         } else if (response.userType === 'User') {
           alert("User Login Successful");
-          window.location.href="/user-dashboard";
+          this.router.navigate(['/user-dashboard']);
         }
       },
       error => {

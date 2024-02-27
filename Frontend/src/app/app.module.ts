@@ -20,10 +20,6 @@ import { ExplorePoliciesComponent } from './components/explore-policies/explore-
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

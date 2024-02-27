@@ -158,6 +158,7 @@ export class ExplorePoliciesComponent implements OnInit {
     this.policy.policyDescription = this.policiesForm.value.policyDescription;
     this.policy.company = this.policiesForm.value.company;
     this.policy.initialDeposit = this.policiesForm.value.initialDeposit;
+    this.policy.policyType = this.policiesForm.value.policyType;
     this.policy.termPeriod = this.policiesForm.value.termPeriod;
     this.policy.termAmount = this.policiesForm.value.termAmount;
     this.policy.interest = this.policiesForm.value.interest;

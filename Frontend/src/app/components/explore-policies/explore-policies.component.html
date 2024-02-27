@@ -20,11 +20,13 @@
 
                 <button class="nav-button" routerLink="/profile">Profile</button>
                 <button class="nav-button" routerLink="/user-policies">My Policies</button>
+                <button *ngIf=isAdminLoggedIn() class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
+                <button *ngIf=isUserLoggedIn() class="nav-button" routerLink="/user-dashboard">Dashboard</button>
                 <button (click)="logoutUser()" *ngIf="loggedIn" class="nav-button">Logout</button>
             </div>
         </nav>
         <h3 *ngIf="(!isUserLoggedIn() && !isAdminLoggedIn())"
-            style="color: white; padding-top: 15px; text-align: center;"> Log in to Buy Now!</h3>
+            style="color: #1E55B3; padding-top: 15px; text-align: center;"> Log in to Buy Now!</h3>
         <div *ngIf="isEdit" class="policiesForm">
             <form [formGroup]="policiesForm" (ngSubmit)="onUpdate()" class="policiesForm">
                 <div class="overview">
@@ -36,7 +38,7 @@
                     <div *ngIf="f['policyName']?.touched && f['policyName']?.invalid" class="invalid-feedback">
                         <div *ngIf="f['policyName']?.errors?.['required']">Policy Name is required</div>
                     </div>
-                    <input type="text" formControlName="policyDescription" placeholder="Policy Description"
+                    <input type="textarea" formControlName="policyDescription" placeholder="Policy Description"
                         [ngClass]="{'is-invalid':f1['policyDescription'].touched && f1['policyDescription'].invalid}">
                     <div *ngIf="f['policyDescription']?.touched && f['policyDescription']?.invalid"
                         class="invalid-feedback">
@@ -145,10 +147,11 @@
 
                         <td *ngIf="isUserLoggedIn()"><button type="button" class="btn button"
                                 (click)="buyPolicy(policy.policyId)">Buy Now</button></td>
-                        <td *ngIf="isAdminLoggedIn()" (click)="updatePolicy(policy)"><button type="button">Edit</button>
+                        <td *ngIf="isAdminLoggedIn()" (click)="updatePolicy(policy)"><button type="button"><img src="../../../assets/edit.png"
+                            alt="Edit"></button>
                         </td>
-                        <td *ngIf="isAdminLoggedIn()" (click)="deletePolicy(policy.policyId)"><button
-                                class="btn btn-danger">Delete</button></td>
+                        <td *ngIf="isAdminLoggedIn()" (click)="deletePolicy(policy.policyId)"><button><img src="../../../assets/delete.png"
+                                alt="Delete"></button>
 
                     </tr>
                 </tbody>
