@@ -64,4 +64,4 @@ export class ClaimService {
     return this.http.get<Claims>(this.baseUrl+"get-by-id/"+claimId,{headers});
   }
 
-}3
+}
