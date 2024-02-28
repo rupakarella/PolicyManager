@@ -18,14 +18,13 @@
             <img src="\assets\logo-no-background.png">
             <div class="nav-buttons">
 
-                <button class="nav-button" routerLink="/profile">Profile</button>
-                <button class="nav-button" routerLink="/user-policies">My Policies</button>
-<<<<<<< HEAD
+                <button *ngIf="isAdminLoggedIn() || isUserLoggedIn()" class="nav-button" routerLink="/profile">Profile</button>
+                <button *ngIf="isUserLoggedIn()" class="nav-button" routerLink="/user-policies">My Policies</button>
+                <button *ngIf="isAdminLoggedIn()" class="nav-button" routerLink="/user-policies">Manage Registered Policies</button>
+                <button *ngIf="(!isUserLoggedIn() && !isAdminLoggedIn())" class="nav-button" routerLink="/login">Login</button>
+                <button *ngIf="(!isUserLoggedIn() && !isAdminLoggedIn())" class="nav-button" routerLink="/registration">Register</button>
                 <button *ngIf=isAdminLoggedIn() class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
                 <button *ngIf=isUserLoggedIn() class="nav-button" routerLink="/user-dashboard">Dashboard</button>
-=======
-                <button class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
->>>>>>> rupa
                 <button (click)="logoutUser()" *ngIf="loggedIn" class="nav-button">Logout</button>
             </div>
         </nav>
@@ -176,6 +175,7 @@
                 <div *ngIf="selectedFilterMethod === 'getPolicyByPolicyType'">
                     <label for="policyType">Select Policy Type:</label>
                     <select id="policyType" (change)="onPolicyTypeChange($event)">
+                        <option value="">Select Policy Type</option>
                         <option value="Vehicle Insurance">Vehicle Insurance</option>
                         <option value="Travel Insurance">Travel Insurance</option>
                         <option value="Life insurance">Life insurance</option>

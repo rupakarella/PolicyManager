@@ -11,6 +11,7 @@ import { ExplorePoliciesComponent } from './components/explore-policies/explore-
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { ClaimsComponent } from './components/claims/claims.component';
+import { PaymentsComponent } from './components/payments/payments.component';
 
 
 const routes: Routes = [
@@ -24,7 +25,8 @@ const routes: Routes = [
   {path:'user-policies',component: UserPoliciesComponent},
   {path:'admin-dashboard',component: AdminDashboardComponent},
   {path:'manage-users',component: ManageUsersComponent},
-  {path:'claims',component: ClaimsComponent}
+  {path:'claims',component: ClaimsComponent},
+  {path:'payments',component: PaymentsComponent}
 ];
 
 @NgModule({

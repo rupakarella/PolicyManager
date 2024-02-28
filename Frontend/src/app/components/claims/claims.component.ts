@@ -11,9 +11,13 @@ import { ClaimService } from 'src/app/service/claim.service';
 export class ClaimsComponent implements OnInit {
   claims: Claims[] = [];
   editClaimForm!: FormGroup;
-  showEditForm = false;
+  showEditForm: boolean = false;
   selectedClaim!: Claims;
   userPolicyId!:number;
+  selectedFilter: string = '';
+  claimAmount: number | null = null;
+  claimStatus: string = '';
+  claimId: number | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +32,14 @@ export class ClaimsComponent implements OnInit {
         claimAmount: [null, Validators.required],
         claimStatus: ['Pending', Validators.required]
       });
+  }
+
+  isAdminLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'Admin';
+  }
+
+  isUserLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
   }
 
   editClaim(claim: Claims) {
@@ -56,9 +68,11 @@ export class ClaimsComponent implements OnInit {
         () => {
           this.showEditForm = false;
           this.getAllClaims();
+          alert("Claim updated successfully");
         },
         (        error: any) => {
           console.error('Error updating claim', error);
+          alert("Error updating claim");
         }
       );
     }
@@ -77,5 +91,56 @@ export class ClaimsComponent implements OnInit {
         console.error('Error fetching claims', error);
       }
     );
+  }
+
+  deleteClaim(claimId: number) {
+    this.claimsService.deleteClaim(claimId).subscribe(
+      () => {
+        this.getAllClaims(); // Reload claims after deletion
+      },
+      (error: any) => {
+        console.error('Error deleting claim', error);
+      }
+    );
+  }
+  searchClaims() {
+    switch (this.selectedFilter) {
+      case 'claimAmount':
+        this.claimsService.getAllClaimsByClaimAmount(this.claimAmount || 0).subscribe(
+          (data) => {
+            this.claims = data;
+          },
+          (error) => {
+            console.error('Error searching claims by claim amount', error);
+          }
+        );
+        break;
+
+      case 'claimStatus':
+        this.claimsService.getAllClaimsByClaimStatus(this.claimStatus).subscribe(
+          (data) => {
+            this.claims = data;
+          },
+          (error) => {
+            console.error('Error searching claims by claim status', error);
+          }
+        );
+        break;
+      case 'claimId':
+        if (this.claimId) {
+          this.claimsService.getClaimsById(this.claimId).subscribe(
+            (data) => {
+              this.claims = [data];
+            },
+            (error) => {
+              console.error('Error searching claims by claim ID', error);
+            }
+          );
+        }
+        break;
+      default:
+        // Handle default case if needed
+        break;
+    }
   }
 }

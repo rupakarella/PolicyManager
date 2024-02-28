@@ -1,1 +1,54 @@
-<p>payments works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="payments.component.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+<div class="payments-container">
+    <nav class="navbar">
+        <img src="\assets\logo-no-background.png">
+            <div class="nav-buttons">
+                <button class="nav-button" routerLink="/explore-policies">Manage Policies</button>
+                <button class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
+                <button class="nav-button" routerLink="/profile">Profile</button>
+            </div>
+    </nav>
+
+    <table class="table">
+        <thead class="thead">
+            <tr>
+                <th>Payment Id</th>
+                <th>Payment Date</th>
+                <th>Payment Status</th>
+                <th>Fine</th>
+                <th>Total Amount</th>
+                <th>Payment Method</th>
+                <th>User Policy Id</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let payment of payments">
+                <td>{{payment.paymentId}}</td>
+                <td>{{payment.paymentDate}}</td>
+                <td>{{payment.paymentStatus}}</td>
+                <td>{{payment.fine}}</td>
+                <td>{{payment.totalAmount}}</td>
+                <td>{{payment.paymentMethod}}</td>
+                <td *ngIf="payment.userPolicies">{{payment.userPolicies.userPolicyId}}</td>
+            </tr>
+        </tbody>
+        </table>
+
+    <footer>
+        <p>&copy; 2024 PoliCare. All rights reserved.</p>
+    </footer>
+</div>
+    
+</body>

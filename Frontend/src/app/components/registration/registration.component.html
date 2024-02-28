@@ -17,9 +17,9 @@
     <nav class="navbar">
       <img src="\assets\logo-no-background.png">
       <div class="nav-buttons">
-                <button class="nav-button" routerLink="/policies">Search Policies</button>
-                <button class="nav-button" routerLink="/">Home</button>
-            </div>
+        <button class="nav-button" routerLink="/policies">Search Policies</button>
+        <button class="nav-button" routerLink="/">Home</button>
+      </div>
     </nav>
     <form [formGroup]="usersForm" (ngSubmit)="onSubmit()" class="users-form">
       <div class="overview">
@@ -123,7 +123,8 @@
           <div class="all-contact">
             <div class="email-phone">
               <div class="login-form-group">
-                <input type="email" formControlName="emailAddress" placeholder="Email Address" class="login-form-control"
+                <input type="email" formControlName="emailAddress" placeholder="Email Address"
+                  class="login-form-control"
                   [ngClass]="{ 'is-invalid': f['emailAddress'].touched && f['emailAddress'].invalid }">
                 <div *ngIf="f['emailAddress']?.touched && f['emailAddress']?.invalid" class="invalid-feedback">
                   <div style="color: red;" *ngIf="f['emailAddress'].errors?.['required']">Email Address is required
@@ -133,7 +134,8 @@
               </div>
               <div class="phone">
                 <div class="login-form-group">
-                  <input type="text" formControlName="contactNumber" placeholder="Contact Number" class="login-form-control"
+                  <input type="text" formControlName="contactNumber" placeholder="Contact Number"
+                    class="login-form-control"
                     [ngClass]="{ 'is-invalid': f['contactNumber'].touched && f['contactNumber'].invalid }">
                   <div *ngIf="f['contactNumber']?.touched && f['contactNumber']?.invalid" class="invalid-feedback">
                     <div style="color: red;" *ngIf="f['contactNumber'].errors?.['required']">Contact Number is required
@@ -165,16 +167,17 @@
 
       <div class="password">
         <div class="login-form-group password-input">
-          <input type="{{ showPassword ? 'text' : 'password' }}" formControlName="password" placeholder="Password" class="login-form-control"
-            [ngClass]="{ 'is-invalid': f['password'].touched && f['password'].invalid }">
+          <input type="{{ showPassword ? 'text' : 'password' }}" formControlName="password" placeholder="Password"
+            class="login-form-control" [ngClass]="{ 'is-invalid': f['password'].touched && f['password'].invalid }">
           <button type="button" class="password-toggle-btn" (click)="togglePasswordVisibility()">
-            <img src="assets/{{ showPassword ? 'eye_icon.png' : 'closed_eye.png' }}" alt="Toggle Password Visibility" width="15" height="15">
+            <img src="assets/{{ showPassword ? 'eye_icon.png' : 'closed_eye.png' }}" alt="Toggle Password Visibility"
+              width="15" height="15">
           </button>
           <div *ngIf="f['password']?.touched && f['password']?.invalid" class="invalid-feedback">
             <div style="color: red;" *ngIf="f['password'].errors?.['required']">Password is required</div>
           </div>
         </div>
-        
+
       </div>
       <div class="submit">
         <button type="submit">Register</button>
@@ -183,6 +186,6 @@
     </form>
     <footer>
       <p>&copy; 2024 PoliCare. All rights reserved.</p>
-  </footer>
+    </footer>
   </div>
 </body>

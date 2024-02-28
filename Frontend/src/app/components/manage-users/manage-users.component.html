@@ -18,13 +18,13 @@
       <img src="\assets\logo-no-background.png">
       <div class="nav-buttons">
           <button class="nav-button" routerLink="/explore-policies">Manage Policies</button>
-          <button class="nav-button" routerLink="/user-policies">My Policies</button>
+          <button class="nav-button" routerLink="/user-policies">Manage Registered Policies</button>
           <button class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
           <button class="nav-button" routerLink="/profile">Profile</button>
         
       </div>
   </nav>
-    <div *ngIf="isEdit" class="edit-form">
+    <div *ngIf="isEdit" class="form">
       <form [formGroup]="usersForm" (ngSubmit)="onUpdate()" class="users-form">
         <div class="overview">
           <h3>Edit Details</h3>

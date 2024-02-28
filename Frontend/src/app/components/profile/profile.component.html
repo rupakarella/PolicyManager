@@ -22,7 +22,7 @@
                 <button *ngIf="isUserLoggedIn()" class="nav-button" routerLink="/explore-policies">Search Policies</button>
                 <button *ngIf="isAdminLoggedIn()" class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
                 <button *ngIf="isUserLoggedIn()" class="nav-button" routerLink="/user-dashboard">Dashboard</button>
-                <button class="nav-button" routerLink="/user-policies">My Policies</button>
+                <button *ngIf="isUserLoggedIn()"  class="nav-button" routerLink="/user-policies">My Policies</button>
                 <button (click)="logoutUser()" *ngIf="loggedIn" class="nav-button">Logout</button>
             </div>
         </nav>
