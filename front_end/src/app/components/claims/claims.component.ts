@@ -34,6 +34,14 @@ export class ClaimsComponent implements OnInit {
       });
   }
 
+  isAdminLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'Admin';
+  }
+
+  isUserLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
+  }
+
   editClaim(claim: Claims) {
   
     this.selectedClaim = claim;

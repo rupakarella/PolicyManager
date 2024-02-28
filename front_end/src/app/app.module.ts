@@ -19,6 +19,7 @@ import { UserPoliciesComponent } from './components/user-policies/user-policies.
 import { ExplorePoliciesComponent } from './components/explore-policies/explore-policies.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -50,7 +51,9 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
     FormsModule
    
   ],
-  providers: [],
+  providers: [
+    DatePipe,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

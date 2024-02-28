@@ -8,5 +8,6 @@ export interface Payments {
     totalAmount: number;
     fine: number;
     paymentMethod: 'Credit Card' | 'Debit Card' | 'Net Banking' | 'Cash';
-    userPolicies: UserPolicies;
+    userPolicies?: UserPolicies;
+    userPolicyId?: number;
 }

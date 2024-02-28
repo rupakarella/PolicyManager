@@ -75,4 +75,5 @@ export class PolicyService {
     });
     return this.http.delete(this.baseUrl+ 'delete/'+policyId, { headers });
   }
+  
 }
