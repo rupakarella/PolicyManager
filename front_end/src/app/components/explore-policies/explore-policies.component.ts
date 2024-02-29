@@ -1,3 +1,4 @@
+import { PlatformLocation } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -5,6 +6,7 @@ import { Policy } from 'src/app/models/policy.model';
 import { UserPolicies } from 'src/app/models/userpolicies.model';
 import { Users } from 'src/app/models/users.model';
 import { JwtService } from 'src/app/service/jwt.service';
+import { NavigationService } from 'src/app/service/navigation.service';
 import { PolicyService } from 'src/app/service/policy.service';
 import { UserPoliciesService } from 'src/app/service/user-policies.service';
 
@@ -21,33 +23,38 @@ export class ExplorePoliciesComponent implements OnInit {
     userId: 0,
     policyId: 0,
     startDate: new Date(),
-    durationInYears: 0
+    durationInYears: 0,
+
   };
   policy!: Policy;
+  showForm: boolean = false;
   isEdit: boolean = false;
   buyForm: FormGroup;
   showBuyForm: boolean = false;
   policyId: number = 0;
   response: any;
+  newPolicyForm!: FormGroup;
   policiesForm!: FormGroup;
   selectedPolicyType: string = '';
   selectedFilterMethod: string = '';
   company: string = '';
   greaterThanAmount: number = 0;
-  lessThanAmount: number=0;
-  public loggedIn=false;
-  public UserloggedIn=false;
-  public AdminloggedIn=false;
+  lessThanAmount: number = 0;
+
+  public loggedIn = false;
+  public UserloggedIn = false;
+  public AdminloggedIn = false;
   constructor(
     private policyService: PolicyService,
     private formBuilder: FormBuilder,
     private userPoliciesService: UserPoliciesService,
     private router: Router,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private navigationService: NavigationService
   ) {
     this.buyForm = this.formBuilder.group({
       startDate: ['', Validators.required],
-      durationInYears: ['', Validators.required]
+      durationInYears: ['', Validators.required],
     });
     this.policiesForm = this.formBuilder.group({
       policyName: ['', Validators.required],
@@ -59,17 +66,47 @@ export class ExplorePoliciesComponent implements OnInit {
       termAmount: [0, [Validators.required, Validators.min(1)]],
       interest: [0, [Validators.required, Validators.min(0)]]
     });
+
+  }
+
+  toggleFormVisibility() {
+    this.showForm = !this.showForm;
+    this.isEdit = false;
+    console.log('Form visibility toggled:', this.showForm);
+  }
+
+  onAdding(): void {
+    if (this.policiesForm.invalid) {
+      return;
+    }
+    const newPolicy = this.policiesForm.value;
+    this.policyService.registerPolicy(newPolicy)
+      .subscribe(
+        (response) => {
+          console.log('Policy added successfully', response);
+          alert('Policy added successfully');
+          // Reset the form after successful addition
+          this.policiesForm.reset();
+          // Optionally, toggle the form visibility off
+          this.toggleFormVisibility();
+        },
+        (error) => {
+          console.error('Error adding policy:', error);
+          alert('Failed to add policy');
+        }
+      );
   }
 
   ngOnInit(): void {
     this.loadPolicies();
+    this.navigationService.disableBackButton();
+  
   }
-  logoutUser()
-  {
+  logoutUser() {
     this.jwtService.logout();
-    this.loggedIn=false;
-    this.UserloggedIn=false;
-    this.AdminloggedIn=false;
+    this.loggedIn = false;
+    this.UserloggedIn = false;
+    this.AdminloggedIn = false;
     alert("Logged Out");
     this.router.navigate(['/']);
   }
@@ -81,6 +118,8 @@ export class ExplorePoliciesComponent implements OnInit {
   isUserLoggedIn() {
     return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
   }
+
+
 
   loadPolicies(): void {
     this.policyService.getAllPolicies().subscribe(
@@ -96,6 +135,8 @@ export class ExplorePoliciesComponent implements OnInit {
   get f() {
     return this.buyForm.controls;
   }
+
+
 
   buyPolicy(policyId: number) {
     this.showBuyForm = true;
@@ -126,15 +167,15 @@ export class ExplorePoliciesComponent implements OnInit {
   deletePolicy(policyId: number) {
     this.policyService.deletePolicy(policyId).subscribe(
       (response) => {
-        console.log(response); // Log success message
-        // After deletion, fetch the updated list of users
+        console.log(response);
         this.loadPolicies();
       },
       (error) => {
-        console.log(error); // Log error message
+        console.log(error);
       }
     );
   }
+
   updatePolicy(policies: Policy) {
     this.isEdit = true;
     this.policy = policies;
@@ -153,12 +194,13 @@ export class ExplorePoliciesComponent implements OnInit {
   get f1() {
     return this.policiesForm.controls;
   }
+
   onUpdate() {
     this.policy.policyName = this.policiesForm.value.policyName;
     this.policy.policyDescription = this.policiesForm.value.policyDescription;
     this.policy.company = this.policiesForm.value.company;
     this.policy.initialDeposit = this.policiesForm.value.initialDeposit;
-    this.policy.policyType=this.policiesForm.value.policyType;
+    this.policy.policyType = this.policiesForm.value.policyType;
     this.policy.termPeriod = this.policiesForm.value.termPeriod;
     this.policy.termAmount = this.policiesForm.value.termAmount;
     this.policy.interest = this.policiesForm.value.interest;
@@ -180,13 +222,12 @@ export class ExplorePoliciesComponent implements OnInit {
   }
   onFilterMethodChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
-    if (value === 'getPolicyByPolicyType' || value === 'getPoliciesByCompany' || value=='getByAmountGreaterThan'|| value=='getByAmountLessThan') {
+    if (value === 'getPolicyByPolicyType' || value === 'getPoliciesByCompany' || value == 'getByAmountGreaterThan' || value == 'getByAmountLessThan') {
       this.selectedFilterMethod = value;
     }
   }
   onPolicyTypeChange(event: Event): void {
     this.selectedPolicyType = (event.target as HTMLSelectElement).value;
-    // Call a method to fetch policies based on the selected policy type
     this.getPoliciesByPolicyType(this.selectedPolicyType);
   }
 
@@ -230,7 +271,7 @@ export class ExplorePoliciesComponent implements OnInit {
     if (this.greaterThanAmount > 0) {
       this.policyService.getByAmountGreaterThan(greaterThanAmount).subscribe(
         (response) => {
-          this.policies = response; // Update policies array with the fetched policies
+          this.policies = response;
         },
         (error) => {
           console.error('Error fetching policies by amount greater than:', error);
@@ -246,9 +287,9 @@ export class ExplorePoliciesComponent implements OnInit {
 
   getByAmountLessThan(lessThanAmount: number): void {
     if (this.lessThanAmount > 0) {
-      this.policyService.getByAmountLessThan(this.lessThanAmount).subscribe(
+      this.policyService.getByAmountLessThan(lessThanAmount).subscribe(
         (response) => {
-          this.policies = response; // Update policies array with the fetched policies
+          this.policies = response;
         },
         (error) => {
           console.error('Error fetching policies by amount less than:', error);

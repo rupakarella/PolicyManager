@@ -5,8 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PaymentsComponent } from './components/payments/payments.component';
 
-import { UsersComponent } from './components/users/users.component';
-
 import { ClaimsComponent } from './components/claims/claims.component';
 import { LoginComponent } from './components/login/login.component';
 import { PoliciesComponent } from './components/policies/policies.component';
@@ -29,7 +27,6 @@ import { DatePipe } from '@angular/common';
   declarations: [
     AppComponent,
     PaymentsComponent,
-    UsersComponent,
     ClaimsComponent,
     LoginComponent,
     PoliciesComponent,
@@ -48,7 +45,7 @@ import { DatePipe } from '@angular/common';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
    
   ],
   providers: [

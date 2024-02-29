@@ -12,20 +12,23 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
 import { ExplorePoliciesComponent } from './components/explore-policies/explore-policies.component';
 import { ClaimsComponent } from './components/claims/claims.component';
 import { PaymentsComponent } from './components/payments/payments.component';
+import { AuthGuard } from './service/auth.guard';
+import { AdminAuthGuard } from './service/admin-auth.guard';
+
 
 const routes: Routes = [
-  { path:'policies',component: PoliciesComponent},
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent},
-  {path:'registration', component: RegistrationComponent},
-  {path:'user-dashboard', component: UserDashboardComponent},
-  {path:'profile', component: ProfileComponent},
-  {path:'user-policies',component:UserPoliciesComponent},
-  {path:'admin-dashboard', component: AdminDashboardComponent},
-  {path:'manage-users',component:ManageUsersComponent},
-  {path:"explore-policies",component:ExplorePoliciesComponent},
-  {path:"claims",component:ClaimsComponent},
-  {path:"payments",component:PaymentsComponent},
+  {path:'policies',component: PoliciesComponent},
+  {path: '', component: HomeComponent,pathMatch:'full' },
+  {path: 'login', component: LoginComponent,pathMatch:'full'},
+  {path:'registration', component: RegistrationComponent,pathMatch:'full'},
+  {path:'user-dashboard', component: UserDashboardComponent,canActivate: [AuthGuard]},
+  {path:'profile', component: ProfileComponent,canActivate: [AuthGuard,AdminAuthGuard]},
+  {path:'user-policies',component:UserPoliciesComponent,canActivate: [AuthGuard,AdminAuthGuard]},
+  {path:'admin-dashboard', component: AdminDashboardComponent,canActivate: [AdminAuthGuard]},
+  {path:'manage-users',component:ManageUsersComponent,canActivate: [AdminAuthGuard]},
+  {path:"explore-policies",component:ExplorePoliciesComponent,pathMatch:'full'},
+  {path:"claims",component:ClaimsComponent,canActivate: [AuthGuard,AdminAuthGuard]},
+  {path:"payments",component:PaymentsComponent,canActivate: [AuthGuard,AdminAuthGuard]},
 ];
 
 @NgModule({

@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Payments } from 'src/app/models/payments.model';
+import { NavigationService } from 'src/app/service/navigation.service';
 import { PaymentsService } from 'src/app/service/payments.service';
 
 @Component({
@@ -21,9 +22,10 @@ export class PaymentsComponent implements OnInit {
   paymentDate: Date | null = null;
 
 
-  constructor(private paymentsService: PaymentsService,private fb:FormBuilder,private datePipe: DatePipe ) { }
+  constructor(private paymentsService: PaymentsService,private fb:FormBuilder,private datePipe: DatePipe,private navigationService: NavigationService ) { }
 
   ngOnInit(): void {
+    this.navigationService.disableBackButton();
     this.getAllPayments();
     this.initForm();
   }

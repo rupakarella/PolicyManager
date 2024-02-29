@@ -18,7 +18,7 @@ export class PolicyService {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': 'http://localhost:4200'
     }).set("Authorization",tokenString);
-    return this.http.post<Policy>(this.baseUrl + "register", policy);
+    return this.http.post<Policy>(this.baseUrl + "register", policy, { headers });
   }
   
   updatePolicy(policy: Policy): Observable<Policy> {
