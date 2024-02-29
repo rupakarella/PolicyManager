@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AuthRequest } from 'src/app/models/AuthRequest';
 import { JwtService } from 'src/app/service/jwt.service';
+import { NavigationService } from 'src/app/service/navigation.service';
+import { PlatformLocation } from '@angular/common';
+
 
 @Component({
   selector: 'app-login',
@@ -10,6 +13,7 @@ import { JwtService } from 'src/app/service/jwt.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
+  
   loginForm!: FormGroup;
   submitted=false;
   showPassword = true;
@@ -18,15 +22,22 @@ export class LoginComponent implements OnInit{
   response:any;
   token:any;
 
-  authRequest: AuthRequest = new AuthRequest();
-formData: any;
-  constructor(private formBuilder: FormBuilder,route:ActivatedRoute,private jwtService:JwtService) { }
+  
 
+authRequest: AuthRequest = new AuthRequest();
+formData: any;
+  constructor(private formBuilder: FormBuilder,route:ActivatedRoute,private jwtService:JwtService,
+    private navigationService: NavigationService
+    ){}
+    
+      
   ngOnInit(): void {
+    this.navigationService.disableBackButton();
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required,Validators.minLength(6)]]
+      password: ['', [Validators.required,Validators.minLength(6)]]  
     });
+
   }
 
   get f() {

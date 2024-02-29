@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users.model';
+import { NavigationService } from 'src/app/service/navigation.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -28,7 +29,7 @@ export class ManageUsersComponent implements OnInit {
 
 
 
-  constructor(private userService:UserService,private router:Router,private formBuilder: FormBuilder){
+  constructor(private userService:UserService,private router:Router,private formBuilder: FormBuilder, private navigationService: NavigationService){
     this.usersForm = this.formBuilder.group({
     userId: [],
     emailAddress: ['', [Validators.required, Validators.email]],
@@ -54,6 +55,7 @@ export class ManageUsersComponent implements OnInit {
 
   ngOnInit(): void 
 {
+  this.navigationService.disableBackButton();
   this.getAllUsers();
 }
 

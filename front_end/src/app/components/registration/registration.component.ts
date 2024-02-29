@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {  Router } from '@angular/router';
 import { Users } from 'src/app/models/users.model';
+import { NavigationService } from 'src/app/service/navigation.service';
 import { UserService } from 'src/app/service/user.service';
 
 
@@ -14,9 +15,10 @@ export class RegistrationComponent implements OnInit {
   usersForm!: FormGroup;
   submitted = false;
   showPassword = true;
-  constructor(private formBuilder: FormBuilder, private userService: UserService,private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService,private router: Router,private navigationService: NavigationService) { }
 
   ngOnInit(): void {
+    this.navigationService.disableBackButton();
     this.usersForm = this.formBuilder.group({
       userId: [],
       emailAddress: ['', [Validators.required, Validators.email]],

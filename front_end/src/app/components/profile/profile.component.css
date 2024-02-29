@@ -13,7 +13,7 @@
     background-position: center;
     background-size: cover;
     padding: 0;
-    margin: 0; /* Add this to ensure there's no margin */
+    margin: 0; 
     border: none;
     box-shadow: none;
   }
@@ -40,6 +40,12 @@
     display: flex;
     
   }
+
+  .profile-image {
+    width: 100px;
+    height: auto;
+    margin-right: 10px; 
+}
   
   .navbar img{
     margin-right: auto;

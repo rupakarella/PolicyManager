@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Claims } from 'src/app/models/claims.model';
 import { ClaimService } from 'src/app/service/claim.service';
+import { NavigationService } from 'src/app/service/navigation.service';
 
 @Component({
   selector: 'app-claims',
@@ -21,10 +22,12 @@ export class ClaimsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private claimsService: ClaimService
+    private claimsService: ClaimService,
+    private navigationService: NavigationService
   ) { }
 
   ngOnInit(): void {
+    this.navigationService.disableBackButton();
     this.getAllClaims(),
       this.editClaimForm = this.formBuilder.group({
         userPolicyId: [null, Validators.required],

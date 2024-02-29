@@ -4,6 +4,7 @@ import { UserService } from 'src/app/service/user.service';
 import { Users } from 'src/app/models/users.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JwtService } from 'src/app/service/jwt.service';
+import { NavigationService } from 'src/app/service/navigation.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +23,7 @@ export class ProfileComponent implements OnInit {
   public AdminloggedIn=false;
 
 
-  constructor(private userService: UserService, private router: Router,private formBuilder: FormBuilder,private jwtService:JwtService) { 
+  constructor(private userService: UserService, private router: Router,private formBuilder: FormBuilder,private jwtService:JwtService,private navigationService: NavigationService) { 
   this.usersForm = this.formBuilder.group({
     userId: [],
     emailAddress: ['', [Validators.required, Validators.email]],
@@ -46,6 +47,7 @@ export class ProfileComponent implements OnInit {
   });
 }
   ngOnInit(): void {
+    this.navigationService.disableBackButton();
     this.getUserById();
     {
       this.loggedIn = this.jwtService.isUserLoggedIn() || this.jwtService.isAdminLoggedIn();

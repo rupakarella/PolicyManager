@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtService } from 'src/app/service/jwt.service';
+import { NavigationService } from 'src/app/service/navigation.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -12,10 +13,12 @@ export class AdminDashboardComponent {
   public UserloggedIn=false;
   public AdminloggedIn=false;
 
-  constructor(private jwtService:JwtService,private router:Router){}
+  constructor(private jwtService:JwtService,private router:Router,private navigationService: NavigationService
+   ){}
 
   ngOnInit(): void 
   {
+    this.navigationService.disableBackButton();
     this.loggedIn = this.jwtService.isUserLoggedIn() || this.jwtService.isAdminLoggedIn();
     this.UserloggedIn =this.jwtService.isUserLoggedIn();
     this.AdminloggedIn = this.jwtService.isAdminLoggedIn();

@@ -20,24 +20,16 @@ export class PaymentsService {
     return this.http.get<Payments[]>(this.baseUrl + "get-all",{headers});
   }
 
-  // updatePayment(payment: Payments): Observable<Payments> {
-  //   let tokenString = "Bearer " + localStorage.getItem("token");
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'Access-Control-Allow-Origin': 'http://localhost:4200'
-  //   }).set("Authorization", tokenString);
+  makePayment(payments: Payments): Observable<Payments[]> {
+    let tokenString = "Bearer " + localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization", tokenString);
+    return this.http.post<Payments[]>(this.baseUrl + "register", payments, { headers });
 
-  //   return this.http.put<Payments>(this.baseUrl + "update", payment, { headers });
-  // }
+  }
 
-  // getAllPaymentsByStatus(paymentStatus: string): Observable<Payments[]> {
-  //   const token = localStorage.getItem('token');
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'Authorization': `Bearer ${token}`
-  //   });
-  //   return this.http.get<Payments[]>(this.baseUrl+"get-by-payment-status/"+paymentStatus,{headers});
-  // }
 
   getPaymentById(paymentId: number): Observable<Payments> {
     const token = localStorage.getItem('token');
