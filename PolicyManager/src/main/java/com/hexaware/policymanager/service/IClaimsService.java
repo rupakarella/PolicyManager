@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hexaware.policymanager.dto.ClaimsDTO;
 import com.hexaware.policymanager.entities.Claims;
+import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.exception.ClaimNotFoundException;
 import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 
@@ -21,5 +22,7 @@ public interface IClaimsService {
 	public List<Claims> getAllClaimsByClaimAmount(double claimAmount) throws ClaimNotFoundException;
 
 	public List<Claims> getAllClaimsByClaimStatus(String claimStatus) throws ClaimNotFoundException;
+	
+	List<Claims> getClaimsByUserId(long userId) throws UserPolicyNotFoundException;
 
 }

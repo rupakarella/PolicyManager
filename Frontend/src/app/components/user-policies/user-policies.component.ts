@@ -31,7 +31,8 @@ export class UserPoliciesComponent implements OnInit {
     claimDate: new Date(),
     claimAmount: 0,
     claimStatus: '',
-    userPolicyId: 0
+    userPolicyId: 0,
+    userId:0
   };
   payments: Payments = {
     paymentId: 0,
@@ -40,8 +41,11 @@ export class UserPoliciesComponent implements OnInit {
     totalAmount: 0,
     fine: 0,
     paymentMethod: 'Credit Card',
-    userPolicyId: 0
+    userPolicyId: 0,
+    userId:0
   }
+  payment: Payments[] = [];
+
 
   constructor(private userPoliciesService: UserPoliciesService, private router: Router, private formbuilder: FormBuilder, private claimService: ClaimService, private paymentService: PaymentsService) {
 
@@ -75,18 +79,19 @@ export class UserPoliciesComponent implements OnInit {
     }
   }
 
-  registerClaim(userPolicyId: number): void {
+  registerClaim(userPolicy: UserPolicies): void {
     this.showClaimForm = true;
-    this.userPolicyId = userPolicyId;
+    this.selectedUP = userPolicy;
   }
 
-  makePayment(userPolicy: UserPolicies): void {
+  makePayment(userPolicies: UserPolicies): void {
     this.showPayForm = true;
-    this.selectedUP = userPolicy;
+    this.selectedUP = userPolicies;
   }
 
   onPay(): void {
     this.payments.userPolicyId = this.selectedUP.userPolicyId;
+    this.payments.userId=localStorage.getItem('userId');
     this.payments.paymentDate = this.payForm.value.paymentDate;
     this.payments.paymentMethod = this.payForm.value.paymentMethod;
     this.payments.paymentStatus = "Completed";
@@ -94,14 +99,15 @@ export class UserPoliciesComponent implements OnInit {
     this.paymentService.makePayment(this.payments).subscribe(data => {
       console.log(data);
       this.showPayForm = false;
-      // this.router.navigate(['/payments'])
+      this.router.navigate(['/payments'])
     }, error => {
       console.log(error);
     });
   }
 
   onRegister() {
-    this.claims.userPolicyId = this.userPolicyId;
+    this.claims.userPolicyId = this.selectedUP.userPolicyId;
+    this.claims.userId=localStorage.getItem('userId');
     this.claims.claimDate = this.claimForm.value.claimDate;
     this.claims.claimAmount = this.claimForm.value.claimAmount;
     this.claims.claimStatus = "Pending";
@@ -250,6 +256,8 @@ export class UserPoliciesComponent implements OnInit {
       console.error('Please enter a valid Id');
     }
   }
+  
+  
 
   calculateFine(paymentDate: Date, userPolicies: UserPolicies): void {
     const policy = userPolicies.policy;

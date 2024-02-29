@@ -3,6 +3,7 @@ package com.hexaware.policymanager.dto;
 import java.time.LocalDate;
 
 import com.hexaware.policymanager.entities.UserPolicies;
+import com.hexaware.policymanager.entities.Users;
 
 public class ClaimsDTO {
 	private int claimId;
@@ -11,19 +12,24 @@ public class ClaimsDTO {
 	private String claimStatus;
 	private UserPolicies userPolicy;
 	private long userPolicyId;
+	private Users users;
+	private long userId;
 
 	public ClaimsDTO() {
 		super();
 	}
 
-	public ClaimsDTO(int claimId, LocalDate claimDate, double claimAmount, String claimStatus,
-			UserPolicies userPolicy) {
+	public ClaimsDTO(int claimId, LocalDate claimDate, double claimAmount, String claimStatus, UserPolicies userPolicy,
+			long userPolicyId, Users users, long userId) {
 		super();
 		this.claimId = claimId;
 		this.claimDate = claimDate;
 		this.claimAmount = claimAmount;
 		this.claimStatus = claimStatus;
 		this.userPolicy = userPolicy;
+		this.userPolicyId = userPolicyId;
+		this.users = users;
+		this.userId = userId;
 	}
 
 	public int getClaimId() {
@@ -75,10 +81,27 @@ public class ClaimsDTO {
 		this.userPolicyId = userPolicyId;
 	}
 
+	public Users getUsers() {
+		return users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
 		return "ClaimsDTO [claimId=" + claimId + ", claimDate=" + claimDate + ", claimAmount=" + claimAmount
-				+ ", claimStatus=" + claimStatus + ", userPolicy=" + userPolicy + "]";
+				+ ", claimStatus=" + claimStatus + ", userPolicy=" + userPolicy + ", userPolicyId=" + userPolicyId
+				+ ", users=" + users + ", userId=" + userId + "]";
 	}
 
 }

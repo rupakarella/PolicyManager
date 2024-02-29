@@ -18,7 +18,7 @@ export class PolicyService {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': 'http://localhost:4200'
     }).set("Authorization",tokenString);
-    return this.http.post<Policy>(this.baseUrl + "register", policy);
+    return this.http.post<Policy>(this.baseUrl + "register", policy, { headers, responseType: 'json' });
   }
   
   updatePolicy(policy: Policy): Observable<Policy> {
@@ -73,6 +73,7 @@ export class PolicyService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    return this.http.delete(this.baseUrl+ 'delete/'+policyId, { headers });
+    return this.http.delete(this.baseUrl+ 'delete/'+policyId, { headers });
   }
+  
 }

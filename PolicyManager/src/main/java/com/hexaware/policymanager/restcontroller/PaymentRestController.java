@@ -1,5 +1,6 @@
 package com.hexaware.policymanager.restcontroller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.policymanager.dto.PolicyPaymentsDTO;
 import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.exception.PaymentNotFoundException;
+import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.service.IPolicyPaymentsService;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/payments")
@@ -62,10 +65,30 @@ public class PaymentRestController {
 		return paymentsService.getAllPayments();
 	}
 
+	@GetMapping("/get-by-payment-Date/{paymentDate}")
+	@PreAuthorize("hasAuthority('Admin')")
+	public List<PolicyPayments> getPaymentsByPaymentDate(@PathVariable LocalDate paymentDate)
+			throws PaymentNotFoundException {
+		return paymentsService.getPaymentsByDate(paymentDate);
+	}
+
 	@GetMapping("/get-by-payment-status/{paymentStatus}")
 	@PreAuthorize("hasAuthority('Admin')")
 	public List<PolicyPayments> getPaymentsByPaymentStatus(@PathVariable String paymentStatus)
 			throws PaymentNotFoundException {
 		return paymentsService.getPaymentsByPaymentStatus(paymentStatus);
+	}
+
+	@GetMapping("/get-by-userPolicyId/{userPolicyId}")
+	@PreAuthorize("hasAuthority('User')")
+	public List<PolicyPayments> getPaymentsByUserPolicyId(@PathVariable long userPolicyId)
+			throws UserPolicyNotFoundException {
+		return paymentsService.getPaymentsByUserPolicyId(userPolicyId);
+	}
+	@GetMapping("/get-by-userId/{userId}")
+	@PreAuthorize("hasAuthority('User')")
+	public List<PolicyPayments> getPaymentsByUserId(@PathVariable long userId)
+			throws UserNotFoundException {
+		return paymentsService.getPaymentsByUserId(userId);
 	}
 }

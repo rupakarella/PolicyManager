@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 import com.hexaware.policymanager.dto.ClaimsDTO;
 import com.hexaware.policymanager.entities.Claims;
 import com.hexaware.policymanager.entities.UserPolicies;
+import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.ClaimNotFoundException;
+import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.repository.ClaimsRepository;
 import com.hexaware.policymanager.repository.UserPoliciesRepository;
+import com.hexaware.policymanager.repository.UsersRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -29,19 +32,26 @@ public class ClaimsServiceImp implements IClaimsService {
 	@Autowired
 	UserPoliciesRepository userPoliciesRepo;
 
+	@Autowired
+	UsersRepository usersRepo;
+
 	@Override
-	public Claims registerClaims(ClaimsDTO claimsDTO) throws UserPolicyNotFoundException{
+	public Claims registerClaims(ClaimsDTO claimsDTO) throws UserPolicyNotFoundException {
 		logger.info("Registering new claim");
 		Claims claims = new Claims();
 		claims.setClaimDate(claimsDTO.getClaimDate());
 		claims.setClaimAmount(claimsDTO.getClaimAmount());
-		//claims.setClaimStatus(claimsDTO.getClaimStatus());
-
+		// claims.setClaimStatus(claimsDTO.getClaimStatus());
+		logger.info("{}",claimsDTO);
+		Optional<Users> optionalUser = usersRepo.findById(claimsDTO.getUserId());
 		Optional<UserPolicies> optionalUserPolicy = userPoliciesRepo.findById(claimsDTO.getUserPolicyId());
 
-		if (optionalUserPolicy.isPresent()) {
+		if (optionalUserPolicy.isPresent()&& optionalUser.isPresent() ) {
+		
 			UserPolicies userPolicy = optionalUserPolicy.get();
 			claims.setUserPolicy(userPolicy);
+			Users users = optionalUser.get();
+			claims.setUsers(users);
 			Claims savedClaim = claimsRepo.save(claims);
 			logger.info("Claim registered successfully", savedClaim);
 			return savedClaim;
@@ -121,6 +131,17 @@ public class ClaimsServiceImp implements IClaimsService {
 		if (claims.isEmpty()) {
 			logger.warn("No claims found for claim status: " + claimStatus);
 			throw new ClaimNotFoundException("No claims found for claim status: " + claimStatus);
+		}
+		return claims;
+	}
+
+	@Override
+	public List<Claims> getClaimsByUserId(long userId) throws UserNotFoundException {
+		logger.info("Fetching claims by userId: {}", userId);
+		List<Claims> claims = claimsRepo.findByUsers_UserId(userId);
+		if (claims.isEmpty()) {
+			logger.warn("No claims found for userId: {} ", userId);
+			throw new UserNotFoundException("No claims found for userId: " + userId);
 		}
 		return claims;
 	}

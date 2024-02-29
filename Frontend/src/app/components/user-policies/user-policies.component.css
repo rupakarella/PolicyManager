@@ -65,3 +65,21 @@ footer {
   .table{
     margin-top:50px
   }
+  .table tbody tr td button img{
+    background-color: transparent;
+    border:none;
+    width: 20px;
+    height: 20px;
+    margin:0
+  
+  }
+  .table tbody tr td button {
+    background-color: transparent;
+    border:none;
+    width: 20px;
+    height: 20px;
+    margin:0
+  
+  }
+  
+  

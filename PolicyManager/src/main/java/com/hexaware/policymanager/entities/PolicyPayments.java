@@ -2,8 +2,6 @@ package com.hexaware.policymanager.entities;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -48,18 +46,24 @@ public class PolicyPayments {
 	@JoinColumn(name = "UserPolicyID")
 //	@JsonManagedReference(value = "UserPolicies-PolicyPayments")
 	private UserPolicies userPolicies;
+	
+	@ManyToOne
+	@JoinColumn(name = "UserID")
+	private Users users;
+	
+	
 
 	public PolicyPayments() {
 		super();
 	}
 
+	
 	public PolicyPayments(long paymentId,
 			@NotNull(message = "paymentDate cannot be null") @FutureOrPresent(message = "Start date must be in the present or future") LocalDate paymentDate,
 			@NotBlank(message = "paymentStatus should not be blank") @Pattern(regexp = "^(Pending|Completed)$", message = "paymentStatus should be either Pending or Completed") String paymentStatus,
-			@Positive(message = "totalAmount should be positive") double totalAmount,
-			@PositiveOrZero(message = "fine should be positive") double fine,
+			double totalAmount, double fine,
 			@NotBlank(message = "paymentMethod should not be blank") @Pattern(regexp = "^(Credit Card|Debit Card|Net Banking|Cash)$", message = "Invalid payment method") String paymentMethod,
-			UserPolicies userPolicies) {
+			UserPolicies userPolicies, Users users) {
 		super();
 		this.paymentId = paymentId;
 		this.paymentDate = paymentDate;
@@ -68,7 +72,9 @@ public class PolicyPayments {
 		this.fine = fine;
 		this.paymentMethod = paymentMethod;
 		this.userPolicies = userPolicies;
+		this.users = users;
 	}
+
 
 	public long getPaymentId() {
 		return paymentId;
@@ -125,13 +131,27 @@ public class PolicyPayments {
 	public void setUserPolicies(UserPolicies userPolicies) {
 		this.userPolicies = userPolicies;
 	}
+	
+
+	public Users getUsers() {
+		return users;
+	}
+
+
+	public void setUsers(Users users) {
+		this.users = users;
+	}
+
+
+	
 
 	@Override
 	public String toString() {
 		return "PolicyPayments [paymentId=" + paymentId + ", paymentDate=" + paymentDate + ", paymentStatus="
 				+ paymentStatus + ", totalAmount=" + totalAmount + ", fine=" + fine + ", paymentMethod=" + paymentMethod
-				+ ", userPolicies=" + userPolicies + "]";
+				+ ", userPolicies=" + userPolicies + ", users=" + users + "]";
 	}
+
 
 	@PrePersist
 	@PreUpdate

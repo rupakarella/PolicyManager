@@ -1,5 +1,6 @@
 package com.hexaware.policymanager.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,12 +12,16 @@ import org.springframework.stereotype.Service;
 import com.hexaware.policymanager.dto.PolicyPaymentsDTO;
 import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.entities.UserPolicies;
+import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.PaymentNotFoundException;
+import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.repository.PolicyPaymentsRepository;
 import com.hexaware.policymanager.repository.UserPoliciesRepository;
+import com.hexaware.policymanager.repository.UsersRepository;
 
 import jakarta.transaction.Transactional;
+
 @Service
 @Transactional
 public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
@@ -27,6 +32,9 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 
 	@Autowired
 	UserPoliciesRepository userPoliciesRepo;
+	
+	@Autowired
+	UsersRepository usersRepo;
 
 	@Override
 	public PolicyPayments makePayment(PolicyPaymentsDTO policyPaymentsDTO) throws UserPolicyNotFoundException {
@@ -37,10 +45,12 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 		policyPayments.setFine(policyPaymentsDTO.getFine());
 		policyPayments.setTotalAmount(policyPaymentsDTO.getTotalAmount());
 		policyPayments.setPaymentStatus(policyPaymentsDTO.getPaymentStatus());
-		Optional<UserPolicies> optionalUserPolicy = userPoliciesRepo
-				.findById(policyPaymentsDTO.getUserPolicyId());
+		Optional<Users> optionalUser=usersRepo.findById(policyPaymentsDTO.getUserId());
+		Optional<UserPolicies> optionalUserPolicy = userPoliciesRepo.findById(policyPaymentsDTO.getUserPolicyId());
 
-		if (optionalUserPolicy.isPresent()) {
+		if (optionalUserPolicy.isPresent()&& optionalUser.isPresent()) {
+			Users users=optionalUser.get();
+			policyPayments.setUsers(users);
 			UserPolicies userPolicy = optionalUserPolicy.get();
 			policyPayments.setUserPolicies(userPolicy);
 			PolicyPayments savedPayment = policyPaymentsRepo.save(policyPayments);
@@ -114,6 +124,40 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 		if (payments.isEmpty()) {
 			logger.warn("Payment not found");
 			throw new PaymentNotFoundException("Payment with ID " + paymentStatus + " not found");
+		}
+		return payments;
+	}
+
+	@Override
+	public List<PolicyPayments> getPaymentsByDate(LocalDate paymentDate) throws PaymentNotFoundException {
+		logger.info("Fetching payments by date: {}", paymentDate);
+		List<PolicyPayments> payments = policyPaymentsRepo.getPaymentsByPaymentDate(paymentDate);
+		if (payments.isEmpty()) {
+			logger.warn("No payments found for date: {}", paymentDate);
+			throw new PaymentNotFoundException("No payments found for date: " + paymentDate);
+		}
+		return payments;
+	}
+	
+	@Override
+	public List<PolicyPayments> getPaymentsByUserPolicyId(long userPolicyId) throws UserPolicyNotFoundException{
+		logger.info("Fetching payments by userPolicyId: {}",userPolicyId);
+		List<PolicyPayments> payments=policyPaymentsRepo.findByUserPolicies_UserPolicyId(userPolicyId);
+		if(payments.isEmpty())
+		{
+			logger.warn("No payments found for userPolicyId: {} ",userPolicyId);
+			throw new UserPolicyNotFoundException("No payments found for userPolicyId: "+userPolicyId);
+		}
+		return payments;
+	}
+	@Override
+	public List<PolicyPayments> getPaymentsByUserId(long userId) throws UserNotFoundException{
+		logger.info("Fetching payments by userId: {}",userId);
+		List<PolicyPayments> payments=policyPaymentsRepo.findByUsers_UserId(userId);
+		if(payments.isEmpty())
+		{
+			logger.warn("No payments found for userId: {} ",userId);
+			throw new UserNotFoundException("No payments found for userId: "+userId);
 		}
 		return payments;
 	}

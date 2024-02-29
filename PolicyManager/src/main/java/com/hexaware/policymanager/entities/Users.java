@@ -57,8 +57,6 @@ public class Users {
 	@Pattern(regexp = "^[A-Z]{5}\\d{4}[A-Z]{1}$", message = "Invalid PAN number format")
 	private String panNumber;
 
-	@NotBlank(message = "employerType should not be blank")
-	@Size(max = 25, message = "String length cannot exceed 25 characters")
 	private String employerType;
 
 	private String employerName;
@@ -80,6 +78,11 @@ public class Users {
 	@JsonIgnore
 	private List<UserPolicies> userPolicies;
 
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<PolicyPayments> policyPayments;
+	
+	
 	public Users() {
 		super();
 
@@ -112,6 +115,7 @@ public class Users {
 		this.userType = userType;
 		this.address = address;
 		this.userPolicies = userPolicies;
+		assignEmployerType();
 	}
 
 	public long getUserId() {
@@ -178,14 +182,6 @@ public class Users {
 		this.panNumber = panNumber;
 	}
 
-	public String getEmployerType() {
-		return employerType;
-	}
-
-	public void setEmployerType(String employerType) {
-		this.employerType = employerType;
-	}
-
 	public String getEmployerName() {
 		return employerName;
 	}
@@ -200,6 +196,7 @@ public class Users {
 
 	public void setSalary(double salary) {
 		this.salary = salary;
+		assignEmployerType();
 	}
 
 	public String getUserType() {
@@ -225,6 +222,15 @@ public class Users {
 	public void setUserPolicies(List<UserPolicies> userPolicies) {
 		this.userPolicies = userPolicies;
 	}
+	
+
+	public String getEmployerType() {
+		return employerType;
+	}
+
+	public void setEmployerType(String employerType) {
+		this.employerType = employerType;
+	}
 
 	@Override
 	public String toString() {
@@ -233,6 +239,31 @@ public class Users {
 				+ dateOfBirth + ", panNumber=" + panNumber + ", employerType=" + employerType + ", employerName="
 				+ employerName + ", salary=" + salary + ", userType=" + userType + ", address=" + address
 				+ ", userPolicies=" + userPolicies + "]";
+	}
+	
+	public void assignEmployerType()
+	{
+		double income=salary*12;
+		if(income<=500000)
+		{
+			employerType="A";
+		}
+		else if(500000<income && income<=1000000)
+		{
+			employerType="B";
+		}
+		else if(1000000<income && income<=1500000)
+		{
+			employerType="C";
+		}
+		else if(1500000<income && income<=3000000)
+		{
+			employerType="D";
+		}
+		else if(income>3000000)
+		{
+			employerType="E";
+		}
 	}
 
 }

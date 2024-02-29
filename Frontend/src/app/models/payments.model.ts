@@ -1,4 +1,5 @@
 import { UserPolicies } from "./userpolicies.model";
+import { Users } from "./users.model";
 
 
 export interface Payments {
@@ -10,4 +11,6 @@ export interface Payments {
     paymentMethod: 'Credit Card' | 'Debit Card' | 'Net Banking' | 'Cash';
     userPolicies?: UserPolicies;
     userPolicyId?:number;
+    users?:Users;
+    userId?:any;
 }

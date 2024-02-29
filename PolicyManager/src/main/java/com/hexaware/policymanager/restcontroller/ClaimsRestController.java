@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.policymanager.dto.ClaimsDTO;
 import com.hexaware.policymanager.entities.Claims;
+import com.hexaware.policymanager.entities.PolicyPayments;
 import com.hexaware.policymanager.exception.ClaimNotFoundException;
+import com.hexaware.policymanager.exception.UserNotFoundException;
 import com.hexaware.policymanager.exception.UserPolicyNotFoundException;
 import com.hexaware.policymanager.service.IClaimsService;
 @CrossOrigin(origins = "http://localhost:4200")
@@ -70,5 +72,11 @@ public class ClaimsRestController {
 	@PreAuthorize("hasAuthority('Admin')")
 	public List<Claims> getAllClaims() {
 		return claimsService.getAllClaims();
+	}
+	@GetMapping("/get-by-userId/{userId}")
+	@PreAuthorize("hasAuthority('User')")
+	public List<Claims> getClaimsByUserId(@PathVariable long userId)
+			throws UserNotFoundException {
+		return claimsService.getClaimsByUserId(userId);
 	}
 }

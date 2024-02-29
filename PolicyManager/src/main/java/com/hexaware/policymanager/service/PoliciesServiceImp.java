@@ -43,6 +43,7 @@ public class PoliciesServiceImp implements IPoliciesService {
 		policy.setTermPeriod(policyDTO.getTermPeriod());
 		policy.setTermAmount(policyDTO.getTermAmount());
 		policy.setInterest(policyDTO.getInterest());
+		policy.setEligibleUserTypes(policyDTO.getEligibleUserTypes());
 
 		return policiesRepo.save(policy);
 	}
@@ -61,6 +62,7 @@ public class PoliciesServiceImp implements IPoliciesService {
 			existingPolicy.setTermPeriod(policyDTO.getTermPeriod());
 			existingPolicy.setTermAmount(policyDTO.getTermAmount());
 			existingPolicy.setInterest(policyDTO.getInterest());
+			existingPolicy.setEligibleUserTypes(policyDTO.getEligibleUserTypes());
 			logger.info("Policy Updated Successfully");
 			return policiesRepo.save(existingPolicy);
 		} else
@@ -160,6 +162,7 @@ public class PoliciesServiceImp implements IPoliciesService {
 		policiesDTO.setTermPeriod(policies.getTermPeriod());
 		policiesDTO.setTermAmount(policies.getTermAmount());
 		policiesDTO.setInterest(policies.getInterest());
+		policiesDTO.setEligibleUserTypes(policies.getEligibleUserTypes());
 
 		logger.info("Policy retrieved successfully!");
 		return policiesDTO;

@@ -25,7 +25,13 @@ export class ClaimsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAllClaims(),
+    if(this.isUserLoggedIn())
+    {
+      this.getClaimsByUserId();
+    }
+    else if(this.isAdminLoggedIn()){
+      this.getAllClaims();
+    }
       this.editClaimForm = this.formBuilder.group({
         userPolicyId: [null, Validators.required],
         claimDate: [null, Validators.required],
@@ -142,5 +148,16 @@ export class ClaimsComponent implements OnInit {
         // Handle default case if needed
         break;
     }
+  }
+  getClaimsByUserId() {
+    this.claimsService.getClaimsByUserId(localStorage.getItem('userId')).subscribe(
+      (response) => {
+        this.claims= response;
+      },
+      (error) => {
+        console.log('Error fetching user policies:', error);
+        this.claims = [];
+      }
+    );
   }
 }

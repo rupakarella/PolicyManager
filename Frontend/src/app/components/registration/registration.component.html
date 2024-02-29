@@ -51,7 +51,8 @@
           </div>
           <div class="dob-pan">
             <div class="login-form-group">
-              <input type="date" formControlName="dateOfBirth" placeholder="Date Of Birth" class="login-form-control"
+              <input type="text" formControlName="dateOfBirth" placeholder="Date Of Birth" onfocus="this.type='date'"
+                onblur="this.type='text'" class="login-form-control"
                 [ngClass]="{ 'is-invalid': f['dateOfBirth'].touched && f['dateOfBirth'].invalid }">
               <div *ngIf="f['dateOfBirth']?.touched && f['dateOfBirth']?.invalid" class="invalid-feedback">
                 <div *ngIf="f['dateOfBirth'].errors?.['required']">Date of Birth is required</div>
@@ -70,8 +71,9 @@
               </div>
             </div>
           </div>
+          
           <div class="employee">
-            <div class="login-form-group">
+            <!-- <div class="login-form-group">
 
               <input type="text" formControlName="employerType" placeholder="Employer Type" class="login-form-control"
                 [ngClass]="{ 'is-invalid': f['employerType'].touched && f['employerType'].invalid }">
@@ -79,7 +81,7 @@
                 <div *ngIf="f['employerType'].errors?.['required']">Employer Type is required</div>
                 <div *ngIf="f['employerType'].errors?.['maxlength']">String length cannot exceed 25 characters</div>
               </div>
-            </div>
+            </div> -->
 
             <div class="ename">
               <div class="login-form-group">
@@ -94,7 +96,6 @@
           <div class="sal-type">
             <div class="salary">
               <div class="login-form-group">
-
                 <input type="number" formControlName="salary" placeholder="Salary" class="login-form-control"
                   [ngClass]="{ 'is-invalid': submitted && f['salary'].errors }">
                 <div *ngIf="submitted && f['salary'].errors" class="invalid-feedback"></div>

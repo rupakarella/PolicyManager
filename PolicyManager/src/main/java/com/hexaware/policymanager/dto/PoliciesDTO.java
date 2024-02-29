@@ -1,5 +1,6 @@
 package com.hexaware.policymanager.dto;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.hexaware.policymanager.entities.UserPolicies;
@@ -14,14 +15,15 @@ public class PoliciesDTO {
 	private String termPeriod;
 	private double termAmount;
 	private double interest;
+	private List<String> eligibleUserTypes;
 
 	public PoliciesDTO() {
 		super();
 	}
 
+	
 	public PoliciesDTO(long policyId, String policyName, String policyDescription, String company, String policyType,
-			double initialDeposit, String termPeriod, double termAmount, double interest,
-			List<UserPolicies> userPolicies) {
+			double initialDeposit, String termPeriod, double termAmount, double interest, List<String> eligibleUserTypes) {
 		super();
 		this.policyId = policyId;
 		this.policyName = policyName;
@@ -32,7 +34,9 @@ public class PoliciesDTO {
 		this.termPeriod = termPeriod;
 		this.termAmount = termAmount;
 		this.interest = interest;
+		this.eligibleUserTypes = eligibleUserTypes;
 	}
+
 
 	public long getPolicyId() {
 		return policyId;
@@ -105,13 +109,27 @@ public class PoliciesDTO {
 	public void setInterest(double interest) {
 		this.interest = interest;
 	}
+	
+
+	public List<String> getEligibleUserTypes() {
+		return eligibleUserTypes;
+	}
+
+
+	public void setEligibleUserTypes(List<String> eligibleUserTypes) {
+		this.eligibleUserTypes = eligibleUserTypes;
+	}
+
 
 	@Override
 	public String toString() {
 		return "PoliciesDTO [policyId=" + policyId + ", policyName=" + policyName + ", policyDescription="
 				+ policyDescription + ", company=" + company + ", policyType=" + policyType + ", initialDeposit="
 				+ initialDeposit + ", termPeriod=" + termPeriod + ", termAmount=" + termAmount + ", interest="
-				+ interest + "]";
+				+ interest + ", eligibleUserTypes=" + eligibleUserTypes + "]";
 	}
+
+
+	
 
 }

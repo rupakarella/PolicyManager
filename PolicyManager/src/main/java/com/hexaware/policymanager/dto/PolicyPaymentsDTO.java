@@ -3,6 +3,7 @@ package com.hexaware.policymanager.dto;
 import java.time.LocalDate;
 
 import com.hexaware.policymanager.entities.UserPolicies;
+import com.hexaware.policymanager.entities.Users;
 
 public class PolicyPaymentsDTO {
 	private long paymentId;
@@ -13,13 +14,17 @@ public class PolicyPaymentsDTO {
 	private String paymentMethod;
 	private UserPolicies userPolicies;
 	private long userPolicyId;
+	private Users users;
+	private long userId;
 
 	public PolicyPaymentsDTO() {
 		super();
 	}
 
+	
+
 	public PolicyPaymentsDTO(long paymentId, LocalDate paymentDate, String paymentStatus, double totalAmount,
-			double fine, String paymentMethod, UserPolicies userPolicies, long userPolicyId) {
+			double fine, String paymentMethod, UserPolicies userPolicies, long userPolicyId, Users users, long userId) {
 		super();
 		this.paymentId = paymentId;
 		this.paymentDate = paymentDate;
@@ -28,8 +33,12 @@ public class PolicyPaymentsDTO {
 		this.fine = fine;
 		this.paymentMethod = paymentMethod;
 		this.userPolicies = userPolicies;
-		this.userPolicyId=userPolicyId;
+		this.userPolicyId = userPolicyId;
+		this.users = users;
+		this.userId = userId;
 	}
+
+
 
 	public long getPaymentId() {
 		return paymentId;
@@ -94,14 +103,43 @@ public class PolicyPaymentsDTO {
 	public void setUserPolicyId(long userPolicyId) {
 		this.userPolicyId = userPolicyId;
 	}
+	
+
+	public Users getUsers() {
+		return users;
+	}
+
+
+
+	public void setUsers(Users users) {
+		this.users = users;
+	}
+
+
+
+	public long getUserId() {
+		return userId;
+	}
+
+
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "PolicyPaymentsDTO [paymentId=" + paymentId + ", paymentDate=" + paymentDate + ", paymentStatus="
 				+ paymentStatus + ", totalAmount=" + totalAmount + ", fine=" + fine + ", paymentMethod=" + paymentMethod
-				+ ", userPolicies=" + userPolicies + ", userPolicyId=" + userPolicyId + "]";
+				+ ", userPolicies=" + userPolicies + ", userPolicyId=" + userPolicyId + ", users=" + users + ", userId="
+				+ userId + "]";
 	}
 
+
+
+	
 	
 
 }

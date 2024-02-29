@@ -56,7 +56,6 @@ public class UsersServiceImp implements IUsersService {
 			user.setAddress(userDTO.getAddress());
 			user.setPanNumber(userDTO.getPanNumber());
 			user.setEmployerName(userDTO.getEmployerName());
-			user.setEmployerType(userDTO.getEmployerType());
 			user.setSalary(userDTO.getSalary());
 			user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 
@@ -85,7 +84,6 @@ public class UsersServiceImp implements IUsersService {
 				user.setAddress(userDTO.getAddress());
 				user.setPanNumber(userDTO.getPanNumber());
 				user.setEmployerName(userDTO.getEmployerName());
-				user.setEmployerType(userDTO.getEmployerType());
 				user.setSalary(userDTO.getSalary());
 				user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 				user.setUserPolicies(userDTO.getUserPolicies());

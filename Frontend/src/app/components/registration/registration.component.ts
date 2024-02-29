@@ -26,7 +26,7 @@ export class RegistrationComponent implements OnInit {
       lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
       dateOfBirth: ['', Validators.required],
       panNumber: ['', [Validators.required, Validators.pattern('^[A-Z]{5}\\d{4}[A-Z]{1}$')]],
-      employerType: ['', [Validators.required, Validators.maxLength(25)]],
+      // employerType: ['', [Validators.required, Validators.maxLength(25)]],
       employerName: [],
       salary: ['', Validators.min(0)],
       userType: ['', [Validators.required, Validators.pattern('^(Admin|User)$')]],

@@ -1,5 +1,8 @@
 package com.hexaware.policymanager.entities;
 
+import java.util.Arrays;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -44,19 +47,23 @@ public class Policies {
 
 	@NotNull(message = "interest should not be null")
 	private double interest;
+	
+	private List<String> eligibleUserTypes;
 
 	public Policies() {
 		super();
 	}
+
+	
 
 	public Policies(long policyId, @NotBlank(message = "policyName should not be blank") String policyName,
 			@NotBlank(message = "policyDescription should not be blank") String policyDescription,
 			@NotBlank(message = "company should not be blank") String company,
 			@NotBlank(message = "policyType should not be blank") String policyType,
 			@Positive(message = "initialDeposit should be positive value") double initialDeposit,
-			@NotBlank(message = "termPeriod should not be blank") @Pattern(regexp = "^(Monthly|Quaterly|Half-Yearly|Annually)$") String termPeriod,
+			@NotBlank(message = "termPeriod should not be blank") @Pattern(regexp = "^(Monthly|Quarterly|Half-Yearly|Annually)$") String termPeriod,
 			@Positive(message = "termAmount should be positive value") double termAmount,
-			@NotNull(message = "interest should not be null") double interest) {
+			@NotNull(message = "interest should not be null") double interest, List<String> eligibleUserTypes) {
 		super();
 		this.policyId = policyId;
 		this.policyName = policyName;
@@ -67,7 +74,10 @@ public class Policies {
 		this.termPeriod = termPeriod;
 		this.termAmount = termAmount;
 		this.interest = interest;
+		this.eligibleUserTypes = eligibleUserTypes;
 	}
+
+
 
 	public long getPolicyId() {
 		return policyId;
@@ -141,12 +151,29 @@ public class Policies {
 		this.interest = interest;
 	}
 
+	
+	public List<String> getEligibleUserTypes() {
+		return eligibleUserTypes;
+	}
+
+
+
+	public void setEligibleUserTypes(List<String> eligibleUserTypes) {
+		this.eligibleUserTypes = eligibleUserTypes;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Policies [policyId=" + policyId + ", policyName=" + policyName + ", policyDescription="
 				+ policyDescription + ", company=" + company + ", policyType=" + policyType + ", initialDeposit="
 				+ initialDeposit + ", termPeriod=" + termPeriod + ", termAmount=" + termAmount + ", interest="
-				+ interest + "]";
+				+ interest + ", eligibleUserTypes=" + eligibleUserTypes + "]";
 	}
+
+
+
+	
 
 }
