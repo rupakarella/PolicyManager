@@ -24,5 +24,9 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
 	@Query("select u.userType from Users u where u.emailAddress =?1")
 	public String findUserTypeByEmailAddress(String emailAddress);
+	
+	@Query("select u.employerType from Users u where u.emailAddress =?1")
+	public String findEmployerTypeByEmailAddress(String emailAddress);
+
 
 }

@@ -222,4 +222,9 @@ public class UsersServiceImp implements IUsersService {
 
 		return usersRepo.findUserNameByEmailAddress(emailAddress);
 	}
+	@Override
+	public String findEmployerTypeByEmailAddress(String emailAddress)
+	{
+		return usersRepo.findEmployerTypeByEmailAddress(emailAddress);
+	}
 }

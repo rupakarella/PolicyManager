@@ -98,5 +98,12 @@ public class UsersRestController {
 		
 		return usersService.findUserNameByEmailAddress(emailAddress);
 	}
+	
+	@GetMapping(value="/get-employerType-by-emailAddress/{emailAddress}")
+	@PreAuthorize("hasAnyAuthority('Admin','User')")
+	public String findEmployerTypeByEmailAddress(@PathVariable String emailAddress) {
+		
+		return usersService.findEmployerTypeByEmailAddress(emailAddress);
+	}
 
 }

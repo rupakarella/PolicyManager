@@ -6,6 +6,7 @@ public class LoginResponse {
 	private String userType;
 	private String token;
 	private String userName;
+	private String employerType;
 
 	public String getUserName() {
 		return userName;
@@ -38,13 +39,24 @@ public class LoginResponse {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	
 
-	public LoginResponse(long userId, String userType, String token, String userName) {
+	public String getEmployerType() {
+		return employerType;
+	}
+
+	public void setEmployerType(String employerType) {
+		this.employerType = employerType;
+	}
+
+	
+	public LoginResponse(long userId, String userType, String token, String userName, String employerType) {
 		super();
 		this.userId = userId;
 		this.userType = userType;
 		this.token = token;
 		this.userName = userName;
+		this.employerType = employerType;
 	}
 
 	public LoginResponse() {

@@ -43,11 +43,13 @@ public class LoginController {
 		String type = user.findUserTypeByEmailAddress(authRequest.getUsername());
 		long userId = user.findUserIdByEmailAddress(authRequest.getUsername());
 		String userName = user.findUserNameByEmailAddress(authRequest.getUsername());
+		String employerType=user.findEmployerTypeByEmailAddress(authRequest.getUsername());
 
 		response.setToken(token);
 		response.setUserId(userId);
 		response.setUserType(type);
 		response.setUserName(userName);
+		response.setEmployerType(employerType);
 
 		return response;
 	}

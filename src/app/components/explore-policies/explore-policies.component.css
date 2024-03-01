@@ -1,0 +1,210 @@
+*{
+  margin:0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'afacad';
+} 
+.explore-policies-container{
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  background-image: url("../../../assets/policy.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+.nav-buttons {
+  font-family: 'afacad';
+  display: flex;
+  
+}
+
+.navbar img{
+  margin-right: auto;
+  margin-top:2px;
+  width:180px;
+  height:45px;
+}
+.nav-button {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top:2px;
+  padding: 10px 20px;
+  background-color: #1E55B3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'afacad';
+  font-size: 15px;
+}
+
+.nav-button:hover {
+  background-color: #114194;
+}
+
+footer {
+  background-color: transparent; 
+  color: #1E55B3; /* Text color for the footer */
+  padding: 0px; /* Padding around the content inside the footer */
+  text-align: center; /* Align the content in the center */
+  position: fixed; /* Fixed position at the bottom of the viewport */
+  width: 100%; /* Full width */
+  bottom: 0; /* Stick to the bottom */
+}
+
+footer p {
+  margin: 0; 
+}
+.tbody tr td button img{
+  width: 20px;
+  height: 20px;
+  margin:0
+
+}
+table tbody tr td button{
+  background-color: transparent;
+  border:none;
+  width: 20px;
+  height: 20px;
+  margin:0
+
+}
+.search-table{
+  margin-top: 25px;
+  justify-content: center;
+  
+
+}
+
+.table-container {
+  overflow: hidden; /* Ensure the rounded corners are visible */
+  border-radius: 10px;
+}
+table{
+  background-color:  rgba(255, 255, 255, 0.8);
+  width: 95%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0; /* Adjust this value as needed */
+  border-radius: 10px;
+}
+
+
+
+th, td {
+  border: 1px solid rgba(0, 0, 0, 0.214);
+  padding: 8px;
+  text-align: left;
+}
+
+
+th:first-child,
+td:first-child {
+  border-left: none; /* Remove left border for first column */
+}
+
+th:last-child,
+td:last-child {
+  border-right: none; /* Remove right border for last column */
+}
+
+th{
+  border-top: none;
+}
+
+td{
+  border-bottom: none;
+}
+
+
+.select-dropdown {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+
+}
+select {
+  justify-content: center;
+  padding: 10px 20px; 
+  /* font-family: 'afacad', sans-serif;  */
+  font-size: 1rem; 
+  border: 2px solid #1E55B3; 
+  border-radius: 5px;
+  background-color:rgba(255, 255, 255, 0.8);  
+  appearance: none; 
+  background-image: url('../../../assets/caret-down.png');
+  background-repeat: no-repeat;
+  background-position: right 5px center; 
+  background-size: 20px; 
+}
+
+.select-dropdown {
+  display: flex;
+  padding-left: 20px; 
+  margin-top: 0px; 
+}
+
+.select-dropdown{
+  color: #333; 
+  margin-right: 10px; 
+  font-family: 'Afacad', sans-serif;
+  font-size: 1rem;
+}
+
+.select-dropdown select,
+.select-dropdown input[type="text"],
+.select-dropdown input[type="number"] {
+  padding: 10px 20px;
+  font-family: 'Afacad', sans-serif;
+  font-size: 1rem;
+  border: 2px solid #1E55B3;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  appearance: none;
+}
+
+.select-dropdown select:focus,
+.select-dropdown select:hover,
+.select-dropdown input[type="text"]:focus,
+.select-dropdown input[type="text"]:hover,
+.select-dropdown input[type="number"]:focus,
+.select-dropdown input[type="number"]:hover {
+  outline: none;
+  background-color: #fff;
+}
+
+.select-dropdown select:active,
+.select-dropdown select:checked,
+.select-dropdown input[type="text"]:active,
+.select-dropdown input[type="text"]:checked,
+.select-dropdown input[type="number"]:active,
+.select-dropdown input[type="number"]:checked {
+  background-color: #fff;
+}
+
+.select-dropdown select option {
+  background-color: #fff;
+  color: #333;
+}
+
+.select-dropdown button {
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #1E55B3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Afacad', sans-serif;
+  font-size: 1rem;
+  margin-top: 10px; 
+}
+
+.pagination{
+  justify-content: end;
+}

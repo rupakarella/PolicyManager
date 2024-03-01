@@ -29,4 +29,6 @@ public interface IUsersService {
 	public long findUserIdByEmailAddress(String emailAddress);
 
 	public String findUserNameByEmailAddress(String emailAddress);
+	
+	public String findEmployerTypeByEmailAddress(String emailAddress);
 }
