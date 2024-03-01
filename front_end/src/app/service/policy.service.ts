@@ -18,7 +18,7 @@ export class PolicyService {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': 'http://localhost:4200'
     }).set("Authorization",tokenString);
-    return this.http.post<Policy>(this.baseUrl + "register", policy, { headers });
+    return this.http.post<Policy>(this.baseUrl + "register", policy, { headers, responseType: 'json' });
   }
   
   updatePolicy(policy: Policy): Observable<Policy> {
@@ -52,7 +52,6 @@ export class PolicyService {
     return this.http.get<Policy[]>(this.baseUrl + 'get-term-amount-greater/' + termAmount,{headers});
   }
 
-
   getByAmountLessThan(termAmount: number): Observable<Policy[]> {
     let tokenString = "Bearer "+localStorage.getItem("token");
     const headers =  new HttpHeaders({
@@ -65,15 +64,13 @@ export class PolicyService {
   getAllPolicies(): Observable<Policy[]> {
     return this.http.get<Policy[]>(this.baseUrl + 'get-all');
   }
-
-
+  
   deletePolicy(policyId: number): Observable<any> {
     const token = this.jwtservice.getToken();
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    return this.http.delete(this.baseUrl+ 'delete/'+policyId, { headers });
-  }
-  
+    return this.http.delete(this.baseUrl+ 'delete/'+policyId, { headers });
+  }  
 }

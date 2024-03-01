@@ -24,10 +24,10 @@ export class ExplorePoliciesComponent implements OnInit {
     policyId: 0,
     startDate: new Date(),
     durationInYears: 0,
-
+    
   };
   policy!: Policy;
-  showForm: boolean = false;
+  showForm:boolean=false;
   isEdit: boolean = false;
   buyForm: FormGroup;
   showBuyForm: boolean = false;
@@ -39,11 +39,13 @@ export class ExplorePoliciesComponent implements OnInit {
   selectedFilterMethod: string = '';
   company: string = '';
   greaterThanAmount: number = 0;
-  lessThanAmount: number = 0;
-
-  public loggedIn = false;
-  public UserloggedIn = false;
-  public AdminloggedIn = false;
+  lessThanAmount: number=0;
+  registerForm!:FormGroup;
+  public loggedIn=false;
+  public UserloggedIn=false;
+  public AdminloggedIn=false;
+  currentPage: number = 1;
+  pageSize: number = 6;
   constructor(
     private policyService: PolicyService,
     private formBuilder: FormBuilder,
@@ -54,7 +56,7 @@ export class ExplorePoliciesComponent implements OnInit {
   ) {
     this.buyForm = this.formBuilder.group({
       startDate: ['', Validators.required],
-      durationInYears: ['', Validators.required],
+      durationInYears: ['', Validators.required],   
     });
     this.policiesForm = this.formBuilder.group({
       policyName: ['', Validators.required],
@@ -64,49 +66,71 @@ export class ExplorePoliciesComponent implements OnInit {
       initialDeposit: [0, [Validators.required, Validators.min(1)]],
       termPeriod: ['', [Validators.required, Validators.pattern('^(Monthly|Quarterly|Half-Yearly|Annually)$')]],
       termAmount: [0, [Validators.required, Validators.min(1)]],
-      interest: [0, [Validators.required, Validators.min(0)]]
+      interest: [0, [Validators.required, Validators.min(0)]],
+      eligibleUserTypes:[[],[Validators.required]]
     });
-
+    this.registerForm=this.formBuilder.group({
+      policyName: ['', Validators.required],
+      policyDescription: ['', Validators.required],
+      company: ['', Validators.required],
+      policyType: ['', [Validators.required]],
+      initialDeposit: [0, [Validators.required, Validators.min(1)]],
+      termPeriod: ['', [Validators.required, Validators.pattern('^(Monthly|Quarterly|Half-Yearly|Annually)$')]],
+      termAmount: [0, [Validators.required, Validators.min(1)]],
+      interest: [0, [Validators.required, Validators.min(0)]],
+      eligibleUserTypes:[[],[Validators.required]]
+    })
   }
+
 
   toggleFormVisibility() {
     this.showForm = !this.showForm;
-    this.isEdit = false;
+    this.isEdit = false; 
     console.log('Form visibility toggled:', this.showForm);
-  }
+}
 
-  onAdding(): void {
-    if (this.policiesForm.invalid) {
-      return;
-    }
-    const newPolicy = this.policiesForm.value;
-    this.policyService.registerPolicy(newPolicy)
-      .subscribe(
-        (response) => {
-          console.log('Policy added successfully', response);
-          alert('Policy added successfully');
-          // Reset the form after successful addition
-          this.policiesForm.reset();
-          // Optionally, toggle the form visibility off
-          this.toggleFormVisibility();
-        },
-        (error) => {
-          console.error('Error adding policy:', error);
-          alert('Failed to add policy');
-        }
-      );
+onAdding(): void {
+  if (this.registerForm.invalid) {
+    return;
   }
+  const eligibleUserTypesControl = this.registerForm.get('eligibleUserTypes');
+
+  if (!eligibleUserTypesControl) {
+    console.error('Eligible user types control not found in the form.');
+    return;
+  }
+  const eligibleUserTypesInput = eligibleUserTypesControl.value;
+  const eligibleUserTypesArray = eligibleUserTypesInput.split(',').map((userType: string) => userType.trim());
+  const newPolicy = {
+    ...this.registerForm.value,
+    eligibleUserTypes: eligibleUserTypesArray
+  };
+  this.policyService.registerPolicy(newPolicy)
+    .subscribe(
+      (response) => {
+        console.log('Policy added successfully', response);
+        alert('Policy added successfully');
+        this.registerForm.reset();
+        this.toggleFormVisibility();
+      },
+      (error) => {
+        console.error('Error adding policy:', error);
+        alert('Failed to add policy');
+      }
+    );
+}
+
 
   ngOnInit(): void {
     this.loadPolicies();
     this.navigationService.disableBackButton();
-  
   }
-  logoutUser() {
+  logoutUser()
+  {
     this.jwtService.logout();
-    this.loggedIn = false;
-    this.UserloggedIn = false;
-    this.AdminloggedIn = false;
+    this.loggedIn=false;
+    this.UserloggedIn=false;
+    this.AdminloggedIn=false;
     alert("Logged Out");
     this.router.navigate(['/']);
   }
@@ -125,25 +149,58 @@ export class ExplorePoliciesComponent implements OnInit {
     this.policyService.getAllPolicies().subscribe(
       (data) => {
         this.policies = data;
+        console.log(this.policies);
       },
       (error) => {
         console.error('There was an error fetching the policies', error);
       }
     );
   }
+  get paginatedPolicies(): Policy[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return this.policies.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.policies.length / this.pageSize);
+  }
 
   get f() {
+    return this.policiesForm.controls;
+  }
+  get f1() {
     return this.buyForm.controls;
   }
-
-
-
-  buyPolicy(policyId: number) {
-    this.showBuyForm = true;
-    this.policyId = policyId;
-    this.userPolicies.userId = +localStorage.getItem('userId')!;
+  get f2()
+  {
+    return this.registerForm.controls;
   }
 
+
+  buyPolicy(policy: Policy) {
+    const userEmployerType = localStorage.getItem('employerType');
+    if (userEmployerType && policy.eligibleUserTypes.includes(userEmployerType)) {
+      this.showBuyForm = true;
+      this.policyId = policy.policyId;
+      this.userPolicies.userId = +localStorage.getItem('userId')!;
+      this.policy = policy; 
+    } else {
+      alert("Sorry, You are not eligible to buy this policy.")
+    }
+  }
+  
   onBuyPolicy() {
     this.userPolicies.policyId = this.policyId;
     this.userPolicies.userId = +localStorage.getItem('userId')!;
@@ -154,7 +211,7 @@ export class ExplorePoliciesComponent implements OnInit {
       responseData => {
         console.log(responseData);
         alert("Policy added to your account");
-        this.router.navigate(['user-policies']);
+        this.router.navigate(['/user-policies']);
       },
       error => {
         console.log(error);
@@ -167,7 +224,7 @@ export class ExplorePoliciesComponent implements OnInit {
   deletePolicy(policyId: number) {
     this.policyService.deletePolicy(policyId).subscribe(
       (response) => {
-        console.log(response);
+        console.log(response); 
         this.loadPolicies();
       },
       (error) => {
@@ -175,7 +232,7 @@ export class ExplorePoliciesComponent implements OnInit {
       }
     );
   }
-
+ 
   updatePolicy(policies: Policy) {
     this.isEdit = true;
     this.policy = policies;
@@ -188,22 +245,35 @@ export class ExplorePoliciesComponent implements OnInit {
       initialDeposit: policies.initialDeposit,
       termPeriod: policies.termPeriod,
       termAmount: policies.termAmount,
-      interest: policies.interest
+      interest: policies.interest,
+      eligibleUserTypes: policies.eligibleUserTypes
     })
   }
-  get f1() {
-    return this.policiesForm.controls;
+ 
+  
+  onUpdate() {
+    if (this.policiesForm.invalid) {
+      return;
+    }
+    const eligibleUserTypesControl = this.policiesForm.get('eligibleUserTypes');
+
+  if (!eligibleUserTypesControl) {
+    console.error('Eligible user types control not found in the form.');
+    return;
   }
 
-  onUpdate() {
+  const eligibleUserTypesInput = eligibleUserTypesControl.value;
+  const eligibleUserTypesArray = eligibleUserTypesInput.split(',').map((userType: string) => userType.trim()); 
     this.policy.policyName = this.policiesForm.value.policyName;
     this.policy.policyDescription = this.policiesForm.value.policyDescription;
     this.policy.company = this.policiesForm.value.company;
     this.policy.initialDeposit = this.policiesForm.value.initialDeposit;
-    this.policy.policyType = this.policiesForm.value.policyType;
+    this.policy.policyType=this.policiesForm.value.policyType;
     this.policy.termPeriod = this.policiesForm.value.termPeriod;
     this.policy.termAmount = this.policiesForm.value.termAmount;
     this.policy.interest = this.policiesForm.value.interest;
+    this.policy.eligibleUserTypes = eligibleUserTypesArray;
+    
 
     let response = this.policyService.updatePolicy(this.policy);
     response.subscribe(
@@ -222,7 +292,7 @@ export class ExplorePoliciesComponent implements OnInit {
   }
   onFilterMethodChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
-    if (value === 'getPolicyByPolicyType' || value === 'getPoliciesByCompany' || value == 'getByAmountGreaterThan' || value == 'getByAmountLessThan') {
+    if (value === 'getPolicyByPolicyType' || value === 'getPoliciesByCompany' || value=='getByAmountGreaterThan'|| value=='getByAmountLessThan') {
       this.selectedFilterMethod = value;
     }
   }
@@ -271,7 +341,7 @@ export class ExplorePoliciesComponent implements OnInit {
     if (this.greaterThanAmount > 0) {
       this.policyService.getByAmountGreaterThan(greaterThanAmount).subscribe(
         (response) => {
-          this.policies = response;
+          this.policies = response; 
         },
         (error) => {
           console.error('Error fetching policies by amount greater than:', error);
@@ -289,7 +359,7 @@ export class ExplorePoliciesComponent implements OnInit {
     if (this.lessThanAmount > 0) {
       this.policyService.getByAmountLessThan(lessThanAmount).subscribe(
         (response) => {
-          this.policies = response;
+          this.policies = response; 
         },
         (error) => {
           console.error('Error fetching policies by amount less than:', error);

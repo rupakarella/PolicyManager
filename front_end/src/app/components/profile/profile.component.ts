@@ -33,7 +33,6 @@ export class ProfileComponent implements OnInit {
     lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
     dateOfBirth: ['', Validators.required],
     panNumber: ['', [Validators.required, Validators.pattern('^[A-Z]{5}\\d{4}[A-Z]{1}$')]],
-    employerType: ['', [Validators.required, Validators.maxLength(25)]],
     employerName: [],
     salary: ['', Validators.min(0)],
     userType: ['', [Validators.required, Validators.pattern('^(Admin|User)$')]],
@@ -107,7 +106,6 @@ export class ProfileComponent implements OnInit {
      this.user.dateOfBirth=this.usersForm.value.dateOfBirth;
      this.user.panNumber=this.usersForm.value.panNumber;
      this.user.employerType=this.usersForm.value.employerType;
-     this.user.employerName=this.usersForm.value.employerName;
      this.user.salary=this.usersForm.value.salary;
      this.user.userType=this.usersForm.value.userType;
      this.user.address.addressLine=this.usersForm.value.address.addressLine;

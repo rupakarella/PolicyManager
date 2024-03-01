@@ -62,6 +62,15 @@ export class UserService {
     }).set("Authorization", tokenString);
     return this.http.get<Users[]>(this.baseUrl + "get-contactnumber/" + contactNumber, { headers, responseType: 'json' });
   }
+  getUserByEmail(email: string): Observable<Users> {
+    let tokenString = "Bearer " + localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200'
+    }).set("Authorization", tokenString);
+    return this.http.get<Users>(this.baseUrl + "get-email/" + email, { headers, responseType: 'json' });
+  }
+
 
   deleteUserById(userId: number): Observable<any> {
     let tokenString = "Bearer " + localStorage.getItem("token");

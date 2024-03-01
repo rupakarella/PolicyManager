@@ -20,13 +20,23 @@ export class PaymentsComponent implements OnInit {
   paymentStatus: string = '';
   paymentId: number | null = null;
   paymentDate: Date | null = null;
+  userPolicyId:number=0;
+  currentPage: number = 1;
+  pageSize: number = 7;
 
 
   constructor(private paymentsService: PaymentsService,private fb:FormBuilder,private datePipe: DatePipe,private navigationService: NavigationService ) { }
 
   ngOnInit(): void {
     this.navigationService.disableBackButton();
-    this.getAllPayments();
+    if(this.isUserLoggedIn())
+    {
+      this.getPaymentsByUserId();
+    }
+    else if(this.isAdminLoggedIn()){
+      this.getAllPayments();
+    }
+   
     this.initForm();
   }
 
@@ -51,19 +61,29 @@ export class PaymentsComponent implements OnInit {
       }
     );
   }
+  get paginatedPayments(): Payments[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return this.payments.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.payments.length / this.pageSize);
+  }
 
   searchPayments() {
     switch (this.selectedFilter) {
-      // case 'paymentStatus':
-      //   this.paymentsService.getAllPaymentsByStatus(this.paymentStatus).subscribe(
-      //     (data) => {
-      //       this.payments = data;
-      //     },
-      //     (error) => {
-      //       console.error('Error searching payments by payment status', error);
-      //     }
-      //   );
-        // break;
       case 'paymentId':
         if (this.paymentId) {
           this.paymentsService.getPaymentById(this.paymentId).subscribe(
@@ -93,10 +113,25 @@ export class PaymentsComponent implements OnInit {
           break;
   
       default:
-        // Handle default case if needed
         break;
     }
   }
+  isAdminLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'Admin';
+  }
+
+  isUserLoggedIn() {
+    return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
+  }
+  getPaymentsByUserId() {
+    this.paymentsService.getPaymentsByUserId(localStorage.getItem('userId')).subscribe(
+      (response) => {
+        this.payments= response;
+      },
+      (error) => {
+        console.log('Error fetching user policies:', error);
+        this.payments = [];
+      }
+    );
+  }
 }
-
-

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PolicyService } from 'src/app/service/policy.service';
 import { Policy } from 'src/app/models/policy.model';
+import { NavigationService } from 'src/app/service/navigation.service';
 
 @Component({
   selector: 'app-policies',
@@ -20,9 +21,10 @@ throw new Error('Method not implemented.');
   policies: Policy[] = [];
   policyForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private policyService: PolicyService) { }
+  constructor(private fb: FormBuilder, private policyService: PolicyService,private navigationService: NavigationService ) { }
   
   ngOnInit(): void {
+    this.navigationService.disableBackButton();
     this.initializeForm();
     this.loadPolicies();
   }

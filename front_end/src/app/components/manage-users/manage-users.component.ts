@@ -26,10 +26,12 @@ export class ManageUsersComponent implements OnInit {
   showPassword = true;
   user!: Users;
   submitted = false;
+  currentPage: number = 1;
+  pageSize: number = 3;
 
 
 
-  constructor(private userService:UserService,private router:Router,private formBuilder: FormBuilder, private navigationService: NavigationService){
+  constructor(private userService:UserService,private router:Router,private formBuilder: FormBuilder,private navigationService: NavigationService){
     this.usersForm = this.formBuilder.group({
     userId: [],
     emailAddress: ['', [Validators.required, Validators.email]],
@@ -39,7 +41,7 @@ export class ManageUsersComponent implements OnInit {
     lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
     dateOfBirth: ['', Validators.required],
     panNumber: ['', [Validators.required, Validators.pattern('^[A-Z]{5}\\d{4}[A-Z]{1}$')]],
-    employerType: ['', [Validators.required, Validators.maxLength(25)]],
+    // employerType: ['', [Validators.required, Validators.maxLength(25)]],
     employerName: [],
     salary: ['', Validators.min(0)],
     userType: ['', [Validators.required, Validators.pattern('^(Admin|User)$')]],
@@ -76,6 +78,26 @@ getAllUsers() {
     }
   );
 }
+get paginatedUsers(): Users[] {
+  const startIndex = (this.currentPage - 1) * this.pageSize;
+  return this.users.slice(startIndex, startIndex + this.pageSize);
+}
+
+nextPage(): void {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+  }
+}
+
+prevPage(): void {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+  }
+}
+
+get totalPages(): number {
+  return Math.ceil(this.users.length / this.pageSize);
+}
 
 selectFilter(event: Event) {
   const value = (event.target as HTMLSelectElement).value;
@@ -88,9 +110,6 @@ selectFilter(event: Event) {
     }
   }
 }
-
-
-
 
 filterByUserType() {
   if (this.userType) {
@@ -123,6 +142,20 @@ filterByContactNumber() {
     );
   }
 }
+  filterByEmail() {
+    if (this.emailAddress) {
+      this.userService.getUserByEmail(this.emailAddress).subscribe(
+        (response: Users) => {
+          this.users = [response]; // Update the users array with the filtered result
+          console.log(this.users);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
 
 filterByUserId() {
   if (this.userId) {
@@ -164,12 +197,12 @@ onEditClicked(user: Users) {
     userId: user.userId,
     emailAddress: user.emailAddress,
     contactNumber: user.contactNumber,
-    password: user.password,
+   
     firstName: user.firstName,
     lastName: user.lastName,
     dateOfBirth: user.dateOfBirth,
     panNumber: user.panNumber,
-    employerType: user.employerType,
+    // employerType: user.employerType,
     employerName: user.employerName,
     salary: user.salary,
     userType: user.userType,
@@ -230,8 +263,3 @@ onUpdate()
       });
 }
 }
-
-
-
-
-

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PoliciesComponent } from './components/policies/policies.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
@@ -14,21 +13,21 @@ import { ClaimsComponent } from './components/claims/claims.component';
 import { PaymentsComponent } from './components/payments/payments.component';
 import { AuthGuard } from './service/auth.guard';
 import { AdminAuthGuard } from './service/admin-auth.guard';
+import { adminUserAuthGuard } from './service/admin-user-auth.guard';
 
 
 const routes: Routes = [
-  {path:'policies',component: PoliciesComponent},
   {path: '', component: HomeComponent,pathMatch:'full' },
   {path: 'login', component: LoginComponent,pathMatch:'full'},
   {path:'registration', component: RegistrationComponent,pathMatch:'full'},
-  {path:'user-dashboard', component: UserDashboardComponent,canActivate: [AuthGuard]},
-  {path:'profile', component: ProfileComponent,canActivate: [AuthGuard,AdminAuthGuard]},
-  {path:'user-policies',component:UserPoliciesComponent,canActivate: [AuthGuard,AdminAuthGuard]},
-  {path:'admin-dashboard', component: AdminDashboardComponent,canActivate: [AdminAuthGuard]},
-  {path:'manage-users',component:ManageUsersComponent,canActivate: [AdminAuthGuard]},
+  {path:'user-dashboard', component: UserDashboardComponent,pathMatch:'full',canActivate: [AuthGuard]},
+  {path:'profile', component: ProfileComponent,pathMatch:'full', canActivate: [adminUserAuthGuard]},
+  {path:'user-policies',component:UserPoliciesComponent,pathMatch:'full',canActivate: [adminUserAuthGuard]},
+  {path:'admin-dashboard', component: AdminDashboardComponent,pathMatch:'full',canActivate: [AdminAuthGuard]},
+  {path:'manage-users',component:ManageUsersComponent,pathMatch:'full', canActivate: [AdminAuthGuard]},
   {path:"explore-policies",component:ExplorePoliciesComponent,pathMatch:'full'},
-  {path:"claims",component:ClaimsComponent,canActivate: [AuthGuard,AdminAuthGuard]},
-  {path:"payments",component:PaymentsComponent,canActivate: [AuthGuard,AdminAuthGuard]},
+  {path:"claims",component:ClaimsComponent,pathMatch:'full',canActivate: [adminUserAuthGuard]},
+  {path:"payments",component:PaymentsComponent,pathMatch:'full',canActivate: [adminUserAuthGuard]},
 ];
 
 @NgModule({

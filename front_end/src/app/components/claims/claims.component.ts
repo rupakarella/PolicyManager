@@ -19,6 +19,8 @@ export class ClaimsComponent implements OnInit {
   claimAmount: number | null = null;
   claimStatus: string = '';
   claimId: number | null = null;
+  currentPage: number = 1;
+  pageSize: number = 7;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,7 +30,14 @@ export class ClaimsComponent implements OnInit {
 
   ngOnInit(): void {
     this.navigationService.disableBackButton();
-    this.getAllClaims(),
+    if(this.isUserLoggedIn())
+    {
+      this.getClaimsByUserId();
+    }
+    else if(this.isAdminLoggedIn()){
+      this.getAllClaims();
+    }
+   
       this.editClaimForm = this.formBuilder.group({
         userPolicyId: [null, Validators.required],
         claimDate: [null, Validators.required],
@@ -95,6 +104,26 @@ export class ClaimsComponent implements OnInit {
       }
     );
   }
+  get paginatedClaims(): Claims[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return this.claims.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.claims.length / this.pageSize);
+  }
 
   deleteClaim(claimId: number) {
     this.claimsService.deleteClaim(claimId).subscribe(
@@ -145,6 +174,17 @@ export class ClaimsComponent implements OnInit {
         // Handle default case if needed
         break;
     }
+  }
+  getClaimsByUserId() {
+    this.claimsService.getClaimsByUserId(localStorage.getItem('userId')).subscribe(
+      (response) => {
+        this.claims= response;
+      },
+      (error) => {
+        console.log('Error fetching user policies:', error);
+        this.claims = [];
+      }
+    );
   }
 }
 

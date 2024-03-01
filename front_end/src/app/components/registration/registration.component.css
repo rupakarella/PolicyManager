@@ -32,13 +32,12 @@ html, body {
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 1000px;
-  margin: auto; /* This will center the box horizontally */
-  position: relative;
-  /* top:48%;
-  left: 50%;
-  transform: translate(-50%, -50%); This will center the box vertically */
+  margin-top: 5%; 
+  margin-left: 16%;
   text-align: center;
-  /* margin-top:45px; */
+  position: relative;
+  text-align: center;
+
 }
 .details{
   display:flex;
