@@ -8,4 +8,5 @@ export interface Policy{
   termPeriod: string; 
   termAmount: number;
   interest: number;
+  eligibleUserTypes:string[];
 }

@@ -72,5 +72,15 @@ export class ClaimService {
     });
     return this.http.get<Claims>(this.baseUrl+"get-by-id/"+claimId,{headers});
   }
+  getClaimsByUserId(userId:any):Observable<Claims[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<Claims[]>(this.baseUrl + 'get-by-userId/'+userId, { headers });
+  }
 
 }
+
+

@@ -27,11 +27,11 @@
                     routerLink="/login">Login</button>
                 <button *ngIf="(!isUserLoggedIn() && !isAdminLoggedIn())" class="nav-button"
                     routerLink="/registration">Register</button>
-                    <button class="nav-button" (click)="toggleFormVisibility() ">Add New Policy</button>
-                <button *ngIf=isAdminLoggedIn() class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
-                <button *ngIf=isUserLoggedIn() class="nav-button" routerLink="/user-dashboard">Dashboard</button>
+                <button class="nav-button" (click)="toggleFormVisibility() ">Add New Policy</button>
+                <button *ngIf="isAdminLoggedIn()" class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
+                <button *ngIf="isUserLoggedIn()" class="nav-button" routerLink="/user-dashboard">Dashboard</button>
                 <button (click)="logoutUser()" *ngIf="loggedIn" class="nav-button">Logout</button>
-                
+
             </div>
         </nav>
         <h3 *ngIf="(!isUserLoggedIn() && !isAdminLoggedIn())"
@@ -43,28 +43,28 @@
                 </div>
                 <div class="details">
                     <input type="text" formControlName="policyName" placeholder="Policy Name"
-                        [ngClass]="{'is-invalid':f1['policyName'].touched && f1['policyName'].invalid}">
+                        [ngClass]="{'is-invalid':f['policyName'].touched && f['policyName'].invalid}">
                     <div *ngIf="f['policyName']?.touched && f['policyName']?.invalid" class="invalid-feedback">
                         <div *ngIf="f['policyName']?.errors?.['required']">Policy Name is required</div>
                     </div>
                     <input type="textarea" formControlName="policyDescription" placeholder="Policy Description"
-                        [ngClass]="{'is-invalid':f1['policyDescription'].touched && f1['policyDescription'].invalid}">
+                        [ngClass]="{'is-invalid':f['policyDescription'].touched && f['policyDescription'].invalid}">
                     <div *ngIf="f['policyDescription']?.touched && f['policyDescription']?.invalid"
                         class="invalid-feedback">
                         <div *ngIf="f['policyDescription']?.errors?.['required']">Description is required</div>
                     </div>
                     <input type="text" formControlName="company" placeholder="Company"
-                        [ngClass]="{'is-invalid':f1['company'].touched && f1['company'].invalid}">
+                        [ngClass]="{'is-invalid':f['company'].touched && f['company'].invalid}">
                     <div *ngIf="f['company']?.touched && f['company']?.invalid" class="invalid-feedback">
                         <div *ngIf="f['company']?.errors?.['required']">company is required</div>
                     </div>
                     <input type="text" formControlName="policyType" placeholder="Policy Type"
-                        [ngClass]="{'is-invalid':f1['policyType'].touched && f1['policyType'].invalid}">
+                        [ngClass]="{'is-invalid':f['policyType'].touched && f['policyType'].invalid}">
                     <div *ngIf="f['policyType']?.touched && f['policyType']?.invalid" class="invalid-feedback">
                         <div *ngIf="f['policyType']?.errors?.['required']">policy Type is required</div>
                     </div>
                     <input type="number" formControlName="initialDeposit" placeholder="Initial Deposit "
-                        [ngClass]="{'is-invalid':f1['initialDeposit'].touched && f1['initialDeposit'].invalid}">
+                        [ngClass]="{'is-invalid':f['initialDeposit'].touched && f['initialDeposit'].invalid}">
                     <div *ngIf="f['initialDeposit']?.touched && f['initialDeposit']?.invalid" class="invalid-feedback">
                         <div *ngIf="f['initialDeposit']?.errors?.['required']">Initial Deposit is required</div>
                         <div *ngIf="f['initialDeposit']?.errors?.['min']">Intial Deposit must be Positive</div>
@@ -82,16 +82,24 @@
                     </div>
 
                     <input type="number" formControlName="termAmount" placeholder="Term Amount "
-                        [ngClass]="{'is-invalid':f1['termAmount'].touched && f1['termAmount'].invalid}">
+                        [ngClass]="{'is-invalid':f['termAmount'].touched && f['termAmount'].invalid}">
                     <div *ngIf="f['termAmount']?.touched && f['termAmount']?.invalid" class="invalid-feedback">
                         <div *ngIf="f['termAmount']?.errors?.['required']">Term Amount is required</div>
                         <div *ngIf="f['termAmount']?.errors?.['min']">Term Amount should be Positive</div>
                     </div>
                     <input type="number" formControlName="interest" placeholder="Interest "
-                        [ngClass]="{'is-invalid':f1['termAmount'].touched && f1['termAmount'].invalid}">
+                        [ngClass]="{'is-invalid':f['termAmount'].touched && f['termAmount'].invalid}">
                     <div *ngIf="f['interest']?.touched && f['interest']?.invalid" class="invalid-feedback">
                         <div *ngIf="f['interest']?.errors?.['required']">Interest is required</div>
                         <div *ngIf="f['interest']?.errors?.['min']">Interest should be Positive</div>
+                    </div>
+                    <label for="eligibleUserTypes">Eligible UserTypes *</label>
+                    <input id="eligibleUserTypes" formControlName="eligibleUserTypes" type="text"
+                        placeholder="Enter Eligible UserTypes"
+                        [ngClass]="{'is-invalid': f['eligibleUserTypes'].touched && f['eligibleUserTypes'].invalid}">
+                    <div *ngIf="f['eligibleUserTypes']?.touched && f['eligibleUserTypes']?.invalid"
+                        class="invalid-feedback">
+                        <div *ngIf="f['eligibleUserTypes']?.errors?.['required']">Eligible UserTypes are required</div>
                     </div>
                 </div>
                 <div class="submit">
@@ -106,14 +114,14 @@
                 <div class="form-group">
                     <label for="start-date">Start Date:</label>
                     <input type="date" formControlName="startDate">
-                    <div *ngIf="f['startDate'].invalid && f['startDate'].touched" class="error-message">
+                    <div *ngIf="f1['startDate'].invalid && f1['startDate'].touched" class="error-message">
                         Start Date is required.
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="durationInYears">Duration (in years):</label>
                     <input type="number" id="durationInYears" formControlName="durationInYears">
-                    <div *ngIf="f['durationInYears'].invalid && f['durationInYears'].touched" class="error-message">
+                    <div *ngIf="f1['durationInYears'].invalid && f1['durationInYears'].touched" class="error-message">
                         Duration is required.
                     </div>
                 </div>
@@ -121,8 +129,54 @@
             </form>
         </div>
 
+
+        <div class="select-dropdown" *ngIf="!showForm && !showBuyForm && !isEdit">
+            <select id="filterMethod" (change)="onFilterMethodChange($event)">
+                <option value="">Select Filter Method</option>
+                <option value="getPolicyByPolicyType">Get Policies By Policy Type</option>
+                <option *ngIf="isAdminLoggedIn() || isUserLoggedIn()" value="getPoliciesByCompany">Get Policies
+                    By
+                    Company</option>
+                <option *ngIf="isAdminLoggedIn() || isUserLoggedIn()" value="getByAmountGreaterThan">Get
+                    Policies By
+                    Amount Greater Than</option>
+                <option *ngIf="isAdminLoggedIn() || isUserLoggedIn()" value="getByAmountLessThan">Get Policies
+                    By
+                    Amount Less Than</option>
+            </select>
+            <div *ngIf="selectedFilterMethod === 'getPolicyByPolicyType'">
+                <label for="policyType">Select Policy Type:</label>
+                <select id="policyType" (change)="onPolicyTypeChange($event)">
+                    <option value="">Select Policy Type</option>
+                    <option value="Vehicle Insurance">Vehicle Insurance</option>
+                    <option value="Travel Insurance">Travel Insurance</option>
+                    <option value="Life insurance">Life insurance</option>
+                    <option value="Health Insurance">Health Insurance</option>
+                    <option value="Child Plans">Child Plans</option>
+                    <option value="Retirement Plans">Retirement Plans</option>
+                </select>
+            </div>
+
+            <div *ngIf="selectedFilterMethod === 'getPoliciesByCompany'">
+                <label for="company">Enter Company Name:</label>
+                <input type="text" id="company" [(ngModel)]="company" placeholder="Enter company name">
+                <button (click)="onGetPoliciesByCompany()">Search</button>
+            </div>
+
+            <div *ngIf="selectedFilterMethod === 'getByAmountGreaterThan'">
+                <label for="greaterThanAmount">Enter Amount Greater Than:</label>
+                <input type="number" id="greaterThanAmount" [(ngModel)]="greaterThanAmount" placeholder="Enter amount">
+                <button (click)="onGetPoliciesByAmountGreaterThan()">Search</button>
+            </div>
+            <div *ngIf="selectedFilterMethod === 'getByAmountLessThan'">
+                <label for="lessThanAmount">Enter Amount Less Than:</label>
+                <input type="number" id="lessThanAmount" [(ngModel)]="lessThanAmount" placeholder="Enter amount">
+                <button (click)="onGetPoliciesByAmountLessThan()">Search</button>
+            </div>
+        </div>
+
         <div *ngIf=" !showForm && !showBuyForm && !isEdit" class="search-table">
-            <table class="table table-borderes">
+            <table>
                 <thead class="thead">
                     <tr>
                         <th>Policy Id</th>
@@ -134,6 +188,7 @@
                         <th>Term Period</th>
                         <th>Term Amount</th>
                         <th>Interest</th>
+                        <th>Eligible Employer Types</th>
 
                         <th *ngIf="isUserLoggedIn()">Buy Now</th>
                         <th *ngIf="isAdminLoggedIn()">Edit</th>
@@ -141,7 +196,7 @@
                     </tr>
                 </thead>
                 <tbody class="tbody">
-                    <tr *ngFor="let policy of policies">
+                    <tr *ngFor="let policy of paginatedPolicies">
                         <td>{{policy.policyId}}</td>
                         <td>{{policy.policyName}}</td>
                         <td>{{policy.policyDescription}}</td>
@@ -151,9 +206,11 @@
                         <td>{{policy.termPeriod}}</td>
                         <td>{{policy.termAmount}}</td>
                         <td>{{policy.interest}}</td>
+                        <td>{{policy.eligibleUserTypes}}</td>
+
 
                         <td *ngIf="isUserLoggedIn()"><button type="button" class="btn button"
-                                (click)="buyPolicy(policy.policyId)">Buy Now</button></td>
+                                (click)="buyPolicy(policy)">Buy Now</button></td>
                         <td *ngIf="isAdminLoggedIn()" (click)="updatePolicy(policy)"><button type="button"><img
                                     src="../../../assets/edit.png" alt="Edit"></button>
                         </td>
@@ -164,146 +221,114 @@
                 </tbody>
 
             </table>
+            <div class="pagination">
+                <button type="button" class="btn btn-sm" (click)="prevPage()"
+                    [disabled]="currentPage === 1">Previous</button>
+                <span>{{ currentPage }} / {{ totalPages }}</span>
+                <button type="button" class="btn btn-sm" (click)="nextPage()"
+                    [disabled]="currentPage === totalPages">Next</button>
             </div>
+        </div>
 
-            <div *ngIf="showForm" class="policiesForm">
-                <form [formGroup]="policiesForm" (ngSubmit)="onAdding()" class="policiesForm">
-                    <div class="overview">
-                        <h3>Registration Form</h3>
-                    </div>
-                    <div class="details">
-                        <label for="policyName">Enter Policy Name *</label>
-                        <input type="text" formControlName="policyName" placeholder="Policy Name"
-                            [ngClass]="{'is-invalid':f1['policyName'].touched && f1['policyName'].invalid}">
-                        <div *ngIf="f['policyName']?.touched && f['policyName']?.invalid" class="invalid-feedback">
-                            <div *ngIf="f['policyName']?.errors?.['required']">Policy Name is required</div>
-                        </div>
-                        <label for="policyDescription">Enter Policy Description*</label>
-                        <input type="textarea" formControlName="policyDescription" placeholder="Policy Description"
-                            [ngClass]="{'is-invalid':f1['policyDescription'].touched && f1['policyDescription'].invalid}">
-                        <div *ngIf="f['policyDescription']?.touched && f['policyDescription']?.invalid"
-                            class="invalid-feedback">
-                            <div *ngIf="f['policyDescription']?.errors?.['required']">Description is required</div>
-                        </div>
-                        <label for="company">Enter Company Name*</label>
-                        <input type="text" formControlName="company" placeholder="Company"
-                            [ngClass]="{'is-invalid':f1['company'].touched && f1['company'].invalid}">
-                        <div *ngIf="f['company']?.touched && f['company']?.invalid" class="invalid-feedback">
-                            <div *ngIf="f['company']?.errors?.['required']">company is required</div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="policyType">Policy Type *</label>
-                            <select id="policyType" formControlName="policyType"
-                                [ngClass]="{'is-invalid': f1['policyType'].touched && f1['policyType'].invalid}"
-                                required>
-                                <option value="">Select Policy Type</option>
-                                <option value="Vehicle Insurance">Vehicle Insurance</option>
-                                <option value="Travel Insurance">Travel Insurance</option>
-                                <option value="Life Insurance">Life Insurance</option>
-                                <option value="Health Insurance">Health Insurance</option>
-                                <option value="Child Plans">Child Plans</option>
-                                <option value="Retirement Plans">Retirement Plans</option>
-                            </select>
-                            <div *ngIf="f['policyType']?.touched && f['policyType']?.invalid" class="invalid-feedback">
-                                <div *ngIf="f['policyType']?.errors?.['required']">Policy Type is required</div>
-                            </div>
-                        </div>
-                        <label for="initialDeposit">Enter Initial Deposit*</label>
-                        <input type="number" formControlName="initialDeposit" placeholder="Initial Deposit "
-                            [ngClass]="{'is-invalid':f1['initialDeposit'].touched && f1['initialDeposit'].invalid}">
-                        <div *ngIf="f['initialDeposit']?.touched && f['initialDeposit']?.invalid"
-                            class="invalid-feedback">
-                            <div *ngIf="f['initialDeposit']?.errors?.['required']">Initial Deposit is required</div>
-                            <div *ngIf="f['initialDeposit']?.errors?.['min']">Intial Deposit must be Positive</div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="termPeriod">Term Period *</label>
-                            <select id="termPeriod" formControlName="termPeriod" required>
-                                <option value="">Select Term Period</option>
-                                <option value="Monthly">Monthly</option>
-                                <option value="Quarterly">Quarterly</option>
-                                <option value="Half-Yearly">Half-Yearly</option>
-                                <option value="Annually">Annually</option>
-                            </select>
-                        </div>
-
-                        <label for="termAmount">Enter Term Amount*</label>
-                        <input type="number" formControlName="termAmount" placeholder="Term Amount "
-                            [ngClass]="{'is-invalid':f1['termAmount'].touched && f1['termAmount'].invalid}">
-                        <div *ngIf="f['termAmount']?.touched && f['termAmount']?.invalid" class="invalid-feedback">
-                            <div *ngIf="f['termAmount']?.errors?.['required']">Term Amount is required</div>
-                            <div *ngIf="f['termAmount']?.errors?.['min']">Term Amount should be Positive</div>
-                        </div>
-                        <label for="interest">Enter Interest Rate</label>
-                        <input type="number" formControlName="interest" placeholder="Interest "
-                            [ngClass]="{'is-invalid':f1['termAmount'].touched && f1['termAmount'].invalid}">
-                        <div *ngIf="f['interest']?.touched && f['interest']?.invalid" class="invalid-feedback">
-                            <div *ngIf="f['interest']?.errors?.['required']">Interest is required</div>
-                            <div *ngIf="f['interest']?.errors?.['min']">Interest should be Positive</div>
-                        </div>
-                    </div>
-                    <div class="submit">
-                        <button type="submit" [disabled]="policiesForm.invalid">Register</button>
-                    </div>
-                </form>
+        <div *ngIf="showForm " class="registerForm">
+            <form [formGroup]="registerForm" (ngSubmit)="onAdding()" class="registerForm">
+                <div class="overview">
+                    <h3>Registration Form</h3>
                 </div>
+                <div class="details">
+                    <label for="policyName">Enter Policy Name *</label>
+                    <input type="text" formControlName="policyName" placeholder="Policy Name"
+                        [ngClass]="{'is-invalid':f2['policyName'].touched && f2['policyName'].invalid}">
+                    <div *ngIf="f2['policyName']?.touched && f2['policyName']?.invalid" class="invalid-feedback">
+                        <div *ngIf="f2['policyName']?.errors?.['required']">Policy Name is required</div>
+                    </div>
+                    <label for="policyDescription">Enter Policy Description*</label>
+                    <input type="textarea" formControlName="policyDescription" placeholder="Policy Description"
+                        [ngClass]="{'is-invalid':f2['policyDescription'].touched && f2['policyDescription'].invalid}">
+                    <div *ngIf="f2['policyDescription']?.touched && f2['policyDescription']?.invalid"
+                        class="invalid-feedback">
+                        <div *ngIf="f2['policyDescription']?.errors?.['required']">Description is required</div>
+                    </div>
+                    <label for="company">Enter Company Name*</label>
+                    <input type="text" formControlName="company" placeholder="Company"
+                        [ngClass]="{'is-invalid':f2['company'].touched && f2['company'].invalid}">
+                    <div *ngIf="f2['company']?.touched && f2['company']?.invalid" class="invalid-feedback">
+                        <div *ngIf="f2['company']?.errors?.['required']">company is required</div>
+                    </div>
 
-                <div class="select-dropdown" *ngIf="!showForm && !showBuyForm && !isEdit">
-                    <label for="filterMethod">Select Filter Method:</label>
-                    <select id="filterMethod" (change)="onFilterMethodChange($event)">
-                        <option value="">Select Filter Method</option>
-                        <option value="getPolicyByPolicyType">Get Policies By Policy Type</option>
-                        <option *ngIf="isAdminLoggedIn() || isUserLoggedIn()" value="getPoliciesByCompany">Get Policies
-                            By
-                            Company</option>
-                        <option *ngIf="isAdminLoggedIn() || isUserLoggedIn()" value="getByAmountGreaterThan">Get
-                            Policies By
-                            Amount Greater Than</option>
-                        <option *ngIf="isAdminLoggedIn() || isUserLoggedIn()" value="getByAmountLessThan">Get Policies
-                            By
-                            Amount Less Than</option>
-                    </select>
-                    <div *ngIf="selectedFilterMethod === 'getPolicyByPolicyType'">
-                        <label for="policyType">Select Policy Type:</label>
-                        <select id="policyType" (change)="onPolicyTypeChange($event)">
+                    <div class="form-group">
+                        <label for="policyType">Policy Type *</label>
+                        <select id="policyType" formControlName="policyType"
+                            [ngClass]="{'is-invalid': f2['policyType'].touched && f2['policyType'].invalid}" required>
                             <option value="">Select Policy Type</option>
                             <option value="Vehicle Insurance">Vehicle Insurance</option>
                             <option value="Travel Insurance">Travel Insurance</option>
-                            <option value="Life insurance">Life insurance</option>
+                            <option value="Life Insurance">Life Insurance</option>
                             <option value="Health Insurance">Health Insurance</option>
                             <option value="Child Plans">Child Plans</option>
                             <option value="Retirement Plans">Retirement Plans</option>
                         </select>
+                        <div *ngIf="f2['policyType']?.touched && f2['policyType']?.invalid" class="invalid-feedback">
+                            <div *ngIf="f2['policyType']?.errors?.['required']">Policy Type is required</div>
+                        </div>
+                    </div>
+                    <label for="initialDeposit">Enter Initial Deposit*</label>
+                    <input type="number" formControlName="initialDeposit" placeholder="Initial Deposit "
+                        [ngClass]="{'is-invalid':f2['initialDeposit'].touched && f2['initialDeposit'].invalid}">
+                    <div *ngIf="f2['initialDeposit']?.touched && f2['initialDeposit']?.invalid"
+                        class="invalid-feedback">
+                        <div *ngIf="f2['initialDeposit']?.errors?.['required']">Initial Deposit is required</div>
+                        <div *ngIf="f2['initialDeposit']?.errors?.['min']">Intial Deposit must be Positive</div>
                     </div>
 
-                    <div *ngIf="selectedFilterMethod === 'getPoliciesByCompany'">
-                        <label for="company">Enter Company Name:</label>
-                        <input type="text" id="company" [(ngModel)]="company" placeholder="Enter company name">
-                        <button (click)="onGetPoliciesByCompany()">Search</button>
+                    <div class="form-group">
+                        <label for="termPeriod">Term Period *</label>
+                        <select id="termPeriod" formControlName="termPeriod" required>
+                            <option value="">Select Term Period</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="Half-Yearly">Half-Yearly</option>
+                            <option value="Annually">Annually</option>
+                        </select>
                     </div>
 
-                    <div *ngIf="selectedFilterMethod === 'getByAmountGreaterThan'">
-                        <label for="greaterThanAmount">Enter Amount Greater Than:</label>
-                        <input type="number" id="greaterThanAmount" [(ngModel)]="greaterThanAmount"
-                            placeholder="Enter amount">
-                        <button (click)="onGetPoliciesByAmountGreaterThan()">Search</button>
+                    <label for="termAmount">Enter Term Amount*</label>
+                    <input type="number" formControlName="termAmount" placeholder="Term Amount "
+                        [ngClass]="{'is-invalid':f2['termAmount'].touched && f2['termAmount'].invalid}">
+                    <div *ngIf="f2['termAmount']?.touched && f2['termAmount']?.invalid" class="invalid-feedback">
+                        <div *ngIf="f2['termAmount']?.errors?.['required']">Term Amount is required</div>
+                        <div *ngIf="f2['termAmount']?.errors?.['min']">Term Amount should be Positive</div>
                     </div>
-                    <div *ngIf="selectedFilterMethod === 'getByAmountLessThan'">
-                        <label for="lessThanAmount">Enter Amount Less Than:</label>
-                        <input type="number" id="lessThanAmount" [(ngModel)]="lessThanAmount"
-                            placeholder="Enter amount">
-                        <button (click)="onGetPoliciesByAmountLessThan()">Search</button>
+                    <label for="interest">Enter Interest Rate</label>
+                    <input type="number" formControlName="interest" placeholder="Interest "
+                        [ngClass]="{'is-invalid':f2['termAmount'].touched && f2['termAmount'].invalid}">
+                    <div *ngIf="f2['interest']?.touched && f2['interest']?.invalid" class="invalid-feedback">
+                        <div *ngIf="f2['interest']?.errors?.['required']">Interest is required</div>
+                        <div *ngIf="f2['interest']?.errors?.['min']">Interest should be Positive</div>
                     </div>
+                    <label for="eligibleUserTypes">Eligible UserTypes *</label>
+                    <input id="eligibleUserTypes" formControlName="eligibleUserTypes" type="text"
+                        placeholder="Enter Eligible UserTypes"
+                        [ngClass]="{'is-invalid': f2['eligibleUserTypes'].touched && f2['eligibleUserTypes'].invalid}">
+                    <div *ngIf="f2['eligibleUserTypes']?.touched && f2['eligibleUserTypes']?.invalid"
+                        class="invalid-feedback">
+                        <div *ngIf="f2['eligibleUserTypes']?.errors?.['required']">Eligible UserTypes are required</div>
+                    </div>
+
                 </div>
-            </div>
-     
+                <div class="submit">
+                    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
 
 
-        <footer>
-            <p>&copy; 2024 PoliCare. All rights reserved.</p>
-        </footer>
+
+    <footer>
+        <p>&copy; 2024 PoliCare. All rights reserved.</p>
+    </footer>
 
 </body>
 

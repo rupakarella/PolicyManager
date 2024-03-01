@@ -7,19 +7,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PaymentsService {
-  baseUrl='http://localhost:8080/api/v1/payments/';
+  baseUrl = 'http://localhost:8080/api/v1/payments/';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getAllPayments(): Observable<Payments[]> {
-    let tokenString = "Bearer "+localStorage.getItem("token");
-    const headers =  new HttpHeaders({
+    let tokenString = "Bearer " + localStorage.getItem("token");
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': 'http://localhost:4200'
-    }).set("Authorization",tokenString);
-    return this.http.get<Payments[]>(this.baseUrl + "get-all",{headers});
+    }).set("Authorization", tokenString);
+    return this.http.get<Payments[]>(this.baseUrl + "get-all", { headers });
   }
-
   makePayment(payments: Payments): Observable<Payments[]> {
     let tokenString = "Bearer " + localStorage.getItem("token");
     const headers = new HttpHeaders({
@@ -29,8 +28,6 @@ export class PaymentsService {
     return this.http.post<Payments[]>(this.baseUrl + "register", payments, { headers });
 
   }
-
-
   getPaymentById(paymentId: number): Observable<Payments> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -49,6 +46,24 @@ export class PaymentsService {
     });
     return this.http.get<Payments[]>(this.baseUrl + 'get-by-payment-Date/' + formattedDate, { headers });
   }
+  getPaymentsByUserPolicyId(userPolicyId:number):Observable<Payments[]> {
+    const tokenString = 'Bearer'+ localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:4200',
+      'Authorization': tokenString
+    });
+    return this.http.get<Payments[]>(this.baseUrl + 'get-by-userPolicyId/' + userPolicyId, { headers });
+  }
+  getPaymentsByUserId(userId:any):Observable<Payments[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<Payments[]>(this.baseUrl + 'get-by-userId/'+userId, { headers });
+  }
+
 
   private formatDate(date: Date): string {
     const year = date.getFullYear();
@@ -57,13 +72,3 @@ export class PaymentsService {
     return `${year}-${month}-${day}`;
   }
 }
-
-
-
-
-
-
-
-
-
-

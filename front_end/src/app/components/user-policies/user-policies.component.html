@@ -44,10 +44,12 @@
                             <th>Term Period</th>
                             <th>Term Amount</th>
                             <th>Interest</th>
+                            <th>Register Claim</th>
+                            <th>Do Payment</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let userPolicy of userPolicies">
+                        <tr *ngFor="let userPolicy of paginatedUserPolicies">
                             <td>{{ userPolicy.userPolicyId }}</td>
                             <td>{{ userPolicy.startDate }}</td>
                             <td>{{ userPolicy.endDate }}</td>
@@ -60,17 +62,25 @@
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termAmount }}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.interest }}</td>
                             <td>
-                                <button type="button" class="btn button"
-                                    (click)="registerClaim(userPolicy.userPolicyId)">Claim</button>
+                                <button type="button" class="btn button-primary"
+                                    (click)="registerClaim(userPolicy)">Claim</button>
                             </td>
                             <td>
-                                <button type="button" class="btn button" (click)="makePayment(userPolicy)">Pay
-                                    Now</button>
+                                <button type="button" class="btn button" (click)="makePayment(userPolicy)">PayNow</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            
+            <div class="pagination">
+                <button type="button" class="btn btn-sm" (click)="prevPage()"
+                    [disabled]="currentPage === 1">Previous</button>
+                <span>{{ currentPage }} / {{ totalPages }}</span>
+                <button type="button" class="btn btn-sm" (click)="nextPage()"
+                    [disabled]="currentPage === totalPages">Next</button>
             </div>
+            </div>
+
             <div *ngIf="showPayForm">
                 <form [formGroup]="payForm" (ngSubmit)="onPay()" class="pay-form">
                     <div class="payment-reg-header">
@@ -211,7 +221,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let userPolicy of userPolicies">
+                        <tr *ngFor="let userPolicy of paginatedUserPolicies">
                             <td>{{ userPolicy.userPolicyId }}</td>
                             <td *ngIf="userPolicy.user">{{ userPolicy.user.userId }}</td>
                             <td *ngIf="userPolicy.user">{{ userPolicy.user.emailAddress }}</td>
@@ -225,16 +235,27 @@
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termPeriod }}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termAmount }}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.interest }}</td>
-                            <td><button type="button" class="btn button"
-                                    (click)="editUserPolicy(userPolicy)">Edit</button>
+                            <td><button type="button"
+                                    (click)="editUserPolicy(userPolicy)"><img src="../../../assets/edit.png"
+                                    alt="Edit"></button>
+
+                                    
                             </td>
-                            <td><button type="button" class="btn button"
-                                    (click)="deleteUserPolicy(userPolicy.userPolicyId)">Delete</button></td>
+                            <td><button type="button"
+                                    (click)="deleteUserPolicy(userPolicy.userPolicyId)"><img src="../../../assets/delete.png"
+                                    alt="Delete"></button></td>
 
 
                         </tr>
                     </tbody>
                 </table>
+                <div class="pagination">
+                    <button type="button" class="btn btn-sm" (click)="prevPage()"
+                        [disabled]="currentPage === 1">Previous</button>
+                    <span>{{ currentPage }} / {{ totalPages }}</span>
+                    <button type="button" class="btn btn-sm" (click)="nextPage()"
+                        [disabled]="currentPage === totalPages">Next</button>
+                </div>
             </div>
 
         </div>

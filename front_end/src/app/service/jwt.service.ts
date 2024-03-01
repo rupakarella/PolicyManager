@@ -17,14 +17,25 @@ export class JwtService {
 
     }
 
-    loginUser(response:any)
-    {
-      localStorage.setItem("token",response.token);
-      localStorage.setItem("userType",response.userType);
-      localStorage.setItem("userId",response.userId);
-      localStorage.setItem("userName",response.userName);
-      return true;
+    loginUser(response: any): boolean {
+      // Check if token already exists in localStorage
+      if (this.isLoggedIn()) {
+        alert('You are already logged in. Please Logout before logging in as different user');
+        return false; // Return false to indicate that login failed
+      }
+    
+      else{
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("userType", response.userType);
+        localStorage.setItem("userId", response.userId);
+        localStorage.setItem("userName", response.userName);
+        localStorage.setItem("employerType", response.employerType);
+      
+        return true; // Return true to indicate successful login
+      }
+      
     }
+    
 
     logout()
     {
@@ -32,6 +43,7 @@ export class JwtService {
       localStorage.removeItem("userType");
       localStorage.removeItem("userId");
       localStorage.removeItem("userName");
+      localStorage.removeItem("employerType");
 
       return true;
     }
@@ -66,6 +78,17 @@ export class JwtService {
       else
       {
         return false;
+      }
+    }
+    isLoggedIn(){
+      let token=localStorage.getItem('token');
+      if(token==undefined || token==='' || token==null)
+      {
+        return false;
+      }
+      else
+      {
+        return true;
       }
     }
     getToken()
