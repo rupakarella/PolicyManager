@@ -1,85 +1,334 @@
 *{
-    margin:0px;
-    padding: 0px;
-    box-sizing: border-box;
-    font-family: 'afacad';
-  } 
-  .user-policies-container{
-    width: 100%;
-    height: 100vh;
-    background-color: transparent;
-    background-image: url("../../../assets/policy.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    padding: 0;
-    margin: 0; /* Add this to ensure there's no margin */
-    border: none;
-    box-shadow: none;
-  }
+  margin:0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'afacad';
+} 
+.user-policies-container{
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  background-image: url("../../../assets/policy.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 0;
+  margin: 0; /* Add this to ensure there's no margin */
+  border: none;
+  box-shadow: none;
+}
 .nav-buttons {
-    font-family: 'afacad';
-    display: flex;
-    
-  }
+  font-family: 'afacad';
+  display: flex;
   
-  .navbar img{
-    margin-right: auto;
-    margin-top:2px;
-    width:180px;
-    height:45px;
-  }
-  .nav-button {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top:2px;
-    padding: 10px 20px;
-    background-color: #1E55B3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    font-family: 'afacad';
-    font-size: 15px;
-  }
-  
-  .nav-button:hover {
-    background-color: #114194;
-  }
-  
+}
+
+.navbar img{
+  margin-right: auto;
+  margin-top:2px;
+  width:180px;
+  height:45px;
+}
+.nav-button {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top:2px;
+  padding: 10px 20px;
+  background-color: #1E55B3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'afacad';
+  font-size: 15px;
+}
+
+.nav-button:hover {
+  background-color: #114194;
+}
+
 footer {
-    background-color: transparent; /* Background color for the footer */
-    color: #1E55B3; /* Text color for the footer */
-    padding: 0px; /* Padding around the content inside the footer */
-    text-align: center; /* Align the content in the center */
-    position: fixed; /* Fixed position at the bottom of the viewport */
-    width: 100%; /* Full width */
-    bottom: 0; /* Stick to the bottom */
-  }
-  
-  footer p {
-    margin: 0; /* Remove default margin */
-  }
-  
-  .table{
-    margin-top:50px
-  }
-  .table tbody tr td button img{
-    background-color: transparent;
-    border:none;
-    width: 20px;
-    height: 20px;
-    margin:0
-  
-  }
-  .table tbody tr td button {
-    background-color: transparent;
-    border:none;
-    width: 20px;
-    height: 20px;
-    margin:0
-  
-  }
-  
-  
+  background-color: transparent; /* Background color for the footer */
+  color: #1E55B3; /* Text color for the footer */
+  padding: 0px; /* Padding around the content inside the footer */
+  text-align: center; /* Align the content in the center */
+  position: fixed; /* Fixed position at the bottom of the viewport */
+  width: 100%; /* Full width */
+  bottom: 0; /* Stick to the bottom */
+}
+
+footer p {
+  margin: 0; /* Remove default margin */
+}
+
+.table {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 95%;
+  border-radius: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+}
+
+
+.table tbody tr td button img {
+  background-color: transparent;
+  width: 20px;
+  height: 20px;
+
+}
+
+table tbody tr td button{
+  background-color: transparent;
+  border:none;
+  width: 20px;
+  height: 20px;
+
+}
+.table td:nth-child(5),
+.table th:nth-child(6) {
+  width: 140px;
+}
+.table td:nth-child(4),
+.table th:nth-child(5) {
+  width: 140px;
+}
+
+
+th,
+td {
+  border: 1px solid rgba(0, 0, 0, 0.214);
+  padding: 8px;
+  text-align: center; /* Center content horizontally */
+  vertical-align: middle; /* Center content vertically */
+}
+
+.table thead th,
+.table tbody td {
+  border: 1px solid rgba(0, 0, 0, 0.214);
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 10px;
+}
+
+.table thead th:first-child,
+.table tbody td:first-child {
+  border-left: none;
+}
+
+.table thead th:last-child,
+.table tbody td:last-child {
+  border-right: none;
+}
+
+.table thead th {
+  border-top: none;
+}
+
+.table tbody td {
+  border-bottom: none;
+}
+
+.pagination {
+  justify-content: end;
+}
+
+
+.payment-form {
+  margin:0 auto; /* Center the form horizontally */
+  width: 25%; /* Set the width of the form */
+  padding: 20px; /* Add some padding around the form */
+  background-color: #ffffff98; /* Set a background color */
+  border-radius: 10px; /* Add rounded corners */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a shadow */
+  margin-top: 80px;
+  text-align: center;
+}
+.payment-form h2 {
+  color: #1E55B3; /* Set heading color */
+  margin-bottom: 30px; /* Add some space below heading */
+}
+.payment-form label {
+  display: block; /* Make labels block elements */
+  margin-bottom: 15px; /* Add some space below labels */
+  text-align: left;
+  font-weight: bold;
+}
+
+.payment-form p {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+
+.payment-form select {
+  width:  calc(100% - 16px);/* Set input width to fill the container */
+  padding: 6px; /* Add padding to inputs */
+  margin-bottom: 15px; /* Add some space below inputs */
+  border-radius: 5px; /* Add rounded corners to inputs */
+  border: 1px solid #ccc; /* Add a border */
+  box-sizing: border-box; 
+  margin-top: 15px;/* Ensure input size includes padding and border */
+}
+
+.payment-form .invalid-feedback {
+  color: red; /* Set error message color */
+  font-size: 12px; /* Set font size */
+  margin-top: 5px; /* Add some space above error messages */
+}
+
+.payment-form button[type="submit"] {
+  background-color: #1E55B3; /* Set button background color */
+  color: white; /* Set text color */
+  padding: 10px 20px; /* Add padding */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Add pointer cursor */
+}
+
+.payment-form button[type="submit"]:hover {
+  background-color: #114194; /* Change background color on hover */
+}
+.payment-form button[type="submit"] {
+  display: block; /* Make the button a block element */
+  margin: 0 auto;
+  padding: 3px 50px; /* Center the button horizontally */
+}
+
+button.pay-now-btn {
+  background-color:#1E55B3 !important; 
+  border: none;
+  color: white; /* White text */
+  padding: 5px 8px 0px 8px !important; /* Padding */
+  text-align: center !important; /* Center text */
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 5px; 
+  cursor: pointer; 
+  transition-duration: 0.4s;
+  width :60px !important;
+  height:35px !important; 
+}
+
+.payment-form select.payment-form-control {
+  width: 50%; /* Reduce the width of the payment method dropdown */
+  padding: 5px; /* Add padding to match other inputs */
+  margin-bottom: 15px; /* Add some space below the dropdown */
+  border-radius: 5px; /* Add rounded corners */
+  border: 1px solid #ccc; /* Add a border */
+  box-sizing: border-box; /* Ensure input size includes padding and border */
+}
+
+
+.payment-form input[type="number"] {
+  padding: 3px;
+}
+
+.payment-form input[type="number"] {
+  width: calc(100% - 16px); /* Adjusted width for the input field */
+  padding: 8px; /* Adjusted padding for the input field */
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.select-dropdown {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.select-dropdown label {
+  color: #333;
+  margin-right: 10px;
+}
+
+.select-dropdown select,
+.select-dropdown input[type="number"] {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: 2px solid #1E55B3;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  appearance: none;
+}
+
+.select-dropdown select:focus,
+.select-dropdown select:hover,
+.select-dropdown input[type="number"]:focus,
+.select-dropdown input[type="number"]:hover {
+  outline: none;
+  background-color: #fff;
+}
+
+.select-dropdown select:active,
+.select-dropdown select:checked,
+.select-dropdown input[type="number"]:active,
+.select-dropdown input[type="number"]:checked {
+  background-color: #fff;
+}
+
+.select-dropdown select option {
+  background-color: #fff;
+  color: #333;
+}
+
+.select-dropdown button {
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #1E55B3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.edit-form {
+  margin: auto; /* Center the form horizontally */
+  width: 30%; /* Set the width of the form */
+  padding: 20px; /* Add some padding around the form */
+  background-color: #ffffff98; /* Set a background color */
+  border-radius: 10px; /* Add rounded corners */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a shadow */
+  margin-top: 25px;
+}
+
+.edit-form h2 {
+  color: #1E55B3; /* Set heading color */
+  margin-bottom: 10px; /* Add some space below heading */
+}
+.edit-form label {
+  display: block; /* Make labels block elements */
+  margin-bottom: 5px; /* Add some space below labels */
+  text-align: left;
+  font-weight: bold;
+}
+.edit-form input[type="date"],
+.edit-form input[type="number"] {
+  width: 100%; /* Set input width to fill the container */
+  padding: 8px; /* Add padding to inputs */
+  margin-bottom: 15px; /* Add some space below inputs */
+  border-radius: 5px; /* Add rounded corners to inputs */
+  border: 1px solid #ccc; /* Add a border */
+  box-sizing: border-box; /* Ensure input size includes padding and border */
+}
+.edit-form button[type="submit"] {
+  background-color: #1E55B3; /* Set button background color */
+  color: white; /* Set text color */
+  padding: 10px 20px; /* Add padding */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Add pointer cursor */
+}
+.edit-form button[type="submit"]:hover {
+  background-color: #114194; /* Change background color on hover */
+}
+
+.edit-form button[type="submit"] {
+  display: block; /* Make the button a block element */
+  margin: 0 auto; /* Center the button horizontally */
+}

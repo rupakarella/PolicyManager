@@ -47,7 +47,6 @@ public class UserPolicies {
 	private List<Claims> claims;
 
 	@NotNull(message = "Start date cannot be null")
-	@FutureOrPresent(message = "Start date must be in the present or future")
 	private LocalDate startDate;
 
 	private LocalDate endDate;

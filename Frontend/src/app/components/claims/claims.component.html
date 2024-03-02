@@ -111,8 +111,8 @@
                             <th>Claim Amount</th>
                             <th>Claim Status</th>
                             <th>UserPolicyId</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th *ngIf="isAdminLoggedIn()">Edit</th>
+                            <th *ngIf="isAdminLoggedIn()">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,9 +122,9 @@
                             <td>{{ claim.claimAmount }}</td>
                             <td>{{ claim.claimStatus }}</td>
                             <td *ngIf="claim.userPolicy">{{ claim.userPolicy.userPolicyId }}</td>
-                            <td><button (click)="editClaim(claim)"><img src="../assets/edit.png" alt="Edit"></button>
+                            <td *ngIf="isAdminLoggedIn()"><button (click)="editClaim(claim)"><img src="../assets/edit.png" alt="Edit"></button>
                             </td>
-                            <td><button (click)="deleteClaim(claim.claimId)"><img src="../assets/delete.png"
+                            <td *ngIf="isAdminLoggedIn()"><button (click)="deleteClaim(claim.claimId)"><img src="../assets/delete.png"
                                         alt="Delete"></button></td>
                         </tr>
                     </tbody>

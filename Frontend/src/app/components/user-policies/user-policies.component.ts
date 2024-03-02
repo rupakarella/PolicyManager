@@ -29,6 +29,7 @@ export class UserPoliciesComponent implements OnInit {
   showPayForm = false;
   currentPage: number = 1;
   pageSize: number = 7;
+  currentDate: Date = new Date();
   
   claims: Claims = {
     claimId: 0,
@@ -44,7 +45,7 @@ export class UserPoliciesComponent implements OnInit {
     paymentStatus: 'Completed',
     totalAmount: 0,
     fine: 0,
-    paymentMethod: 'Credit Card',
+    paymentMethod: '',
     userPolicyId: 0,
     userId:0
   }
@@ -61,17 +62,17 @@ export class UserPoliciesComponent implements OnInit {
     this.navigationService.disableBackButton();
     this.claimForm = this.formbuilder.group({
       claimId: [],
-      claimDate: ['', Validators.required],
+      // claimDate: ['', Validators.required],
       claimAmount: [0, Validators.required],
       claimStatus: ['Pending' || 'Approved' || 'Rejected']
     });
     this.payForm = this.formbuilder.group({
       paymentId: [],
-      paymentDate: ['', Validators.required],
+      // paymentDate: ['', Validators.required],
       paymentStatus: ['Completed'],
       totalAmount: [0, Validators.required],
       fine: [0, Validators.required],
-      paymentMethod: ['Credit Card' || 'Debit Card' || 'Net Banking' || 'Cash', Validators.required]
+      paymentMethod: ['']
     });
 
     if (this.isUserLoggedIn()) {
@@ -94,16 +95,16 @@ export class UserPoliciesComponent implements OnInit {
   makePayment(userPolicies: UserPolicies): void {
     this.showPayForm = true;
     this.selectedUP = userPolicies;
+    this.calculateFine(this.currentDate, this.selectedUP);
   }
 
   onPay(): void {
-    this.navigationService.disableBackButton();
     this.payments.userPolicyId = this.selectedUP.userPolicyId;
     this.payments.userId=localStorage.getItem('userId');
-    this.payments.paymentDate = this.payForm.value.paymentDate;
+    this.payments.paymentDate = this.currentDate;
     this.payments.paymentMethod = this.payForm.value.paymentMethod;
     this.payments.paymentStatus = "Completed";
-    this.calculateFine(this.payments.paymentDate, this.selectedUP);
+    
     this.paymentService.makePayment(this.payments).subscribe(data => {
       console.log(data);
       this.showPayForm = false;
@@ -116,7 +117,7 @@ export class UserPoliciesComponent implements OnInit {
   onRegister() {
     this.claims.userPolicyId = this.selectedUP.userPolicyId;
     this.claims.userId=localStorage.getItem('userId');
-    this.claims.claimDate = this.claimForm.value.claimDate;
+    this.claims.claimDate = this.currentDate;
     this.claims.claimAmount = this.claimForm.value.claimAmount;
     this.claims.claimStatus = "Pending";
     this.claimService.registerClaim(this.claims).subscribe(
@@ -318,22 +319,5 @@ export class UserPoliciesComponent implements OnInit {
   
     this.payments.totalAmount = policy.termAmount + this.payments.fine;
 }
-
-calculateTotalAmountAndFine(event: Event): void {
-  const target = event.target as HTMLInputElement;
-  const paymentDate = target.value;
-  if (paymentDate) {
-    const selectedDate = new Date(paymentDate);
-    const userPolicy = this.selectedUP;
-    if (userPolicy) {
-      this.calculateFine(selectedDate, userPolicy);
-    } else {
-      console.error('User policy is null.');
-    }
-  } else {
-    console.error('Payment date is null.');
-  }
-}
-
 
 }
