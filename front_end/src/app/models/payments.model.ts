@@ -8,7 +8,7 @@ export interface Payments {
     paymentStatus: 'Pending' | 'Completed';
     totalAmount: number;
     fine: number;
-    paymentMethod: 'Credit Card' | 'Debit Card' | 'Net Banking' | 'Cash';
+    paymentMethod: string;
     userPolicies?: UserPolicies;
     userPolicyId?:number;
     users?:Users;
