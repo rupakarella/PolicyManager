@@ -27,7 +27,7 @@ export class ManageUsersComponent implements OnInit {
   user!: Users;
   submitted = false;
   currentPage: number = 1;
-  pageSize: number = 3;
+  pageSize: number = 5;
 
 
 

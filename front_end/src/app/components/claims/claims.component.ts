@@ -128,7 +128,8 @@ export class ClaimsComponent implements OnInit {
   deleteClaim(claimId: number) {
     this.claimsService.deleteClaim(claimId).subscribe(
       () => {
-        this.getAllClaims(); // Reload claims after deletion
+        this.getAllClaims(); 
+        window.location.reload();
       },
       (error: any) => {
         console.error('Error deleting claim', error);
@@ -187,12 +188,3 @@ export class ClaimsComponent implements OnInit {
     );
   }
 }
-
-
-
-
-
-
-
-
-

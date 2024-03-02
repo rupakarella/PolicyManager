@@ -1,7 +1,9 @@
-*{
+* {
   font-family: afacad;
 }
-body, html {
+
+body,
+html {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -13,22 +15,15 @@ body, html {
   background-size: cover;
 }
 
-.tbody tr td button img{
-  background-color: transparent;
-  width: 17px;
-  height: 20px;
-
-}
-
-.navbar img{
-  width:180px;
-  height:45px;
+.navbar img {
+  width: 180px;
+  height: 45px;
 }
 
 .nav-button {
   margin-left: 10px;
   margin-right: 10px;
-  margin-top:2px;
+  margin-top: 2px;
   padding: 10px 20px;
   background-color: #1E55B3;
   color: white;
@@ -39,178 +34,323 @@ body, html {
   font-family: 'afacad';
   font-size: 15px;
 }
-
 footer {
+  background-color: transparent; 
   color: #1E55B3; /* Text color for the footer */
-  padding: 0px 0; /* Padding around the content inside the footer */
+  padding: 0px; /* Padding around the content inside the footer */
   text-align: center; /* Align the content in the center */
+  position: fixed; /* Fixed position at the bottom of the viewport */
   width: 100%; /* Full width */
-  bottom: 0;
-  z-index: 0; 
-  position: fixed;
-  background-color: #a1caf0;
+  bottom: 0; /* Stick to the bottom */
 }
 
+footer p {
+  margin: 0; 
+}
 .navbar {
-  display: flex; /* Use flexbox to layout children */
-  justify-content: space-between; /* Space out the logo and the navigation buttons */
-  align-items: center; /* Center items vertically */
-  top: 0; /* Align the navbar to the top of the viewport */
-  left: 0; /* Align the navbar to the left of the viewport */
-  width: 100%; /* Ensure the navbar spans the full width */
-  background-color:transparent;/* Set a background color for the navbar */
-  /* z-index: 100;  */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
 }
-
-
 
 .filter {
   display: flex;
-  justify-content: flex-start;  
-  padding-left: 20px; 
-  margin-top: 0px; 
+  justify-content: flex-start;
+  padding-left: 20px;
+  margin-top: 0px;
 }
 
 .filter label {
-  color: #333; 
-  margin-right: 10px; 
+  color: #333;
+  margin-right: 10px;
   font-family: 'Afacad', sans-serif;
   font-size: 1rem;
 }
-
-select {
-  padding: 10px 20px; 
-  font-family: 'afacad', sans-serif; /* Use the same font-family as the navbar */
-  font-size: 1rem; /* Adjust font-size as needed */
-  border: 2px solid #1E55B3; /* Border color to match navbar button */
-  border-radius: 5px; /* Rounded corners like the navbar buttons */
-  background-color:rgba(255, 255, 255, 0.8);  /* Background color to match navbar buttons */
-  appearance: none; /* Standard way to remove default arrow */
-  background-image: url('../../../assets/caret-down.png');
-  background-repeat: no-repeat;
-  background-position: right 5px center; /* Position the icon to the right */
-  background-size: 20px; /* Size of the background icon */
+.select-dropdown {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  padding-left: 20px; 
+  margin-top: 0px; 
+  color: #333; 
+  margin-right: 10px;
 }
-
-#filterOption:focus,
-#filterOption:hover {
-outline: none; /* Removes the outline on focus */
-background-color: #fff; /* Keeps the background color consistent on hover */
-}
-
-/* Add custom styling for when the select box is open */
-#filterOption:active,
-#filterOption:checked {
-background-color: #fff; /* Slightly darker shade on active/click */
-}
-
-/* Ensure the dropdown options are styled correctly */
-#filterOption option {
-background-color: #fff; /* White background for dropdown options */
-color: #333; /* Dark text color for options */
-}
-
-/* Adjust the margin for the select filter div */
-.select-filter-div {
-margin-bottom: 20px; /* Add space below the dropdown */
-}
-
-/* Example class for the container of the select dropdown */
-.edit-form {
-/* ... other styles ... */
-display: flex; /* Use flexbox for layout */
-flex-direction: column; /* Stack children vertically */
-align-items: center; /* Align children in the center horizontally */
-justify-content: center; /* Align children in the center vertically */
-}
-
-input[type="text"],
-input[type="number"]{
-  padding: 10px 20px; /* Same padding as the button for uniform height */
-  font-family: 'Afacad', sans-serif; /* Same font family as the button */
-  font-size: 1rem; /* Same font size as the button */
-  border: 2px solid #fff; /* Same border as the button */
-  border-radius: 5px; /* Same border-radius as the button for rounded corners */
-  margin-right: 10px; /* Space between the input field and the button */
-  outline: none; /* Remove the default focus outline */
-}
-
-input[type="text"]:focus,
-input[type="text"]:hover {
-  border-color: #163e70; /* Slightly darker border color for focus/hover */
-}
-
-button {
+.select-dropdown button {
   padding: 10px 20px;
   background-color: #fff;
   color: #1E55B3;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: 'Afacad', sans-serif;
+}
+
+
+select {
+  padding: 10px 20px;
   font-size: 1rem;
+  border: 2px solid #1E55B3;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  appearance: none;
+  background-image: url('../../../assets/caret-down.png');
+  background-repeat: no-repeat;
+  background-position: right 5px center;
+  background-size: 20px;
+}
+
+#filterOption:focus,
+#filterOption:hover {
+  outline: none;
+  /* Removes the outline on focus */
+  background-color: #fff;
+  /* Keeps the background color consistent on hover */
+}
+
+/* Add custom styling for when the select box is open */
+#filterOption:active,
+#filterOption:checked {
+  background-color: #fff;
+  /* Slightly darker shade on active/click */
+}
+
+/* Ensure the dropdown options are styled correctly */
+#filterOption option {
+  background-color: #fff;
+  /* White background for dropdown options */
+  color: #333;
+  /* Dark text color for options */
+}
+
+/* Adjust the margin for the select filter div */
+.select-filter-div {
+  margin-bottom: 20px;
+  /* Add space below the dropdown */
 }
 
 
-.table {
-  width: 100%; /* Make the table use the full width */
-  table-layout: auto; /* Enable a fixed table layout */
-  border-collapse: collapse; 
-  margin-bottom:0px ;
+
+input[type="text"],
+input[type="number"] {
+  padding: 10px 20px;
+  /* Same padding as the button for uniform height */
+  font-family: 'Afacad', sans-serif;
+  /* Same font family as the button */
+  font-size: 1rem;
+  /* Same font size as the button */
+  border: 2px solid #fff;
+  /* Same border as the button */
+  border-radius: 5px;
+  /* Same border-radius as the button for rounded corners */
+  margin-right: 10px;
+  /* Space between the input field and the button */
+  outline: none;
+  /* Remove the default focus outline */
 }
 
-.table th, .table td {
-  text-align: left; /* Align text to the left */
-  padding: 8px; 
-  border: 1px solid #ddd;
-  word-wrap: break-word; 
+input[type="text"]:focus,
+input[type="text"]:hover {
+  border-color: #163e70;
+  /* Slightly darker border color for focus/hover */
+}
+
+.tbody tr td button img {
+  background-color: transparent;
+  width: 20px;
+  height: 20px;
+
+}
+
+table tbody tr td button{
+  background-color: transparent;
+  border:none;
+  width: 20px;
+  height: 20px;
+  margin:0
+
+}
+.search-table{
+  margin-top: 25px;
+  justify-content: center;
+}
+table{
+  background-color:  rgba(255, 255, 255, 0.8);
+  width: 95%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0; /* Adjust this value as needed */
+  border-radius: 10px;
 }
 
 
-.table th:nth-child(5), /* Email header */
-.table td:nth-child(5) { /* Email data cells */
-min-width: 150px; /* Set a minimum width for email column */
+
+th, td {
+  border: 1px solid rgba(0, 0, 0, 0.214);
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
 }
 
-.table th, .table td {
-  width: auto; /* Set width to auto for all columns */
+
+th:first-child,
+td:first-child {
+  border-left: none; /* Remove left border for first column */
 }
 
-@media screen and (max-width: 768px) {
-  .table, .table thead, .table tbody, .table th, .table td, .table tr {
-    display: block; /* Set display to block for responsive layout */
-  }
-  .table thead tr {
-    position: absolute; /* Take the header out of the flow */
-    top: -9999px; /* Position it off-screen */
-    left: -9999px; /* Position it off-screen */
-  }
-  .table tr { 
-    border: 1px solid #ccc; /* Add border to each row */
-  }
-  .table td {
-    border: none; /* Remove borders from data cells */
-    position: relative; /* Set relative positioning */
-    padding-left: 50%; /* Add left padding for labels */
-    text-align: right; /* Align text to the right for labels */
-  }
-  .table td:before {
-    content: attr(data-label); /* Use a data attribute for labels */
-    position: absolute; /* Position the label absolutely */
-    left: 10px; /* Add some spacing from the left */
-    width: 45%; /* Set the width of the label */
-    padding-right: 10px; /* Add right padding */
-    white-space: nowrap; /* Prevent wrapping */
-    text-align: left; /* Align text to the left */
-  }
+th:last-child,
+td:last-child {
+  border-right: none; /* Remove right border for last column */
 }
 
-/* Ensure the table doesn't get too narrow on small screens */
-@media screen and (max-width: 480px) {
-  .table td {
-    padding-left: 20%; /* Adjust padding for smaller screens */
-  }
-  .table td:before {
-    width: 70%; /* Adjust label width for smaller screens */
-  }
+.search-table td:nth-child(6),
+.search-table th:nth-child(6) {
+  width: 100px;
+}
+.search-table td:nth-child(13),
+.search-table th:nth-child(13) {
+  width: 50px;
+}
+
+th{
+  border-top: none;
+}
+
+td{
+  border-bottom: none;
+}
+.pagination{
+  justify-content: end;
+}
+.edit-form {
+  background: rgba(255, 255, 255, 0.63);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  margin-left: 13%;
+  text-align: center;
+  position: relative;
+  text-align: center;
+}
+.details{
+  display:flex;
+  padding: 20px;
+  /* justify-content: space-evenly,flex-start; */
+}
+.name{
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom:5px;
+}
+.dob-pan{
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom:5px;
+}
+.employee
+{
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom:5px;
+}
+.sal-type{
+  display:flex;
+  justify-content: space-evenly;
+}
+.email-phone{
+  display:flex;
+  margin-bottom:5px;
+  margin-left: 35px;
+}
+.overview{
+  margin-top: 0px;
+  margin-bottom: -10px;
+  color: #4177d3;
+  font-size: 40px;
+}
+.pan{
+  margin-left:10px;
+}
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+input[type="password"],
+.login-form-group select.login-form-control{
+  width: 200px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+button[type="submit"] {
+  text-decoration:none;
+  margin-top: 10px;
+  font-size: 19px;
+  display: inline-block;
+  letter-spacing: 2px;
+  padding:12px 20px;
+  background-color: #1E55B3;
+  border-radius: 40px;
+  color:#FFFFFF;
+  border:none;
+}
+.general-info h3{
+  margin-top: 0px;
+  margin-bottom:0px;
+  margin-left: 0px;
+  text-align: left;
+ 
+}
+.contact h3{
+  margin-top: 0px;
+  margin-bottom:0px;
+  margin-left: 58px;
+  text-align: left;
+}
+.form-inline p{
+  margin-top: 0px;
+  margin-bottom:10px;
+  margin-left: 10px;
+  text-align:center;
+}
+/* .type,
+.lname,
+.ename{
+  margin-left: 5px;
+} */
+
+input[type="email"]{
+  margin-left: 25px;
+}
+.phone{
+  margin-right: 9px;
+  margin-left: 5px;
+}
+.password{
+  margin-top: 0px;
+}
+.pin-state,
+.street-city{
+  display:flex;
+  /* justify-content: space-evenly; */
+  /* margin-left: 50px; */
+  /* margin-bottom:5px; */
+}
+
+.password-toggle-btn {
+  position: relative;
+  top: 12px;
+  right: 35px; /* Adjust as needed */
+  transform: translateY(-50%);
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+ align-content: end;
+ /* left:175px; */
 }

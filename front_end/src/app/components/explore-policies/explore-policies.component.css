@@ -16,11 +16,12 @@
   margin: 0;
   border: none;
   box-shadow: none;
+  justify-content: center; /* Center the form horizontally */
+  align-items: center; /* Center the form vertically */
 }
 .nav-buttons {
   font-family: 'afacad';
-  display: flex;
-  
+  display: flex; 
 }
 
 .navbar img{
@@ -106,12 +107,12 @@ th, td {
 
 th:first-child,
 td:first-child {
-  border-left: none; /* Remove left border for first column */
+  border-left: none;
 }
 
 th:last-child,
 td:last-child {
-  border-right: none; /* Remove right border for last column */
+  border-right: none; 
 }
 
 th{
@@ -126,13 +127,17 @@ td{
 .select-dropdown {
   display: flex;
   justify-content: center; 
-  align-items: center; 
+  align-items: center;
+  padding-left: 20px; 
+  margin-top: 10px;
+  color: #333; 
+  margin-right: 10px; 
+  
 
 }
 select {
   justify-content: center;
   padding: 10px 20px; 
-  /* font-family: 'afacad', sans-serif;  */
   font-size: 1rem; 
   border: 2px solid #1E55B3; 
   border-radius: 5px;
@@ -144,18 +149,7 @@ select {
   background-size: 20px; 
 }
 
-.select-dropdown {
-  display: flex;
-  padding-left: 20px; 
-  margin-top: 0px; 
-}
 
-.select-dropdown{
-  color: #333; 
-  margin-right: 10px; 
-  font-family: 'Afacad', sans-serif;
-  font-size: 1rem;
-}
 
 .select-dropdown select,
 .select-dropdown input[type="text"],
@@ -209,23 +203,169 @@ select {
   justify-content: end;
 }
 
-.registerForm {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  width: 70%; /* Adjust width as needed */
-  align-items: center; 
-  margin-top: 30px;
-  margin: auto; 
+table tbody tr td button.buy-btn {
+  background-color:#1E55B3;
+  color: #fff;
+  padding: 0px 5px 25px 5px; 
+  text-align: center; 
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.buy-form {
+  background-color: rgba(255, 255, 255, 0.582); 
+  padding: 20px; 
+  border-radius: 10px; 
+  width: 300px; 
+  margin: 100px 550px;
+  text-align: center;
+}
+
+.buy-form h4 {
+  text-align: center; 
+  color: #1E55B3; 
+  margin-bottom: 15px;
+}
+
+.buy-form label,
+.policiesForm label {
+  font-weight: bold; 
+} 
+
+
+.buy-form input[type="number"] {
+  padding: 8px; 
+  border-radius: 5px; 
+  border: 1px solid #1E55B3; 
 }
 
 
+.buy-form input[type="number"]:focus {
+  outline: none; 
+  border-color: #114194; 
+}
 
-
-  
-
-
-
-
-
+.buy-form button[type="submit"] {
+  padding: 10px 20px; 
+  background-color: #1E55B3; 
+  color: white; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; 
+  margin-top: 10px; 
  
+}
+
+.buy-form button[type="submit"]:hover {
+  background-color: #114194; 
+}
+
+
+.registerForm,
+.policiesForm {
+  background-color: rgba(255, 255, 255, 0.74); 
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%; 
+  max-width: 600px; 
+  margin: auto;
+  box-sizing: border-box;
+  box-shadow: #333333e3;
+  margin-top: 5px;
+} 
+
+form {
+  text-align: center; 
+}
+
+ .overview h3 {
+  margin-bottom: 20px;
+  color: #1E55B3;
+  margin-top: 0;
+  text-align: center; 
+} 
+
+.registerForm,
+.policiesForm {
+  margin-top: 20px;
+}
+
+.registerForm .details
+ {
+  display: flex;
+  flex-direction: column;
+}
+.policiesForm.details{
+  display: flex;
+  flex-direction: column;
+}
+
+.registerForm .details .row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.policiesForm .details .row
+{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.registerForm .details .row > div,
+.policiesForm .details .row > div{
+  flex: 1;
+  margin-right: 20px;
+}
+
+.registerForm .details .row > div:last-child,
+.policiesForm .details .row > div:last-child {
+  margin-right: 0;
+}
+
+.registerForm .details input,
+.registerForm .details select,
+.registerForm .details textarea,
+.policiesForm .details input,
+.policiesForm .details select,
+.policiesForm .details textarea{
+  width: 100%;
+  padding: 10px;
+  font-family: 'Afacad', sans-serif;
+  font-size: 1rem;
+  border: 1px solid #1E55B3;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.registerForm .details .policy-description,
+.policiesForm .details .policy-description {
+  flex: 1;
+}
+
+.registerForm .policy-submit
+.policiesForm .policy-submit {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.registerForm .policy-submit button,
+.policiesForm .policy-submit button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #1E55B3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.registerForm .policy-submit button:hover,
+.policiesForm .policy-submit button:hover{
+  background-color: #142985;
+}
+
+
