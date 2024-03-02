@@ -18,10 +18,9 @@
       <img src="\assets\logo-no-background.png">
       <div class="nav-buttons">
         <button class="nav-button" routerLink="/explore-policies">Manage Policies</button>
-        <button class="nav-button" routerLink="/user-policies">My Policies</button>
+        <!-- <button class="nav-button" routerLink="/user-policies">My Policies</button> -->
         <button class="nav-button" routerLink="/admin-dashboard">Dashboard</button>
         <button class="nav-button" routerLink="/profile">Profile</button>
-
       </div>
     </nav>
     <div *ngIf="isEdit" class="edit-form">
@@ -77,6 +76,15 @@
               </div>
             </div>
             <div class="employee">
+              <div class="salary">
+                <div class="login-form-group">
+
+                  <input type="number" formControlName="salary" placeholder="Salary" class="login-form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['salary'].errors }">
+                  <div *ngIf="submitted && f['salary'].errors" class="invalid-feedback"></div>
+                  <div *ngIf="f['salary'].errors?.['min']">Salary must be a positive number</div>
+                </div>
+              </div>
               <div class="ename">
                 <div class="login-form-group">
 
@@ -88,15 +96,7 @@
               </div>
             </div>
             <div class="sal-type">
-              <div class="salary">
-                <div class="login-form-group">
-
-                  <input type="number" formControlName="salary" placeholder="Salary" class="login-form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f['salary'].errors }">
-                  <div *ngIf="submitted && f['salary'].errors" class="invalid-feedback"></div>
-                  <div *ngIf="f['salary'].errors?.['min']">Salary must be a positive number</div>
-                </div>
-              </div>
+              
               <div class="type">
                 <div class="login-form-group">
                   <select formControlName="userType" class="login-form-control"
@@ -188,47 +188,47 @@
 
   </div>
 
-  <div [hidden]="isEdit" class="edit-form">
+  <div [hidden]="isEdit">
 
 
-
-    <div class="filter">
-      <select id="filterOption" (change)="selectFilter($event)">
-        <option value="">Select Filter</option>
-        <option value="userType">Search UserType</option>
-        <option value="contactNumber">Search by Contact Number</option>
-        <option value="userById">Search By UserId</option>
-      </select>
-      <div *ngIf="selectedFilter === 'userType'">
-        <select id="userTypeFilter" [(ngModel)]="userType" (change)="filterByUserType()">
-          <option value="">Select User Type</option>
-          <option value="Admin">Admin</option>
-          <option value="User">User</option>
-          <button (click)="filterByUserType()">Filter</button>
+    <div class="select-dropdown">
+      <div class="filter">
+        <select id="filterOption" (change)="selectFilter($event)">
+          <option value="">Select Filter</option>
+          <option value="userType">Search UserType</option>
+          <option value="contactNumber">Search by Contact Number</option>
+          <option value="userById">Search By UserId</option>
         </select>
+        <div *ngIf="selectedFilter === 'userType'">
+          <select id="userTypeFilter" [(ngModel)]="userType" (change)="filterByUserType()">
+            <option value="">Select User Type</option>
+            <option value="Admin">Admin</option>
+            <option value="User">User</option>
+            <button (click)="filterByUserType()">Filter</button>
+          </select>
+        </div>
+      </div>
+
+      <div *ngIf="selectedFilter === 'contactNumber'">
+        <input type="text" id="contactNumberFilter" [(ngModel)]="contactNumber" placeholder="Enter Contact Number">
+        <button (click)="filterByContactNumber()">Filter</button>
+      </div>
+
+      <div *ngIf="selectedFilter === 'userById'">
+        <input type="number" id="userIdFilter" [(ngModel)]="userId" placeholder="Enter User ID">
+        <!-- Input field for entering user ID -->
+        <button (click)="filterByUserId()">Filter</button> <!-- Button to trigger the filterByUserId method -->
       </div>
     </div>
-
-    <div *ngIf="selectedFilter === 'contactNumber'">
-      <input type="text" id="contactNumberFilter" [(ngModel)]="contactNumber" placeholder="Enter Contact Number">
-      <button (click)="filterByContactNumber()">Filter</button>
-    </div>
-
-    <div *ngIf="selectedFilter === 'userById'">
-      <input type="number" id="userIdFilter" [(ngModel)]="userId" placeholder="Enter User ID">
-      <!-- Input field for entering user ID -->
-      <button (click)="filterByUserId()">Filter</button> <!-- Button to trigger the filterByUserId method -->
-    </div>
-
     <div class="search-table">
-      <table class="table table-borderes">
+      <table>
         <thead class="thead">
           <tr>
             <th>User Id</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Mobile Number</th>
-            <th>Email</th>
+            <th>Email Address</th>
             <th>Date of Birth</th>
             <th>User Type</th>
             <th>Employer Type</th>
@@ -265,19 +265,19 @@
         </tbody>
       </table>
       <div class="pagination">
-        <button type="button" class="btn btn-sm" (click)="prevPage()"
-            [disabled]="currentPage === 1">Previous</button>
+        <button type="button" class="btn btn-sm" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
         <span>{{ currentPage }} / {{ totalPages }}</span>
         <button type="button" class="btn btn-sm" (click)="nextPage()"
-            [disabled]="currentPage === totalPages">Next</button>
-    </div>
+          [disabled]="currentPage === totalPages">Next</button>
+      </div>
     </div>
 
-    <footer>
-      <p>&copy; 2024 PoliCare. All rights reserved.</p>
-    </footer>
+    
 
   </div>
+  <footer>
+    <p>&copy; 2024 PoliCare. All rights reserved.</p>
+  </footer>
 </body>
 
 </html>

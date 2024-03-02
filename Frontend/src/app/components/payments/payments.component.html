@@ -24,6 +24,24 @@
             </div>
         </nav>
 
+        <div class="filter-form">
+            <label>Filter By:</label>
+            <select [(ngModel)]="selectedFilter">
+                <option value="">Select Filter</option>
+                <option value="paymentId">Payment ID</option>
+                <option value="paymentDate">Payment Date</option>
+            </select>
+            <div *ngIf="selectedFilter === 'paymentId'">
+                <input type="number" placeholder="Enter Payment ID" [(ngModel)]="paymentId">
+            </div>
+            <div *ngIf="selectedFilter === 'paymentDate'">
+                <label for="paymentDate">Payment Date:</label>
+                <input type="date" id="paymentDate" name="paymentDate" [(ngModel)]="paymentDate">
+            </div>
+            <button (click)="searchPayments()">Search</button>
+        </div>
+
+
         <table class="table">
             <thead class="thead">
                 <tr>
@@ -58,23 +76,7 @@
                 [disabled]="currentPage === totalPages">Next</button>
         </div>
 
-        <div class="filter-form">
-            <label>Filter By:</label>
-            <select [(ngModel)]="selectedFilter">
-                <option value="">Select Filter</option>
-                <option value="paymentId">Payment ID</option>
-                <option value="paymentDate">Payment Date</option>
-            </select>
-            <div *ngIf="selectedFilter === 'paymentId'">
-                <input type="number" placeholder="Enter Payment ID" [(ngModel)]="paymentId">
-            </div>
-            <div *ngIf="selectedFilter === 'paymentDate'">
-                <label for="paymentDate">Payment Date:</label>
-                <input type="date" id="paymentDate" name="paymentDate" [(ngModel)]="paymentDate">
-            </div>
-            <button (click)="searchPayments()">Search</button>
-        </div>
-
+       
         <footer>
             <p>&copy; 2024 PoliCare. All rights reserved.</p>
         </footer>

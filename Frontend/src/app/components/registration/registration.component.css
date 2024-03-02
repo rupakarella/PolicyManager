@@ -32,7 +32,7 @@ html, body {
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 1000px;
-  margin-top: 5%; 
+  margin-top: 2%; 
   margin-left: 16%;
   text-align: center;
   position: relative;
@@ -99,6 +99,7 @@ button[type="submit"] {
   background-color: #1E55B3;
   border-radius: 40px;
   color:#FFFFFF;
+  border:none;
 }
 .navbar img{
   margin-right: auto;
@@ -143,12 +144,7 @@ input[type="date"]{
 .ename{
   margin-left: 5px;
 }
-/* .all-contact{
-  text-align: center;
-  
-  padding: 10px;
-  padding-top:0;
-} */
+
 input[type="email"]{
   margin-left: 58px;
 }
@@ -166,9 +162,7 @@ input[type="email"]{
   margin-left: 50px;
   margin-bottom:5px;
 }
-/* .password-input{
-  position: relative;
-} */
+
 .password-toggle-btn {
   position: relative;
   top: 12px;

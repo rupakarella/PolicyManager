@@ -1,10 +1,8 @@
-import { PlatformLocation } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Policy } from 'src/app/models/policy.model';
 import { UserPolicies } from 'src/app/models/userpolicies.model';
-import { Users } from 'src/app/models/users.model';
 import { JwtService } from 'src/app/service/jwt.service';
 import { NavigationService } from 'src/app/service/navigation.service';
 import { PolicyService } from 'src/app/service/policy.service';
@@ -45,7 +43,8 @@ export class ExplorePoliciesComponent implements OnInit {
   public UserloggedIn=false;
   public AdminloggedIn=false;
   currentPage: number = 1;
-  pageSize: number = 7;
+  pageSize: number = 4;
+  currentDate: Date = new Date();
   constructor(
     private policyService: PolicyService,
     private formBuilder: FormBuilder,
@@ -55,7 +54,7 @@ export class ExplorePoliciesComponent implements OnInit {
     private navigationService: NavigationService
   ) {
     this.buyForm = this.formBuilder.group({
-      startDate: ['', Validators.required],
+      // startDate: ['', Validators.required],
       durationInYears: ['', Validators.required],   
     });
     this.policiesForm = this.formBuilder.group({
@@ -63,10 +62,10 @@ export class ExplorePoliciesComponent implements OnInit {
       policyDescription: ['', Validators.required],
       company: ['', Validators.required],
       policyType: ['', [Validators.required]],
-      initialDeposit: [0, [Validators.required, Validators.min(1)]],
+      initialDeposit: ['', [Validators.required, Validators.min(1)]],
       termPeriod: ['', [Validators.required, Validators.pattern('^(Monthly|Quarterly|Half-Yearly|Annually)$')]],
-      termAmount: [0, [Validators.required, Validators.min(1)]],
-      interest: [0, [Validators.required, Validators.min(0)]],
+      termAmount: ['', [Validators.required, Validators.min(1)]],
+      interest: ['', [Validators.required, Validators.min(0)]],
       eligibleUserTypes:[[],[Validators.required]]
     });
     this.registerForm=this.formBuilder.group({
@@ -74,10 +73,10 @@ export class ExplorePoliciesComponent implements OnInit {
       policyDescription: ['', Validators.required],
       company: ['', Validators.required],
       policyType: ['', [Validators.required]],
-      initialDeposit: [0, [Validators.required, Validators.min(1)]],
+      initialDeposit: ['', [Validators.required, Validators.min(1)]],
       termPeriod: ['', [Validators.required, Validators.pattern('^(Monthly|Quarterly|Half-Yearly|Annually)$')]],
-      termAmount: [0, [Validators.required, Validators.min(1)]],
-      interest: [0, [Validators.required, Validators.min(0)]],
+      termAmount: ['', [Validators.required, Validators.min(1)]],
+      interest: ['', [Validators.required, Validators.min(0)]],
       eligibleUserTypes:[[],[Validators.required]]
     })
   }
@@ -112,6 +111,7 @@ onAdding(): void {
         alert('Policy added successfully');
         this.registerForm.reset();
         this.toggleFormVisibility();
+        window.location.reload();
       },
       (error) => {
         console.error('Error adding policy:', error);
@@ -142,7 +142,17 @@ onAdding(): void {
   isUserLoggedIn() {
     return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
   }
-
+  isLoggedIn(){
+    let token=localStorage.getItem('token');
+    if(token==undefined || token==='' || token==null)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
 
 
   loadPolicies(): void {
@@ -204,7 +214,7 @@ onAdding(): void {
   onBuyPolicy() {
     this.userPolicies.policyId = this.policyId;
     this.userPolicies.userId = +localStorage.getItem('userId')!;
-    this.userPolicies.startDate = this.buyForm.value.startDate;
+    this.userPolicies.startDate = this.currentDate;
     this.userPolicies.durationInYears = this.buyForm.value.durationInYears;
 
     this.userPoliciesService.registerUserPolicies(this.userPolicies).subscribe(
@@ -262,7 +272,10 @@ onAdding(): void {
     return;
   }
 
-  const eligibleUserTypesInput = eligibleUserTypesControl.value;
+  let eligibleUserTypesInput = eligibleUserTypesControl.value;
+  if (Array.isArray(eligibleUserTypesInput)) {
+    eligibleUserTypesInput = eligibleUserTypesInput.join(',');
+}
   const eligibleUserTypesArray = eligibleUserTypesInput.split(',').map((userType: string) => userType.trim()); 
     this.policy.policyName = this.policiesForm.value.policyName;
     this.policy.policyDescription = this.policiesForm.value.policyDescription;

@@ -26,7 +26,7 @@
   padding: 60px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 650px;
+  width:550px;
   text-align: center;
  
 }
@@ -39,12 +39,6 @@
   font-family: 'afacad';
   display: flex;
   
-}
-
-.profile-image {
-  width: 100px;
-  height: auto;
-  margin-right: 10px; 
 }
 
 .navbar img{
@@ -219,6 +213,7 @@ padding:12px 20px;
 background-color: #1E55B3;
 border-radius: 40px;
 color:#FFFFFF;
+border: none;
 }
 .navbar img{
 margin-right: auto;
@@ -237,11 +232,15 @@ margin-left: 0px;
 text-align: left;
 
 }
-.contact h3{
+.contact-info h5{
 margin-top: 0px;
 margin-bottom:0px;
-margin-left: 58px;
-text-align: left;
+/* margin-left: 100px; */
+text-align: center;
+}
+
+.contact-info input[type="email"]{
+  margin-left: 58px;
 }
 .form-inline p{
 margin-top: 0px;
@@ -249,29 +248,13 @@ margin-bottom:10px;
 margin-left: 10px;
 text-align:center;
 }
-/* .form-inline{
-justify-content: left;
-} */
-/* .salary{
-margin-left: 8px;
-}
-input[type="date"]{
-margin-left: 9px;
-} */
+
 .type,
 .lname,
 .ename{
 margin-left: 5px;
 }
-/* .all-contact{
-text-align: center;
 
-padding: 10px;
-padding-top:0;
-} */
-input[type="email"]{
-margin-left: 58px;
-}
 .phone{
 margin-right: 9px;
 margin-left: 5px;

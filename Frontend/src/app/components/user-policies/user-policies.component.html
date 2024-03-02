@@ -62,39 +62,35 @@
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termAmount }}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.interest }}</td>
                             <td>
-                                <button type="button" class="btn button-primary"
+                                <button type="button" class="pay-now-btn"
                                     (click)="registerClaim(userPolicy)">Claim</button>
                             </td>
                             <td>
-                                <button type="button" class="btn button" (click)="makePayment(userPolicy)">PayNow</button>
+                                <button type="button" class="pay-now-btn" (click)="makePayment(userPolicy)">Pay
+                                    </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            
-            <div class="pagination">
-                <button type="button" class="btn btn-sm" (click)="prevPage()"
-                    [disabled]="currentPage === 1">Previous</button>
-                <span>{{ currentPage }} / {{ totalPages }}</span>
-                <button type="button" class="btn btn-sm" (click)="nextPage()"
-                    [disabled]="currentPage === totalPages">Next</button>
-            </div>
+
+                <div class="pagination">
+                    <button type="button" class="btn btn-sm" (click)="prevPage()"
+                        [disabled]="currentPage === 1">Previous</button>
+                    <span>{{ currentPage }} / {{ totalPages }}</span>
+                    <button type="button" class="btn btn-sm" (click)="nextPage()"
+                        [disabled]="currentPage === totalPages">Next</button>
+                </div>
             </div>
 
-            <div *ngIf="showPayForm">
+            <div *ngIf="showPayForm" class="payment-form">
                 <form [formGroup]="payForm" (ngSubmit)="onPay()" class="pay-form">
                     <div class="payment-reg-header">
                         <h2>Make Payment</h2>
                     </div>
                     <div class="payment-form-group">
-                        <input type="date" formControlName="paymentDate" placeholder="Payment Date"
-                            class="payment-form-control"
-                            [ngClass]="{ 'is-invalid': f2['paymentDate'].touched && f2['paymentDate'].invalid }"
-                            (input)="calculateTotalAmountAndFine($event)">
-                        <div *ngIf="f2['paymentDate']?.touched && f2['paymentDate']?.invalid" class="invalid-feedback">
-                            <div *ngIf="f2['paymentDate']?.errors?.['required']">Payment Date is required </div>
-                            <div *ngIf="f2['paymentDate']?.errors?.['past']">Payment Date must be in the past</div>
-                        </div>
+                        <p>Payment Date: {{ currentDate | date:'yyyy-MM-dd' }}</p>
+                        <p>Total Amount: {{ payments.totalAmount | currency:'INR' }}</p>
+                        <p>Fine: {{ payments.fine | currency:'INR' }}</p>
                         <select formControlName="paymentMethod" class="payment-form-control"
                             [ngClass]="{ 'is-invalid': f2['paymentMethod'].touched && f2['paymentMethod'].invalid }">
 
@@ -108,27 +104,19 @@
                             class="invalid-feedback">
                             <div *ngIf="f2['paymentMethod'].errors?.['required']">Payment Method is required</div>
                         </div>
-                        <div *ngIf="payForm.value.paymentDate">
-                            <p>Total Amount: {{ payments.totalAmount | currency:'INR' }}</p>
-                            <p>Fine: {{ payments.fine | currency:'INR' }}</p>
-                        </div>
                         <button type="submit" [disabled]="payForm.invalid">Pay</button>
                     </div>
                 </form>
             </div>
 
-            <div *ngIf="showClaimForm">
+            <div *ngIf="showClaimForm" class="payment-form">
                 <form [formGroup]="claimForm" (ngSubmit)="onRegister()" class="claims-form">
                     <div class="claims-register-header">
                         <h2>Register Claim</h2>
                     </div>
                     <div class="claims-form-group">
-                        <input type="date" formControlName="claimDate" placeholder="Claim Date" class="form-control"
-                            [ngClass]="{ 'is-invalid': f1['claimDate'].touched && f1['claimDate'].invalid }">
-                        <div *ngIf="f1['claimDate']?.touched && f1['claimDate']?.invalid" class="invalid-feedback">
-                            <div *ngIf="f1['claimDate']?.errors?.['required']">Claim Date is required & should not be in
-                                Past</div>
-                        </div>
+                        <p>Claim Date: {{ currentDate | date:'yyyy-MM-dd' }}</p>
+                        <label>Claim Amount</label>
                         <input type="number" formControlName="claimAmount" placeholder="Claim Amount"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': f1['claimAmount'].touched && f1['claimAmount'].invalid }">
@@ -147,7 +135,7 @@
             </div>
         </div>
         <div *ngIf="isAdminLoggedIn()">
-            <div *ngIf="showEditForm">
+            <div *ngIf="showEditForm" class="edit-form">
                 <h2>Update Registered Policy</h2>
                 <form [formGroup]="editUPForm" (ngSubmit)="onSubmit()">
                     <div>
@@ -235,15 +223,13 @@
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termPeriod }}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.termAmount }}</td>
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.interest }}</td>
-                            <td><button type="button"
-                                    (click)="editUserPolicy(userPolicy)"><img src="../../../assets/edit.png"
-                                    alt="Edit"></button>
+                            <td><button type="button" (click)="editUserPolicy(userPolicy)"><img
+                                        src="../../../assets/edit.png" alt="Edit"></button>
 
-                                    
+
                             </td>
-                            <td><button type="button"
-                                    (click)="deleteUserPolicy(userPolicy.userPolicyId)"><img src="../../../assets/delete.png"
-                                    alt="Delete"></button></td>
+                            <td><button type="button" (click)="deleteUserPolicy(userPolicy.userPolicyId)"><img
+                                        src="../../../assets/delete.png" alt="Delete"></button></td>
 
 
                         </tr>
