@@ -205,7 +205,6 @@
                             <th>Term Amount</th>
                             <th>Interest</th>
                             <th>Edit</th>
-                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -225,11 +224,6 @@
                             <td *ngIf="userPolicy.policy">{{ userPolicy.policy.interest }}</td>
                             <td><button type="button" (click)="editUserPolicy(userPolicy)"><img
                                         src="../../../assets/edit.png" alt="Edit"></button>
-
-
-                            </td>
-                            <td><button type="button" (click)="deleteUserPolicy(userPolicy.userPolicyId)"><img
-                                        src="../../../assets/delete.png" alt="Delete"></button></td>
 
 
                         </tr>

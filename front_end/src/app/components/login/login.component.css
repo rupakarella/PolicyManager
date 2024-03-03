@@ -138,23 +138,17 @@ html {
 
 }
 
-/* 
-
-.form-control {
-    padding-right: 10px;  Adjust to accommodate the button 
-}
 
 
 
-*/
 footer {
-  background-color: transparent; /* Background color for the footer */
-  color: #1E55B3; /* Text color for the footer */
-  padding: 0px; /* Padding around the content inside the footer */
-  text-align: center; /* Align the content in the center */
-  position: fixed; /* Fixed position at the bottom of the viewport */
-  width: 100%; /* Full width */
-  bottom: 0; /* Stick to the bottom */
+  background-color: transparent; 
+  color: #1E55B3; 
+  padding: 0px; 
+  text-align: center;
+  position: fixed; 
+  width: 100%; 
+  bottom: 0; 
 }
 
 footer p {

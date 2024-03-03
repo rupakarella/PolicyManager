@@ -7,7 +7,6 @@ import { PaymentsComponent } from './components/payments/payments.component';
 
 import { ClaimsComponent } from './components/claims/claims.component';
 import { LoginComponent } from './components/login/login.component';
-import { PoliciesComponent } from './components/policies/policies.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +28,6 @@ import { DatePipe } from '@angular/common';
     PaymentsComponent,
     ClaimsComponent,
     LoginComponent,
-    PoliciesComponent,
     HomeComponent,
     RegistrationComponent,
     UserDashboardComponent,

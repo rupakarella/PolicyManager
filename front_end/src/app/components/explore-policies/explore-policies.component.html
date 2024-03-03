@@ -164,7 +164,8 @@
         <div *ngIf="!showForm && showBuyForm && !isEdit" class="buy-form">
             <h4>Register for Policy</h4>
             <form [formGroup]="buyForm" (ngSubmit)="onBuyPolicy()">
-                <strong>Start Date: {{ currentDate | date:'yyyy-MM-dd' }}</strong>
+                <strong>Start Date: {{ currentDate | date:'yyyy-MM-dd' }}</strong><br>
+                <strong>Initial Deposit: {{policy.initialDeposit| currency:'INR' }}</strong>
                 <div class="form-group">
                     <input type="number" id="durationInYears" placeholder="Duration (in years)"
                         formControlName="durationInYears">
@@ -172,6 +173,19 @@
                         Duration is required.
                     </div>
                 </div>
+                <select formControlName="paymentMethod" class="payment-form-control"
+                            [ngClass]="{ 'is-invalid': f1['paymentMethod'].touched && f1['paymentMethod'].invalid }">
+
+                            <option value="">Select Payment Method</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Net Banking">Net Banking</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+                        <div *ngIf="f1['paymentMethod']?.touched && f1['paymentMethod']?.invalid"
+                            class="invalid-feedback">
+                            <div *ngIf="f1['paymentMethod'].errors?.['required']">Payment Method is required</div>
+                        </div><br>
                 <button type="submit" [disabled]="buyForm.invalid">Submit</button>
             </form>
         </div>
