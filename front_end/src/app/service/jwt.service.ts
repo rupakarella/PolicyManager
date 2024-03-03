@@ -18,10 +18,9 @@ export class JwtService {
     }
 
     loginUser(response: any): boolean {
-      // Check if token already exists in localStorage
       if (this.isLoggedIn()) {
         alert('You are already logged in. Please Logout before logging in as different user');
-        return false; // Return false to indicate that login failed
+        return false;
       }
     
       else{
@@ -31,7 +30,7 @@ export class JwtService {
         localStorage.setItem("userName", response.userName);
         localStorage.setItem("employerType", response.employerType);
       
-        return true; // Return true to indicate successful login
+        return true;
       }
       
     }

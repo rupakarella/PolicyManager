@@ -128,6 +128,7 @@ export class ClaimsComponent implements OnInit {
   deleteClaim(claimId: number) {
     this.claimsService.deleteClaim(claimId).subscribe(
       () => {
+        alert("Claim deleted successfully");
         this.getAllClaims(); 
         window.location.reload();
       },
@@ -172,7 +173,6 @@ export class ClaimsComponent implements OnInit {
         }
         break;
       default:
-        // Handle default case if needed
         break;
     }
   }

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Payments } from 'src/app/models/payments.model';
 import { Policy } from 'src/app/models/policy.model';
 import { UserPolicies } from 'src/app/models/userpolicies.model';
 import { JwtService } from 'src/app/service/jwt.service';
 import { NavigationService } from 'src/app/service/navigation.service';
+import { PaymentsService } from 'src/app/service/payments.service';
 import { PolicyService } from 'src/app/service/policy.service';
 import { UserPoliciesService } from 'src/app/service/user-policies.service';
 
@@ -24,6 +26,16 @@ export class ExplorePoliciesComponent implements OnInit {
     durationInYears: 0,
     
   };
+  payments: Payments = {
+    paymentId: 0,
+    paymentDate: new Date(),
+    paymentStatus: 'Completed',
+    totalAmount: 0,
+    fine: 0,
+    paymentMethod: '',
+    userPolicyId: 0,
+    userId:0
+  }
   policy!: Policy;
   showForm:boolean=false;
   isEdit: boolean = false;
@@ -43,19 +55,21 @@ export class ExplorePoliciesComponent implements OnInit {
   public UserloggedIn=false;
   public AdminloggedIn=false;
   currentPage: number = 1;
-  pageSize: number = 6;
+  pageSize: number = 5;
   currentDate: Date = new Date();
   constructor(
     private policyService: PolicyService,
     private formBuilder: FormBuilder,
     private userPoliciesService: UserPoliciesService,
+    private paymentService: PaymentsService,
     private router: Router,
     private jwtService: JwtService,
     private navigationService: NavigationService
   ) {
     this.buyForm = this.formBuilder.group({
       // startDate: ['', Validators.required],
-      durationInYears: ['', Validators.required],   
+      durationInYears: ['', Validators.required],
+      paymentMethod:['',Validators.required]
     });
     this.policiesForm = this.formBuilder.group({
       policyName: ['', Validators.required],
@@ -212,22 +226,46 @@ onAdding(): void {
   }
   
   onBuyPolicy() {
+    
     this.userPolicies.policyId = this.policyId;
     this.userPolicies.userId = +localStorage.getItem('userId')!;
     this.userPolicies.startDate = this.currentDate;
     this.userPolicies.durationInYears = this.buyForm.value.durationInYears;
-
+    
+    
     this.userPoliciesService.registerUserPolicies(this.userPolicies).subscribe(
       responseData => {
-        console.log(responseData);
-        alert("Policy added to your account");
-        this.router.navigate(['/user-policies']);
+        console.log('User Policy created successfully:', responseData);
+        this.userPolicies = responseData;
+        this.makePayment();
+      
       },
       error => {
-        console.log(error);
-        console.log("failed to register");
-        alert("User policy buying failed");
+        console.error('Error creating User Policy:', error);
+        alert('User policy creation failed');
         window.location.reload();
+      }
+    );
+    
+  }
+  makePayment()
+  {
+    this.payments.userPolicyId = this.userPolicies.userPolicyId;
+    this.payments.paymentDate=this.currentDate;
+    this.payments.totalAmount=this.policy.initialDeposit;
+    this.payments.fine=0;
+    this.payments.paymentStatus='Completed';
+    this.payments.paymentMethod=this.buyForm.value.paymentMethod;
+    this.payments.userId=localStorage.getItem('userId');
+    this.paymentService.makePayment(this.payments).subscribe(
+      (response) => {
+        console.log('Payment made successfully', response);
+        alert('Payment made successfully');
+        this.router.navigate(['/user-policies']);
+      },
+      (error) => {
+        console.error('Error making payment:', error);
+        alert('Failed to make payment');
       }
     );
   }
@@ -272,7 +310,9 @@ onAdding(): void {
     return;
   }
 
- let eligibleUserTypesInput = eligibleUserTypesControl.value;
+
+  
+  let eligibleUserTypesInput = eligibleUserTypesControl.value;
   if (Array.isArray(eligibleUserTypesInput)) {
     eligibleUserTypesInput = eligibleUserTypesInput.join(',');
 }

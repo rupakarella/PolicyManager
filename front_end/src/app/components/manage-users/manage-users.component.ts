@@ -130,9 +130,9 @@ filterByContactNumber() {
     this.userService.getUserByContactNumber(this.contactNumber).subscribe(
       (response: Users | Users[]) => {
         if (Array.isArray(response)) {
-          this.users = response; // Update the users array with the filtered result
+          this.users = response; 
         } else {
-          this.users = [response]; // Convert the single object to an array
+          this.users = [response]; 
         }
         console.log(this.users);
       },
@@ -146,7 +146,7 @@ filterByContactNumber() {
     if (this.emailAddress) {
       this.userService.getUserByEmail(this.emailAddress).subscribe(
         (response: Users) => {
-          this.users = [response]; // Update the users array with the filtered result
+          this.users = [response];
           console.log(this.users);
         },
         (error) => {
@@ -161,7 +161,7 @@ filterByUserId() {
   if (this.userId) {
     this.userService.getUserById(this.userId).subscribe(
       (response: Users) => {
-        this.users = [response]; // Update the users array with the filtered result
+        this.users = [response]; 
         console.log(this.users);
       },
       (error) => {
@@ -179,20 +179,18 @@ confirmDelete(userId: number) {
 deleteUser(userId: number) {
   this.userService.deleteUserById(userId).subscribe(
     (response) => {
-      console.log(response); // Log success message
-      // After deletion, fetch the updated list of users
+      console.log(response); 
       this.getAllUsers();
     },
     (error) => {
-      console.log(error); // Log error message
+      console.log(error); 
     }
   );
 }
 
 onEditClicked(user: Users) {
   this.isEdit = true;
-  this.user = user; // Assign the user whose details are being edited to this.user
-  // Populate the form with the details of the user
+  this.user = user; 
   this.usersForm.patchValue({
     userId: user.userId,
     emailAddress: user.emailAddress,
