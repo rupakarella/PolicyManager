@@ -5,6 +5,7 @@ import { Users } from 'src/app/models/users.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JwtService } from 'src/app/service/jwt.service';
 import { NavigationService } from 'src/app/service/navigation.service';
+import { ProfilepicService } from 'src/app/service/profilepic.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,9 +22,10 @@ export class ProfileComponent implements OnInit {
   public loggedIn=true;
   public UserloggedIn=false;
   public AdminloggedIn=false;
+  pictureUrlLink="assets/profile-user.png";
+  pictureFile:any;
 
-
-  constructor(private userService: UserService, private router: Router,private formBuilder: FormBuilder,private jwtService:JwtService, private navigationService: NavigationService) { 
+  constructor(private userService: UserService, private profilePicService:ProfilepicService, private router: Router,private formBuilder: FormBuilder,private jwtService:JwtService, private navigationService: NavigationService) { 
   this.usersForm = this.formBuilder.group({
     userId: [],
     emailAddress: ['', [Validators.required, Validators.email]],
@@ -79,15 +81,50 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserById(localStorage.getItem('userId')).subscribe(
       (data: Users) => {
         this.user = data;
+        this.getProfilePic();
       },
       (error) => {
         console.log('Error fetching user details:', error);
       }
     );
   }
+  getProfilePic() {
+    this.profilePicService.getProfilePic().subscribe(
+      (blob: Blob) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+          // Convert blob to base64 data URL
+          this.pictureUrlLink = reader.result as string;
+        }, false);
 
+        if (blob) {
+          reader.readAsDataURL(blob);
+        }
+      },
+      (error) => {
+        console.error('Error fetching profile picture:', error);
+      }
+    );
+  }
   onEditClicked() {
     this.isEdit = true;
+    this.usersForm.patchValue({
+      emailAddress: this.user.emailAddress,
+      contactNumber: this.user.contactNumber,
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      dateOfBirth: this.user.dateOfBirth,
+      panNumber: this.user.panNumber,
+      employerName: this.user.employerName,
+      salary: this.user.salary,
+      userType: this.user.userType,
+      address: {
+        addressLine: this.user.address.addressLine,
+        city: this.user.address.city,
+        cityPincode: this.user.address.cityPincode,
+        state: this.user.address.state
+      }
+    });
   }
   get f() {
     return this.usersForm.controls;
@@ -106,7 +143,6 @@ export class ProfileComponent implements OnInit {
      this.user.lastName=this.usersForm.value.lastName;
      this.user.dateOfBirth=this.usersForm.value.dateOfBirth;
      this.user.panNumber=this.usersForm.value.panNumber;
-    //  this.user.employerType=this.usersForm.value.employerType;
      this.user.employerName=this.usersForm.value.employerName;
      this.user.salary=this.usersForm.value.salary;
      this.user.userType=this.usersForm.value.userType;
@@ -125,16 +161,43 @@ export class ProfileComponent implements OnInit {
           this.response = responseData; 
           console.log(responseData);
           alert("User Details Updated!");
-          this.router.navigate(['/login']);
+          this.router.navigate(['/user-dashboard']);
 
 
         },
         error =>
         {
           console.log(error);
-          alert("Error while updating details");
           window.location.reload();
 
         });
+  }
+  selectFile(event: any){
+    if(event.target.files){
+      var reader = new FileReader();
+      this.pictureFile=event.target.files[0];
+      console.log(this.pictureFile)
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload=(event: any)=>{
+        this.pictureUrlLink=event.target.result;
+      }
+
+      if(this.pictureFile!=null){
+        this.profilePicService.uploadProfilePicture(this.pictureFile).then((res)=>{
+          if(res !== ''){
+            alert(`Successfully uploaded`);
+            this.router.navigate(['/profile']);
+          }
+        },
+        (err)=>{
+          if(err.status === 200){
+            alert(`Successfully uploaded`);
+            this.router.navigate(['/profile'])
+          }else{
+            alert(`Error in uploading file`)
+          }
+        })
+      }
+    }
   }
 }

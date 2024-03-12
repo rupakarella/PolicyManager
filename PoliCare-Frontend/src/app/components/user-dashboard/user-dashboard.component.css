@@ -92,10 +92,11 @@ footer p {
 .user-dashboard-buttons {
   position: relative;
   display: flex;
- 
+  margin-top: 25px;
   justify-content: center;
   align-items: center;
-  height: 300px; /* Adjust height as needed */
+  margin-left: 125px;
+  height: 300px;
 }
 
 .user-dashboard-buttons1,
@@ -127,6 +128,6 @@ footer p {
 .user-button.middle {
   position: absolute;
   top: 90%;
-  left: 37%;
+  left: 40%;
   transform: translate(-50%, -50%);
 }

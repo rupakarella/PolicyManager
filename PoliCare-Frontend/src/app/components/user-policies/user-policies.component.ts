@@ -28,7 +28,7 @@ export class UserPoliciesComponent implements OnInit {
   payForm!: FormGroup;
   showPayForm = false;
   currentPage: number = 1;
-  pageSize: number = 6;
+  pageSize: number = 4;
   currentDate: Date = new Date();
   
   claims: Claims = {
@@ -46,6 +46,12 @@ export class UserPoliciesComponent implements OnInit {
     totalAmount: 0,
     fine: 0,
     paymentMethod: '',
+    cardNumber: '',
+    expiryDate:new Date(),
+    cvv:'',
+    cardHolder:'',
+    bankName:'',
+    accountNumber:'',
     userPolicyId: 0,
     userId:0
   }
@@ -72,7 +78,13 @@ export class UserPoliciesComponent implements OnInit {
       paymentStatus: ['Completed'],
       totalAmount: [0, Validators.required],
       fine: [0, Validators.required],
-      paymentMethod: ['']
+      paymentMethod: [''],
+      cardNumber: ['', [Validators.required,Validators.pattern(/^\d{16}$/)]],
+      expiryDate: ['', [Validators.required,Validators.pattern("^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$")]],
+      cvv: ['', [Validators.required,Validators.pattern(/^\d{3}$/)]],
+      cardHolder:  ['',[Validators.required,Validators.pattern('^[a-zA-Z\\s]+$')]],
+      bankName: ['',[Validators.required,Validators.pattern('^[a-zA-Z\\s]+$')]],
+      accountNumber: ['',[Validators.required,Validators.pattern(/^\d{9,18}$/)]]
     });
 
     if (this.isUserLoggedIn()) {
@@ -104,6 +116,12 @@ export class UserPoliciesComponent implements OnInit {
     this.payments.paymentDate = this.currentDate;
     this.payments.paymentMethod = this.payForm.value.paymentMethod;
     this.payments.paymentStatus = "Completed";
+    this.payments.cardNumber=this.payForm.value.cardNumber;
+    this.payments.expiryDate=this.payForm.value.expiryDate;
+    this.payments.cvv=this.payForm.value.cvv;
+    this.payments.cardHolder=this.payForm.value.cardHolder;
+    this.payments.bankName=this.payForm.value.bankName;
+    this.payments.accountNumber=this.payForm.value.accountNumber;
     
     this.paymentService.makePayment(this.payments).subscribe(data => {
       console.log(data);
@@ -261,8 +279,8 @@ export class UserPoliciesComponent implements OnInit {
   getUserPolicyByUserPolicyId(userPolicyId: number): void {
     if (userPolicyId > 0) {
       this.userPoliciesService.getUserPolicyByUserPolicyId(userPolicyId).subscribe(
-        (response: UserPolicies) => { 
-          this.userPolicies = [response]; 
+        (response: UserPolicies) => { // Expecting a single UserPolicies object
+          this.userPolicies = [response]; // Wrap the single object in an array
         },
         (error) => {
           if(error.status===404 || error.status===409){
@@ -286,7 +304,7 @@ export class UserPoliciesComponent implements OnInit {
     if (this.userId > 0) {
       this.userPoliciesService.getUserPoliciesbyUserId(userId).subscribe(
         (response) => {
-          this.userPolicies = response;
+          this.userPolicies = response; // Update policies array with the fetched policies
         },
         (error) => {
           if(error.status===404 || error.status===409){
