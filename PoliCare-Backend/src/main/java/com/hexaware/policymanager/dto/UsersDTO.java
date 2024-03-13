@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.hexaware.policymanager.entities.Address;
+import com.hexaware.policymanager.entities.ProfilePicture;
 import com.hexaware.policymanager.entities.UserPolicies;
 
 public class UsersDTO {
@@ -21,6 +22,7 @@ public class UsersDTO {
 	private String userType;
 	private Address address;
 	private List<UserPolicies> userPolicies;
+	private ProfilePicture profile;
 
 	public UsersDTO() {
 		super();
@@ -28,7 +30,7 @@ public class UsersDTO {
 
 	public UsersDTO(long userId, String emailAddress, String contactNumber, String password, String firstName,
 			String lastName, LocalDate dateOfBirth, String panNumber, String employerType, String employerName,
-			double salary, String userType, Address address, List<UserPolicies> userPolicies) {
+			double salary, String userType, Address address, List<UserPolicies> userPolicies, ProfilePicture profile) {
 		super();
 		this.userId = userId;
 		this.emailAddress = emailAddress;
@@ -44,6 +46,7 @@ public class UsersDTO {
 		this.userType = userType;
 		this.address = address;
 		this.userPolicies = userPolicies;
+		this.profile=profile;
 	}
 
 	public long getUserId() {
@@ -157,6 +160,15 @@ public class UsersDTO {
 	public void setUserPolicies(List<UserPolicies> userPolicies) {
 		this.userPolicies = userPolicies;
 	}
+	
+
+	public ProfilePicture getProfile() {
+		return profile;
+	}
+
+	public void setProfile(ProfilePicture profile) {
+		this.profile = profile;
+	}
 
 	@Override
 	public String toString() {
@@ -167,4 +179,6 @@ public class UsersDTO {
 				+ ", userPolicies=" + userPolicies + "]";
 	}
 
+
+    
 }

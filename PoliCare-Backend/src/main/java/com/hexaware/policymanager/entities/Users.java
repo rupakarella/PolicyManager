@@ -82,6 +82,11 @@ public class Users {
 	@JsonIgnore
 	private List<PolicyPayments> policyPayments;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pictureId")
+	@JsonManagedReference(value = "Users-Profile")
+	private ProfilePicture profile;
+	
 	
 	public Users() {
 		super();
@@ -99,7 +104,7 @@ public class Users {
 			@NotBlank(message = "employerType should not be blank") @Size(max = 25, message = "String length cannot exceed 25 characters") String employerType,
 			String employerName, @PositiveOrZero(message = "Salary must be a positive") double salary,
 			@NotBlank(message = "userType should not be blank") @Pattern(regexp = "^(Admin|User)$", message = "userType should be either 'Admin' or 'User'") String userType,
-			Address address, List<UserPolicies> userPolicies) {
+			Address address, List<UserPolicies> userPolicies,ProfilePicture profile) {
 		super();
 		this.userId = userId;
 		this.emailAddress = emailAddress;
@@ -116,6 +121,7 @@ public class Users {
 		this.address = address;
 		this.userPolicies = userPolicies;
 		assignEmployerType();
+		this.profile=profile;
 	}
 
 	public long getUserId() {
@@ -231,6 +237,15 @@ public class Users {
 	public void setEmployerType(String employerType) {
 		this.employerType = employerType;
 	}
+	
+
+	public ProfilePicture getProfile() {
+		return profile;
+	}
+
+	public void setProfile(ProfilePicture profile) {
+		this.profile = profile;
+	}
 
 	@Override
 	public String toString() {
@@ -238,7 +253,7 @@ public class Users {
 				+ ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
 				+ dateOfBirth + ", panNumber=" + panNumber + ", employerType=" + employerType + ", employerName="
 				+ employerName + ", salary=" + salary + ", userType=" + userType + ", address=" + address
-				+ ", userPolicies=" + userPolicies + "]";
+				+ ", userPolicies=" + userPolicies + ", profile="+ profile+"]";
 	}
 	
 	public void assignEmployerType()

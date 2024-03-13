@@ -89,6 +89,7 @@ footer p {
   margin-right: auto;
   margin-top: 25px;
 }
+
 .table thead th,
 .table tbody td {
   border: 1px solid rgba(0, 0, 0, 0.214);
@@ -179,4 +180,11 @@ footer p {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+}
+button.invoice-btn {
+  background-color:#1E55B3 !important; 
+  border: none;
+  color: white;
+  border-radius: 5px;
+  justify-content: center;
 }

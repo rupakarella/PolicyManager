@@ -33,6 +33,12 @@ export class ExplorePoliciesComponent implements OnInit {
     totalAmount: 0,
     fine: 0,
     paymentMethod: '',
+    cardNumber: '',
+    expiryDate:new Date(),
+    cvv:'',
+    cardHolder:'',
+    bankName:'',
+    accountNumber:'',
     userPolicyId: 0,
     userId:0
   }
@@ -69,7 +75,13 @@ export class ExplorePoliciesComponent implements OnInit {
     this.buyForm = this.formBuilder.group({
       // startDate: ['', Validators.required],
       durationInYears: ['', Validators.required],
-      paymentMethod:['',Validators.required]
+      paymentMethod:['',Validators.required],
+      cardNumber: ['', [Validators.required,Validators.pattern(/^\d{16}$/)]],
+      expiryDate: ['', [Validators.required,Validators.pattern("^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$")]],
+      cvv: ['', [Validators.required,Validators.pattern(/^\d{3}$/)]],
+      cardHolder:  ['',[Validators.required,Validators.pattern('^[a-zA-Z\\s]+$')]],
+      bankName: ['',[Validators.required,Validators.pattern('^[a-zA-Z\\s]+$')]],
+      accountNumber: ['',[Validators.required,Validators.pattern(/^\d{9,18}$/)]]
     });
     this.policiesForm = this.formBuilder.group({
       policyName: ['', Validators.required],
@@ -256,6 +268,12 @@ onAdding(): void {
     this.payments.fine=0;
     this.payments.paymentStatus='Completed';
     this.payments.paymentMethod=this.buyForm.value.paymentMethod;
+    this.payments.cardNumber=this.buyForm.value.cardNumber;
+    this.payments.expiryDate=this.buyForm.value.expiryDate;
+    this.payments.cvv=this.buyForm.value.cvv;
+    this.payments.cardHolder=this.buyForm.value.cardHolder;
+    this.payments.bankName=this.buyForm.value.bankName;
+    this.payments.accountNumber=this.buyForm.value.accountNumber;
     this.payments.userId=localStorage.getItem('userId');
     this.paymentService.makePayment(this.payments).subscribe(
       (response) => {

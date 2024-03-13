@@ -35,7 +35,7 @@ public class PolicyPayments {
 	private double fine;
 
 	@NotBlank(message = "paymentMethod should not be blank")
-	@Pattern(regexp = "^(Credit Card|Debit Card|Net Banking|Cash)$", message = "Invalid payment method")
+	@Pattern(regexp = "^(Card|Net Banking)$", message = "Invalid payment method")
 	private String paymentMethod;
 
 	@ManyToOne

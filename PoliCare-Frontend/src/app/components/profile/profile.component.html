@@ -32,6 +32,8 @@
         <div class="overview">
           <h3>Edit Details</h3>
         </div>
+        <img class="profile-pic" [src]="pictureUrlLink" alt=""><br>
+        <input class="btn profile-pic-btn " type="file" (change)="selectFile($event)">
         <div class="details">
           <div class="general-info">
             <h5>General Information</h5>
@@ -151,7 +153,7 @@
                   </div>
                 </div>
               </div>
-             
+
               <div formGroupName="address" class="form-inline">
                 <div class="login-form-group">
                   <p><b>Address</b></p>
@@ -191,6 +193,8 @@
     <div *ngIf="!isEdit" class="user-details">
       <div class="profile-page">
         <h2>Profile <button class="edit-button" (click)="onEditClicked()">Edit</button></h2>
+        <img class="profile-pic" [src]="pictureUrlLink" alt="Profile Picture"><br>
+
         <div class="into-columns">
           <div class="general">
             <h5>General Details</h5>

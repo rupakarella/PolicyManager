@@ -30,14 +30,14 @@ export class UserPoliciesComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 4;
   currentDate: Date = new Date();
-  
+
   claims: Claims = {
     claimId: 0,
     claimDate: new Date(),
     claimAmount: 0,
     claimStatus: '',
     userPolicyId: 0,
-    userId:0
+    userId: 0
   };
   payments: Payments = {
     paymentId: 0,
@@ -46,15 +46,21 @@ export class UserPoliciesComponent implements OnInit {
     totalAmount: 0,
     fine: 0,
     paymentMethod: '',
+    cardNumber: '',
+    expiryDate: new Date(),
+    cvv: '',
+    cardHolder: '',
+    bankName: '',
+    accountNumber: '',
     userPolicyId: 0,
-    userId:0
+    userId: 0
   }
   payment: Payments[] = [];
- 
+
 
 
   constructor(private userPoliciesService: UserPoliciesService, private router: Router, private formbuilder: FormBuilder, private claimService: ClaimService,
-     private paymentService: PaymentsService,private navigationService: NavigationService) {
+    private paymentService: PaymentsService, private navigationService: NavigationService) {
 
   }
 
@@ -72,7 +78,13 @@ export class UserPoliciesComponent implements OnInit {
       paymentStatus: ['Completed'],
       totalAmount: [0, Validators.required],
       fine: [0, Validators.required],
-      paymentMethod: ['']
+      paymentMethod: [''],
+      cardNumber: ['', []], // Card number is not always required
+    expiryDate: ['', []], // Expiry date is not always required
+    cvv: ['', []], // CVV is not always required
+    cardHolder:  ['', []], // Card holder is not always required
+    bankName: ['', []], // Bank name is not always required
+    accountNumber: ['', []] // Account number is not always required
     });
 
     if (this.isUserLoggedIn()) {
@@ -102,21 +114,51 @@ export class UserPoliciesComponent implements OnInit {
     this.payments.userPolicyId = this.selectedUP.userPolicyId;
     this.payments.userId=localStorage.getItem('userId');
     this.payments.paymentDate = this.currentDate;
-    this.payments.paymentMethod = this.payForm.value.paymentMethod;
-    this.payments.paymentStatus = "Completed";
+    this.payments.paymentStatus='Completed';
     
+    this.payments.paymentMethod = this.payForm.value.paymentMethod;
+
+    // Make sure payment method is selected
+    if (!this.payments.paymentMethod) {
+        alert('Please select a payment method.');
+        return;
+    }
+
+    // Perform additional custom validations based on the selected payment method
+    if (this.payments.paymentMethod === 'Card') {
+        // Validate card payment details
+        if (!this.payForm.value.cardNumber || !this.payForm.value.expiryDate || !this.payForm.value.cvv || !this.payForm.value.cardHolder) {
+            alert('Please fill in all card payment details.');
+            return;
+        }
+        // You can perform additional validations specific to card payments here
+    } else if (this.payments.paymentMethod === 'Net Banking') {
+        // Validate net banking details
+        if (!this.payForm.value.bankName || !this.payForm.value.accountNumber) {
+            alert('Please fill in all net banking details.');
+            return;
+        }
+        // You can perform additional validations specific to net banking payments here
+    }
+
+    // Make payment
     this.paymentService.makePayment(this.payments).subscribe(data => {
-      console.log(data);
-      this.showPayForm = false;
-      this.router.navigate(['/payments'])
+        console.log(data);
+        this.showPayForm = false;
+        this.router.navigate(['/payments']);
     }, error => {
-      console.log(error);
+        console.log(error);
     });
-  }
+}
+
+
+
+
+
 
   onRegister() {
     this.claims.userPolicyId = this.selectedUP.userPolicyId;
-    this.claims.userId=localStorage.getItem('userId');
+    this.claims.userId = localStorage.getItem('userId');
     this.claims.claimDate = this.currentDate;
     this.claims.claimAmount = this.claimForm.value.claimAmount;
     this.claims.claimStatus = "Pending";
@@ -183,12 +225,12 @@ export class UserPoliciesComponent implements OnInit {
         this.userPolicies = response;
       },
       (error) => {
-        if(error.status===404 || error.status===409){
+        if (error.status === 404 || error.status === 409) {
           alert("You haven't registered for any policy yet");
         }
-        else{
+        else {
           console.log(error);
-      }
+        }
         this.userPolicies = [];
       }
     );
@@ -265,12 +307,12 @@ export class UserPoliciesComponent implements OnInit {
           this.userPolicies = [response]; // Wrap the single object in an array
         },
         (error) => {
-          if(error.status===404 || error.status===409){
+          if (error.status === 404 || error.status === 409) {
             alert("There are no policies registered with this Id");
           }
-          else{
+          else {
             console.log(error);
-        }
+          }
         }
       );
     } else {
@@ -289,26 +331,26 @@ export class UserPoliciesComponent implements OnInit {
           this.userPolicies = response; // Update policies array with the fetched policies
         },
         (error) => {
-          if(error.status===404 || error.status===409){
+          if (error.status === 404 || error.status === 409) {
             alert("There are no policies registered for this user");
           }
-          else{
+          else {
             console.log(error);
-        }
+          }
         }
       );
     } else {
       console.error('Please enter a valid Id');
     }
   }
-  
-  
+
+
 
   calculateFine(paymentDate: Date, userPolicies: UserPolicies): void {
     const policy = userPolicies.policy;
     if (!policy) {
-        console.error('Policy is undefined');
-        return;
+      console.error('Policy is undefined');
+      return;
     }
 
     const termPeriod = policy.termPeriod;
@@ -316,23 +358,23 @@ export class UserPoliciesComponent implements OnInit {
     let dueDate: Date | null = null;
 
     if (termPeriod === "Monthly") {
-        dueDate = new Date(startDate.setMonth(startDate.getMonth() + 1));
+      dueDate = new Date(startDate.setMonth(startDate.getMonth() + 1));
     } else if (termPeriod === "Quarterly") {
-        dueDate = new Date(startDate.setMonth(startDate.getMonth() + 3));
+      dueDate = new Date(startDate.setMonth(startDate.getMonth() + 3));
     } else if (termPeriod === "Half-Yearly") {
-        dueDate = new Date(startDate.setMonth(startDate.getMonth() + 6));
+      dueDate = new Date(startDate.setMonth(startDate.getMonth() + 6));
     } else if (termPeriod === "Annually") {
-        dueDate = new Date(startDate.setFullYear(startDate.getFullYear() + 1));
+      dueDate = new Date(startDate.setFullYear(startDate.getFullYear() + 1));
     }
 
     if (dueDate && paymentDate > dueDate) {
-        const daysPastDue = Math.ceil((paymentDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
-        this.payments.fine = daysPastDue * policy.termAmount * 0.001;
+      const daysPastDue = Math.ceil((paymentDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
+      this.payments.fine = daysPastDue * policy.termAmount * 0.001;
     } else {
-        this.payments.fine = 0;
+      this.payments.fine = 0;
     }
-  
+
     this.payments.totalAmount = policy.termAmount + this.payments.fine;
-}
+  }
 
 }
