@@ -92,18 +92,82 @@
                         <p>Total Amount: {{ payments.totalAmount | currency:'INR' }}</p>
                         <p>Fine: {{ payments.fine | currency:'INR' }}</p>
                         <select formControlName="paymentMethod" class="payment-form-control"
-                            [ngClass]="{ 'is-invalid': f2['paymentMethod'].touched && f2['paymentMethod'].invalid }">
+                    [ngClass]="{ 'is-invalid': f2['paymentMethod'].touched && f2['paymentMethod'].invalid }">
 
-                            <option value="">Payment Method</option>
-                            <option value="Credit Card">Credit Card</option>
-                            <option value="Debit Card">Debit Card</option>
-                            <option value="Net Banking">Net Banking</option>
-                            <option value="Cash">Cash</option>
-                        </select>
-                        <div *ngIf="f2['paymentMethod']?.touched && f2['paymentMethod']?.invalid"
-                            class="invalid-feedback">
-                            <div *ngIf="f2['paymentMethod'].errors?.['required']">Payment Method is required</div>
+                    <option value="">Select Payment Method</option>
+                    <option value="Card">Credit/Debit Card</option>
+                    <option value="Net Banking">Net Banking</option>
+                </select>
+                <div *ngIf="f2['paymentMethod']?.touched && f2['paymentMethod']?.invalid" class="invalid-feedback">
+                    <div *ngIf="f2['paymentMethod'].errors?.['required']">Payment Method is required</div>
+                </div><br>
+                <div class="card-content">
+                    <div *ngIf="f2['paymentMethod'].value === 'Card'" class="form-group">
+                        <input type="text" id="cardNumber" formControlName="cardNumber" placeholder="Card Number"
+                            [ngClass]="{'is-invalid': f2['cardNumber'].touched && f2['cardNumber'].invalid}">
+                        <div *ngIf="f2['cardNumber']?.touched && f2['cardNumber']?.invalid" class="invalid-feedback">
+                            <div class="text-danger" *ngIf="f2['cardNumber'].errors?.['required']">Card Number is
+                                required
+                            </div>
+                            <div class="text-danger" *ngIf="f2['cardNumber'].errors?.['pattern']">Card Number must
+                                contain
+                                16 digits</div>
                         </div>
+                        <input type="text" id="expiryDate" formControlName="expiryDate"
+                            placeholder="Expiry Date (MM/YYYY)"
+                            [ngClass]="{'is-invalid': f2['expiryDate'].touched && f2['expiryDate'].invalid}">
+                        <div *ngIf="f2['expiryDate']?.touched && f2['expiryDate']?.invalid" class="invalid-feedback">
+                            <div class="text-danger" *ngIf="f2['expiryDate'].errors?.['required']">Expiry Date is
+                                required</div>
+                            <div class="text-danger" *ngIf="f2['expiryDate'].errors?.['pattern']">Expiry date must
+                                be in
+                                MM/YYYY format.</div>
+                        </div>
+
+                        <input type="text" id="cvv" formControlName="cvv" placeholder="CVV"
+                            [ngClass]="{'is-invalid': f2['cvv'].touched && f2['cvv'].invalid}">
+                        <div *ngIf="f2['cvv']?.touched && f2['cvv']?.invalid" class="invalid-feedback">
+                            <div class="text-danger" *ngIf="f2['cvv'].errors?.['required']">CVV is required</div>
+                            <div class="text-danger" *ngIf="f2['cvv'].errors?.['pattern']">CVV must contain 3 digits
+                            </div>
+                        </div>
+
+                        <input type="text" id="cardHolder" formControlName="cardHolder" placeholder="Card Holder"
+                            [ngClass]="{'is-invalid': f2['cardHolder'].touched && f2['cardHolder'].invalid}">
+                        <div *ngIf="f2['cardHolder']?.touched && f2['cardHolder']?.invalid" class="invalid-feedback">
+                            <div class="text-danger" *ngIf="f2['cardHolder'].errors?.['required']">Card Holder is
+                                required
+                            </div>
+                            <div class="text-danger" *ngIf="f2['cardHolder'].errors?.['pattern']">Card Holder must
+                                contain
+                                letters only</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div *ngIf="f2['paymentMethod'].value === 'Net Banking'" class="form-group">
+                        <input type="text" id="bankName" formControlName="bankName" placeholder="Bank Name"
+                            [ngClass]="{'is-invalid': f2['bankName'].touched && f2['bankName'].invalid}">
+                        <div *ngIf="f2['bankName']?.touched && f2['bankName']?.invalid" class="invalid-feedback">
+                            <div class="text-danger" *ngIf="f2['bankName'].errors?.['required']">Bank Name is
+                                required
+                            </div>
+                            <div class="text-danger" *ngIf="f2['bankName'].errors?.['pattern']">Bank Name must
+                                contain
+                                letters only</div>
+                        </div>
+                        <input type="text" id="accountNumber" formControlName="accountNumber" placeholder="Account Number"
+                            [ngClass]="{'is-invalid': f2['accountNumber'].touched && f2['accountNumber'].invalid}">
+                        <div *ngIf="f2['accountNumber']?.touched && f2['accountNumber']?.invalid" class="invalid-feedback">
+                            <div class="text-danger" *ngIf="f2['accountNumber'].errors?.['required']">Account Number is
+                                required
+                            </div>
+                            <div class="text-danger" *ngIf="f2['accountNumber'].errors?.['pattern']">Account Number must
+                                contain
+                                9-18 digits</div>
+                        </div>
+                    </div>
+                </div>
                         <button type="submit" [disabled]="payForm.invalid">Pay</button>
                     </div>
                 </form>

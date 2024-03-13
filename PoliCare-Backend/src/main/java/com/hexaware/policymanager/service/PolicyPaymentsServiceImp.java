@@ -1,5 +1,6 @@
 package com.hexaware.policymanager.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import com.hexaware.policymanager.repository.PolicyPaymentsRepository;
 import com.hexaware.policymanager.repository.UserPoliciesRepository;
 import com.hexaware.policymanager.repository.UsersRepository;
 
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -35,6 +37,12 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 
 	@Autowired
 	UsersRepository usersRepo;
+	
+	@Autowired
+    PdfGenerator pdfGenerator;
+
+    @Autowired
+    EmailService emailService;
 
 	@Override
 	public PolicyPayments makePayment(PolicyPaymentsDTO policyPaymentsDTO) throws UserPolicyNotFoundException {
@@ -55,6 +63,25 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 			policyPayments.setUserPolicies(userPolicy);
 			PolicyPayments savedPayment = policyPaymentsRepo.save(policyPayments);
 			logger.info("Payment done successfully{}", savedPayment);
+<<<<<<< HEAD
+=======
+			byte[] pdfBytes = null;
+			try {
+				pdfBytes = pdfGenerator.generatePaymentConfirmationPdf(policyPaymentsDTO);
+			} catch (IOException e) {
+				 logger.error("Error generating PDF: {}", e.getMessage());
+		            throw new RuntimeException("Error generating PDF", e);
+			}
+
+	        // Send email with payment confirmation PDF attached
+	        try {
+				emailService.sendEmailForPayment(users.getEmailAddress(), pdfBytes);
+			} catch (MessagingException e) {
+				logger.error("Error sending email: {}", e.getMessage());
+	            throw new RuntimeException("Error sending email", e);
+			}
+
+>>>>>>> rupa
 			return savedPayment;
 		} else {
 			logger.warn("User policy not found with ID: {}", policyPaymentsDTO.getUserPolicyId());

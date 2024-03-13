@@ -1,11 +1,19 @@
 package com.hexaware.policymanager.service;
 
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+>>>>>>> rupa
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
+=======
+import org.springframework.mail.javamail.JavaMailSender;
+>>>>>>> rupa
 import org.springframework.stereotype.Service;
 
 import com.hexaware.policymanager.dto.UserPoliciesDTO;
@@ -19,6 +27,10 @@ import com.hexaware.policymanager.repository.PoliciesRepository;
 import com.hexaware.policymanager.repository.UserPoliciesRepository;
 import com.hexaware.policymanager.repository.UsersRepository;
 
+<<<<<<< HEAD
+=======
+import jakarta.mail.MessagingException;
+>>>>>>> rupa
 import jakarta.transaction.Transactional;
 
 @Service
@@ -35,6 +47,15 @@ public class UserPoliciesServiceImp implements IUserPoliciesService {
 
 	@Autowired
 	PoliciesRepository policiesRepo;
+<<<<<<< HEAD
+=======
+	
+	@Autowired
+    private PdfGenerator pdfGenerator;
+
+    @Autowired
+    private EmailService emailService;
+>>>>>>> rupa
 
 	@Override
 	public UserPolicies createUserPolicy(UserPoliciesDTO userpolicyDTO)
@@ -59,7 +80,30 @@ public class UserPoliciesServiceImp implements IUserPoliciesService {
 		userpolicy.setPolicy(policy);
 		userpolicy.setDurationInYears(userpolicyDTO.getDurationInYears());
 		logger.info("User policy created successfully");
+<<<<<<< HEAD
 		return userPoliciesRepo.save(userpolicy);
+=======
+		 // Generate PDF
+        byte[] pdfBytes = null;
+        try {
+            pdfBytes = pdfGenerator.generatePdf(user.getEmailAddress(),
+            		userpolicy.getStartDate(), userpolicy.getMaturityAmount(), userpolicy.getEndDate(),
+            		userpolicy.getDurationInYears(),policy);
+        } catch (IOException e) {
+            logger.error("Error generating PDF: {}", e.getMessage());
+            throw new RuntimeException("Error generating PDF", e);
+        }
+
+        // Send email with PDF attachment
+        try {
+            emailService.sendEmailWithAttachment(user.getEmailAddress(), pdfBytes);
+        } catch (MessagingException e) {
+            logger.error("Error sending email: {}", e.getMessage());
+            throw new RuntimeException("Error sending email", e);
+        }
+		return userPoliciesRepo.save(userpolicy); 
+		
+>>>>>>> rupa
 	}
 
 	@Override
