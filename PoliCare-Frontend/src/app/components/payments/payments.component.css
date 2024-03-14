@@ -52,17 +52,17 @@
 
 
 footer {
-  background-color: transparent; /* Background color for the footer */
-  color: #1E55B3; /* Text color for the footer */
-  padding: 0px; /* Padding around the content inside the footer */
-  text-align: center; /* Align the content in the center */
-  position: fixed; /* Fixed position at the bottom of the viewport */
-  width: 100%; /* Full width */
-  bottom: 0; /* Stick to the bottom */
+  background-color: transparent; 
+  color: #1E55B3; 
+  padding: 0px; 
+  text-align: center; 
+  position: fixed; 
+  width: 100%; 
+  bottom: 0; 
 }
 
 footer p {
-  margin: 0; /* Remove default margin */
+  margin: 0; 
 }
 
 .table{
@@ -89,6 +89,7 @@ footer p {
   margin-right: auto;
   margin-top: 25px;
 }
+
 .table thead th,
 .table tbody td {
   border: 1px solid rgba(0, 0, 0, 0.214);
@@ -179,4 +180,11 @@ footer p {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+}
+button.invoice-btn {
+  background-color:#1E55B3 !important; 
+  border: none;
+  color: white;
+  border-radius: 5px;
+  justify-content: center;
 }

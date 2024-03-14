@@ -27,7 +27,7 @@ export class ManageUsersComponent implements OnInit {
   user!: Users;
   submitted = false;
   currentPage: number = 1;
-  pageSize: number = 3;
+  pageSize: number = 5;
 
 
 
@@ -75,6 +75,7 @@ getAllUsers() {
     },
     (error) => {
       console.log(error);
+      alert('Error fetching users');
     }
   );
 }
@@ -199,10 +200,12 @@ deleteUser(userId: number) {
   this.userService.deleteUserById(userId).subscribe(
     (response) => {
       console.log(response); 
+      alert('User deleted successfully');
       this.getAllUsers();
     },
     (error) => {
       console.log(error); 
+      alert('Error deleting user');
     }
   );
 }

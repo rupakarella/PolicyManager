@@ -144,11 +144,22 @@ select {
 }
 
 .select-dropdown {
+  position: relative;
   justify-content: center;
   align-items: center;
   display: flex;
   padding-left: 20px;
   margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.select-dropdown .text-danger {
+  position: absolute;
+  bottom: -20px; /* Adjust as needed */
+  width: 100%;
+  font-size: 0.875em; /* Adjust as needed */
+  color: #dc3545;
+  min-height: 20px; /* Adjust based on your design */
 }
 
 .select-dropdown {

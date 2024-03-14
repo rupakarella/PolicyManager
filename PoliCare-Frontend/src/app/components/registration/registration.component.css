@@ -21,7 +21,7 @@ html, body {
   background-position: center;
   background-size: cover;
   padding: 0;
-  margin: 0; /* Add this to ensure there's no margin */
+  margin: 0; 
   border: none;
   box-shadow: none;
 }
@@ -32,7 +32,7 @@ html, body {
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 1000px;
-  margin-top: 5%; 
+  margin-top: 2%; 
   margin-left: 16%;
   text-align: center;
   position: relative;
@@ -42,7 +42,7 @@ html, body {
 .details{
   display:flex;
   padding: 20px;
-  /* justify-content: space-evenly,flex-start; */
+  
 }
 .name{
   display: flex;
@@ -99,6 +99,7 @@ button[type="submit"] {
   background-color: #1E55B3;
   border-radius: 40px;
   color:#FFFFFF;
+  border:none;
 }
 .navbar img{
   margin-right: auto;
@@ -143,12 +144,7 @@ input[type="date"]{
 .ename{
   margin-left: 5px;
 }
-/* .all-contact{
-  text-align: center;
-  
-  padding: 10px;
-  padding-top:0;
-} */
+
 input[type="email"]{
   margin-left: 58px;
 }
@@ -166,13 +162,11 @@ input[type="email"]{
   margin-left: 50px;
   margin-bottom:5px;
 }
-/* .password-input{
-  position: relative;
-} */
+
 .password-toggle-btn {
   position: relative;
   top: 12px;
-  right: 30px; /* Adjust as needed */
+  right: 30px; 
   transform: translateY(-50%);
   background: transparent !important;
   border: none;
@@ -214,15 +208,15 @@ input[type="email"]{
   background-color: #114194;
 }
 footer {
-  background-color: transparent; /* Background color for the footer */
-  color: #1E55B3; /* Text color for the footer */
-  padding: 0px; /* Padding around the content inside the footer */
-  text-align: center; /* Align the content in the center */
-  position: fixed; /* Fixed position at the bottom of the viewport */
-  width: 100%; /* Full width */
-  bottom: 0; /* Stick to the bottom */
+  background-color: transparent; 
+  color: #1E55B3; 
+  padding: 0px; 
+  text-align: center; 
+  position: fixed; 
+  width: 100%; 
+  bottom: 0; 
 }
 
 footer p {
-  margin: 0; /* Remove default margin */
+  margin: 0; 
 }

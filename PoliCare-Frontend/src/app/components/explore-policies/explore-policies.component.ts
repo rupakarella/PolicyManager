@@ -57,11 +57,15 @@ export class ExplorePoliciesComponent implements OnInit {
   greaterThanAmount: number = 0;
   lessThanAmount: number=0;
   registerForm!:FormGroup;
+  cardForm!: FormGroup;
+  showCardForm = false;
+  netBankingForm!: FormGroup;
+  showNetBankingForm = false;
   public loggedIn=false;
   public UserloggedIn=false;
   public AdminloggedIn=false;
   currentPage: number = 1;
-  pageSize: number = 4;
+  pageSize: number = 7;
   currentDate: Date = new Date();
   constructor(
     private policyService: PolicyService,
@@ -76,12 +80,16 @@ export class ExplorePoliciesComponent implements OnInit {
       // startDate: ['', Validators.required],
       durationInYears: ['', Validators.required],
       paymentMethod:['',Validators.required],
-      cardNumber: ['', [Validators.required,Validators.pattern(/^\d{16}$/)]],
-      expiryDate: ['', [Validators.required,Validators.pattern("^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$")]],
-      cvv: ['', [Validators.required,Validators.pattern(/^\d{3}$/)]],
-      cardHolder:  ['',[Validators.required,Validators.pattern('^[a-zA-Z\\s]+$')]],
-      bankName: ['',[Validators.required,Validators.pattern('^[a-zA-Z\\s]+$')]],
-      accountNumber: ['',[Validators.required,Validators.pattern(/^\d{9,18}$/)]]
+    });
+    this.cardForm = this.formBuilder.group({
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      expiryDate: ['', [Validators.required, Validators.pattern("^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$")]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
+      cardHolder: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
+    });
+    this.netBankingForm = this.formBuilder.group({
+      bankName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
+      accountNumber: ['', [Validators.required, Validators.pattern(/^\d{9,18}$/)]],
     });
     this.policiesForm = this.formBuilder.group({
       policyName: ['', Validators.required],
@@ -189,6 +197,7 @@ onAdding(): void {
       },
       (error) => {
         console.error('There was an error fetching the policies', error);
+        alert('There was an error fetching the policies')
       }
     );
   }
@@ -223,7 +232,12 @@ onAdding(): void {
   {
     return this.registerForm.controls;
   }
-
+  get f3() {
+    return this.cardForm.controls;
+  }
+  get f4() {
+    return this.netBankingForm.controls;
+  }
 
   buyPolicy(policy: Policy) {
     const userEmployerType = localStorage.getItem('employerType');
@@ -236,7 +250,23 @@ onAdding(): void {
       alert("Sorry, You are not eligible to buy this policy.")
     }
   }
-  
+  onPaymentMethodChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+      if (value === 'Card' || value === 'Net Banking') {
+        this.selectedFilterMethod = value;
+      }
+        if (this.selectedFilterMethod === 'Card') {
+            this.showCardForm = true;
+            this.showNetBankingForm = false;
+        } else if (this.selectedFilterMethod === 'Net Banking') {
+            this.showCardForm = false;
+            this.showNetBankingForm = true;
+        } else {
+            this.showCardForm = false;
+            this.showNetBankingForm = false;
+        }
+    
+  }
   onBuyPolicy() {
     
     this.userPolicies.policyId = this.policyId;
@@ -268,12 +298,16 @@ onAdding(): void {
     this.payments.fine=0;
     this.payments.paymentStatus='Completed';
     this.payments.paymentMethod=this.buyForm.value.paymentMethod;
-    this.payments.cardNumber=this.buyForm.value.cardNumber;
-    this.payments.expiryDate=this.buyForm.value.expiryDate;
-    this.payments.cvv=this.buyForm.value.cvv;
-    this.payments.cardHolder=this.buyForm.value.cardHolder;
-    this.payments.bankName=this.buyForm.value.bankName;
-    this.payments.accountNumber=this.buyForm.value.accountNumber;
+    if (this.payments.paymentMethod === 'Card') {
+      this.payments.cardNumber = this.cardForm.value.cardNumber;
+      this.payments.expiryDate = this.cardForm.value.expiryDate;
+      this.payments.cvv = this.cardForm.value.cvv;
+      this.payments.cardHolder = this.cardForm.value.cardHolder;
+    }
+    else if (this.payments.paymentMethod === 'Net Banking') {
+      this.payments.bankName = this.netBankingForm.value.bankName;
+      this.payments.accountNumber = this.netBankingForm.value.accountNumber;
+    }
     this.payments.userId=localStorage.getItem('userId');
     this.paymentService.makePayment(this.payments).subscribe(
       (response) => {
@@ -291,10 +325,12 @@ onAdding(): void {
     this.policyService.deletePolicy(policyId).subscribe(
       (response) => {
         console.log(response); 
-        this.loadPolicies();
+        alert('Policy deleted successfully');
+        this.loadPolicies();  
       },
       (error) => {
         console.log(error);
+        alert('Failed to delete policy');
       }
     );
   }

@@ -101,6 +101,7 @@ export class ClaimsComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching claims', error);
+        alert("Error fetching claims");
       }
     );
   }
@@ -134,6 +135,7 @@ export class ClaimsComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error deleting claim', error);
+        alert("Error deleting claim");
       }
     );
   }
@@ -198,6 +200,7 @@ export class ClaimsComponent implements OnInit {
       },
       (error) => {
         console.log('Error fetching user policies:', error);
+        alert('Error fetching user policies');
         this.claims = [];
       }
     );
