@@ -61,7 +61,8 @@ export class RegistrationComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error: error => {
-          console.error('There was an error!', error);
+          console.error('Error registering User', error);
+          alert('Registration failed');
         }
       });
     }

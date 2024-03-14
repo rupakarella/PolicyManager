@@ -5,10 +5,7 @@ import { Users } from 'src/app/models/users.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JwtService } from 'src/app/service/jwt.service';
 import { NavigationService } from 'src/app/service/navigation.service';
-<<<<<<< HEAD
-=======
 import { ProfilepicService } from 'src/app/service/profilepic.service';
->>>>>>> rupa
 
 @Component({
   selector: 'app-profile',
@@ -22,36 +19,6 @@ export class ProfileComponent implements OnInit {
   submitted = false;
   showPassword = true;
   response: any;
-<<<<<<< HEAD
-  public loggedIn=true;
-  public UserloggedIn=false;
-  public AdminloggedIn=false;
-
-
-  constructor(private userService: UserService, private router: Router,private formBuilder: FormBuilder,private jwtService:JwtService, private navigationService: NavigationService) { 
-  this.usersForm = this.formBuilder.group({
-    userId: [],
-    emailAddress: ['', [Validators.required, Validators.email]],
-    contactNumber: ['', [Validators.required, Validators.pattern('^[6789]\\d{9}$')]],
-    password: ['', Validators.required],
-    firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
-    lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
-    dateOfBirth: ['', Validators.required],
-    panNumber: ['', [Validators.required, Validators.pattern('^[A-Z]{5}\\d{4}[A-Z]{1}$')]],
-    // employerType: ['', [Validators.required, Validators.maxLength(25)]],
-    employerName: [],
-    salary: ['', Validators.min(0)],
-    userType: ['', [Validators.required, Validators.pattern('^(Admin|User)$')]],
-    address: this.formBuilder.group({
-      addressLine: ['', Validators.required],
-      city: ['', Validators.required],
-      cityPincode: ['', Validators.required],
-      state: ['', Validators.required]
-    }),
-    userPolicies: this.formBuilder.array([])
-  });
-}
-=======
   public loggedIn = true;
   public UserloggedIn = false;
   public AdminloggedIn = false;
@@ -81,36 +48,22 @@ export class ProfileComponent implements OnInit {
       userPolicies: this.formBuilder.array([])
     });
   }
->>>>>>> rupa
   ngOnInit(): void {
     this.navigationService.disableBackButton();
     this.getUserById();
     {
       this.loggedIn = this.jwtService.isUserLoggedIn() || this.jwtService.isAdminLoggedIn();
-<<<<<<< HEAD
-      this.UserloggedIn =this.jwtService.isUserLoggedIn();
-=======
       this.UserloggedIn = this.jwtService.isUserLoggedIn();
->>>>>>> rupa
       this.AdminloggedIn = this.jwtService.isAdminLoggedIn();
       this.router.navigate(['/profile']);
     }
 
   }
-<<<<<<< HEAD
-  logoutUser()
-  {
-    this.jwtService.logout();
-    this.loggedIn=false;
-    this.UserloggedIn=false;
-    this.AdminloggedIn=false;
-=======
   logoutUser() {
     this.jwtService.logout();
     this.loggedIn = false;
     this.UserloggedIn = false;
     this.AdminloggedIn = false;
->>>>>>> rupa
     alert("Logged Out");
     this.router.navigate(['/']);
   }
@@ -127,21 +80,14 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserById(localStorage.getItem('userId')).subscribe(
       (data: Users) => {
         this.user = data;
-<<<<<<< HEAD
-=======
         this.getProfilePic();
->>>>>>> rupa
       },
       (error) => {
         console.log('Error fetching user details:', error);
+        alert('Error fetching user details');
       }
     );
   }
-<<<<<<< HEAD
-
-  onEditClicked() {
-    this.isEdit = true;
-=======
   getProfilePic() {
     this.profilePicService.getProfilePic().subscribe(
       (blob: Blob) => {
@@ -179,7 +125,6 @@ export class ProfileComponent implements OnInit {
         state: this.user.address.state
       }
     });
->>>>>>> rupa
   }
   get f() {
     return this.usersForm.controls;
@@ -188,44 +133,6 @@ export class ProfileComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-<<<<<<< HEAD
-  onUpdate()
-   {
-     this.user.userId=+localStorage.getItem('userId')!;
-     this.user.emailAddress=this.usersForm.value.emailAddress;
-     this.user.contactNumber=this.usersForm.value.contactNumber;
-     this.user.password=this.usersForm.value.password;
-     this.user.firstName=this.usersForm.value.firstName;
-     this.user.lastName=this.usersForm.value.lastName;
-     this.user.dateOfBirth=this.usersForm.value.dateOfBirth;
-     this.user.panNumber=this.usersForm.value.panNumber;
-     this.user.employerName=this.usersForm.value.employerName;
-     this.user.salary=this.usersForm.value.salary;
-     this.user.userType=this.usersForm.value.userType;
-     this.user.address.addressLine=this.usersForm.value.address.addressLine;
-     this.user.address.city=this.usersForm.value.address.city;
-     this.user.address.cityPincode=this.usersForm.value.address.cityPincode;
-     this.user.address.state=this.usersForm.value.address.state;
-
-      
-      let response = this.userService.updateUser(this.user);
-
-      response.subscribe
-      ( 
-        responseData => 
-        {
-          this.response = responseData; 
-          console.log(responseData);
-          alert("User Details Updated!");
-          this.router.navigate(['/login']);
-
-
-        },
-        error =>
-        {
-          console.log(error);
-          alert("Error while updating details");
-=======
   onUpdate() {
     this.user.userId = +localStorage.getItem('userId')!;
     this.user.emailAddress = this.usersForm.value.emailAddress;
@@ -251,77 +158,84 @@ export class ProfileComponent implements OnInit {
         responseData => {
           this.response = responseData;
           console.log(responseData);
+          if (this.pictureFile) {
+            this.profilePicService.uploadProfilePicture(this.pictureFile).then((res) => {
+              if (res !== '') {
+                alert(`Profile picture uploaded successfully`);
+                this.router.navigate(['/profile']);
+              }
+            },
+            (err) => {
+              if (err.status === 200) {
+                alert(`Profile picture uploaded successfully`);
+                this.router.navigate(['/profile'])
+              } else {
+                alert(`Error in uploading file`)
+              }
+            });
+          }
           alert("User Details Updated!");
-          this.router.navigate(['/user-dashboard']);
+          this.isEdit = false;
+          this.router.navigate(['/profile']);
 
 
         },
         error => {
           console.log(error);
->>>>>>> rupa
+          alert('Error in updating user details');
           window.location.reload();
 
         });
   }
-<<<<<<< HEAD
-=======
   selectFile(event: any) {
     if (event.target.files) {
-      const reader = new FileReader();
       const file = event.target.files[0];
-      this.pictureFile = event.target.files[0];
-      console.log(this.pictureFile)
-      reader.onload = (event: any) => {
-        const img = new Image();
-        img.src = event.target.result;
-
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-
-          if (ctx) { // Check if ctx is not null
-            const size = Math.min(img.width, img.height);
-            canvas.width = size;
-            canvas.height = size;
-
-            ctx.drawImage(img, (img.width - size) / 2, (img.height - size) / 2, size, size, 0, 0, size, size);
-
-            this.pictureUrlLink = canvas.toDataURL();
-            if (this.pictureFile != null) {
-              this.profilePicService.uploadProfilePicture(this.pictureFile).then((res) => {
-                if (res !== '') {
-                  alert(`Successfully uploaded`);
-                  this.router.navigate(['/profile']);
-                }
-              },
-                (err) => {
-                  if (err.status === 200) {
-                    alert(`Successfully uploaded`);
-                    this.router.navigate(['/profile'])
-                  } else {
-                    alert(`Error in uploading file`)
-                  }
-                })
+      
+      // Check if file size is less than or equal to 10MB (in bytes)
+      if (file.size <= 10 * 1024 * 1024) {
+        const reader = new FileReader();
+        this.pictureFile = file;
+        console.log(this.pictureFile);
+  
+        reader.onload = (event: any) => {
+          const img = new Image();
+          img.src = event.target.result;
+  
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+  
+            if (ctx) {
+              const size = Math.min(img.width, img.height);
+              canvas.width = size;
+              canvas.height = size;
+  
+              ctx.drawImage(img, (img.width - size) / 2, (img.height - size) / 2, size, size, 0, 0, size, size);
+  
+              this.pictureUrlLink = canvas.toDataURL();
+              
+             
+            } else {
+              console.error('Unable to get 2D context for canvas.');
             }
-          }
-
-          else {
-            console.error('Unable to get 2D context for canvas.');
-          }
+          };
+  
+          img.onerror = () => {
+            console.error('Error loading image.');
+            alert('Error loading image');
+          };
         };
-
-        img.onerror = () => {
-          console.error('Error loading image.');
+  
+        reader.onerror = () => {
+          console.error('Error reading file.');
         };
-      };
-
-      reader.onerror = () => {
-        console.error('Error reading file.');
-      };
-
-      reader.readAsDataURL(file);
+  
+        reader.readAsDataURL(file);
+      } else {
+        alert('File size should be less than 10MB.');
+      }
     }
   }
+  
 
->>>>>>> rupa
 }

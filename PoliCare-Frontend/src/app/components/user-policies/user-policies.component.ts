@@ -27,8 +27,12 @@ export class UserPoliciesComponent implements OnInit {
   showClaimForm = false;
   payForm!: FormGroup;
   showPayForm = false;
+  cardForm!: FormGroup;
+  showCardForm = false;
+  netBankingForm!: FormGroup;
+  showNetBankingForm = false;
   currentPage: number = 1;
-  pageSize: number = 4;
+  pageSize: number = 5;
   currentDate: Date = new Date();
 
   claims: Claims = {
@@ -69,22 +73,25 @@ export class UserPoliciesComponent implements OnInit {
     this.claimForm = this.formbuilder.group({
       claimId: [],
       // claimDate: ['', Validators.required],
-      claimAmount: [0, Validators.required],
+      claimAmount: [ , [Validators.required,Validators.min(0)]],
       claimStatus: ['Pending' || 'Approved' || 'Rejected']
     });
     this.payForm = this.formbuilder.group({
       paymentId: [],
-      // paymentDate: ['', Validators.required],
       paymentStatus: ['Completed'],
       totalAmount: [0, Validators.required],
       fine: [0, Validators.required],
-      paymentMethod: [''],
-      cardNumber: ['', []], // Card number is not always required
-    expiryDate: ['', []], // Expiry date is not always required
-    cvv: ['', []], // CVV is not always required
-    cardHolder:  ['', []], // Card holder is not always required
-    bankName: ['', []], // Bank name is not always required
-    accountNumber: ['', []] // Account number is not always required
+      paymentMethod: ['', Validators.required],
+    });
+    this.cardForm = this.formbuilder.group({
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      expiryDate: ['', [Validators.required, Validators.pattern("^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$")]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
+      cardHolder: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
+    });
+    this.netBankingForm = this.formbuilder.group({
+      bankName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
+      accountNumber: ['', [Validators.required, Validators.pattern(/^\d{9,18}$/)]],
     });
 
     if (this.isUserLoggedIn()) {
@@ -108,53 +115,52 @@ export class UserPoliciesComponent implements OnInit {
     this.showPayForm = true;
     this.selectedUP = userPolicies;
     this.calculateFine(this.currentDate, this.selectedUP);
-  }
-
-  onPay(): void {
-    this.payments.userPolicyId = this.selectedUP.userPolicyId;
-    this.payments.userId=localStorage.getItem('userId');
-    this.payments.paymentDate = this.currentDate;
-    this.payments.paymentStatus='Completed';
-    
-    this.payments.paymentMethod = this.payForm.value.paymentMethod;
-
-    // Make sure payment method is selected
-    if (!this.payments.paymentMethod) {
-        alert('Please select a payment method.');
-        return;
+}
+onPaymentMethodChange(event: Event): void {
+  const value = (event.target as HTMLSelectElement).value;
+    if (value === 'Card' || value === 'Net Banking') {
+      this.selectedFilterMethod = value;
     }
-
-    // Perform additional custom validations based on the selected payment method
-    if (this.payments.paymentMethod === 'Card') {
-        // Validate card payment details
-        if (!this.payForm.value.cardNumber || !this.payForm.value.expiryDate || !this.payForm.value.cvv || !this.payForm.value.cardHolder) {
-            alert('Please fill in all card payment details.');
-            return;
-        }
-        // You can perform additional validations specific to card payments here
-    } else if (this.payments.paymentMethod === 'Net Banking') {
-        // Validate net banking details
-        if (!this.payForm.value.bankName || !this.payForm.value.accountNumber) {
-            alert('Please fill in all net banking details.');
-            return;
-        }
-        // You can perform additional validations specific to net banking payments here
-    }
-
-    // Make payment
-    this.paymentService.makePayment(this.payments).subscribe(data => {
-        console.log(data);
-        this.showPayForm = false;
-        this.router.navigate(['/payments']);
-    }, error => {
-        console.log(error);
-    });
+      if (this.selectedFilterMethod === 'Card') {
+          this.showCardForm = true;
+          this.showNetBankingForm = false;
+      } else if (this.selectedFilterMethod === 'Net Banking') {
+          this.showCardForm = false;
+          this.showNetBankingForm = true;
+      } else {
+          this.showCardForm = false;
+          this.showNetBankingForm = false;
+      }
+  
 }
 
 
-
-
-
+  onPay(): void {
+    this.payments.userPolicyId = this.selectedUP.userPolicyId;
+    this.payments.userId = localStorage.getItem('userId');
+    this.payments.paymentDate = this.currentDate;
+    this.payments.paymentMethod = this.payForm.value.paymentMethod;
+    this.payments.paymentStatus = "Completed";
+    if (this.payments.paymentMethod === 'Card') {
+      this.payments.cardNumber = this.cardForm.value.cardNumber;
+      this.payments.expiryDate = this.cardForm.value.expiryDate;
+      this.payments.cvv = this.cardForm.value.cvv;
+      this.payments.cardHolder = this.cardForm.value.cardHolder;
+    }
+    else if (this.payments.paymentMethod === 'Net Banking') {
+      this.payments.bankName = this.netBankingForm.value.bankName;
+      this.payments.accountNumber = this.netBankingForm.value.accountNumber;
+    }
+    this.paymentService.makePayment(this.payments).subscribe(data => {
+      this.showPayForm = false;
+      console.log('Payment made successfully', data);
+      alert('Payment made successfully');
+      this.router.navigate(['/payments'])
+    }, error => {
+      console.error('Error making payment:', error);
+      alert('Failed to make payment');
+    });
+  }
 
   onRegister() {
     this.claims.userPolicyId = this.selectedUP.userPolicyId;
@@ -204,6 +210,7 @@ export class UserPoliciesComponent implements OnInit {
         },
         (error: any) => {
           console.error('Error updating user policy', error);
+          alert('Failed to update user policy');
         }
       );
     }
@@ -218,28 +225,24 @@ export class UserPoliciesComponent implements OnInit {
   get f2() {
     return this.payForm.controls;
   }
-
+  get f3() {
+    return this.cardForm.controls;
+  }
+  get f4() {
+    return this.netBankingForm.controls;
+  }
   getUserPoliciesByUserId() {
     this.userPoliciesService.getUserPoliciesbyUserId(localStorage.getItem('userId')).subscribe(
       (response) => {
         this.userPolicies = response;
       },
       (error) => {
-<<<<<<< HEAD
-        if(error.status===404 || error.status===409){
-          alert("You haven't registered for any policy yet");
-        }
-        else{
-          console.log(error);
-      }
-=======
         if (error.status === 404 || error.status === 409) {
           alert("You haven't registered for any policy yet");
         }
         else {
           console.log(error);
         }
->>>>>>> rupa
         this.userPolicies = [];
       }
     );
@@ -252,6 +255,7 @@ export class UserPoliciesComponent implements OnInit {
       },
       (error) => {
         console.log('Error fetching user policies:', error);
+        alert('Failed to fetch user policies');
         this.userPolicies = [];
       }
     );
@@ -286,18 +290,6 @@ export class UserPoliciesComponent implements OnInit {
     return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
   }
 
-  deleteUserPolicy(userPolicyId: number) {
-    this.userPoliciesService.deleteUserPolicy(this.userPolicies[0].userPolicyId).subscribe(
-      (response) => {
-        this.userPolicies = response;
-      },
-      (error) => {
-        console.log('Error fetching user policies:', error);
-        this.userPolicies = [];
-      }
-    );
-  }
-
   onFilterMethodChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     if (value === 'getUserPolicyByUserPolicyId' || value === 'getUserPolicyByUserId') {
@@ -316,21 +308,12 @@ export class UserPoliciesComponent implements OnInit {
           this.userPolicies = [response]; // Wrap the single object in an array
         },
         (error) => {
-<<<<<<< HEAD
-          if(error.status===404 || error.status===409){
-            alert("There are no policies registered with this Id");
-          }
-          else{
-            console.log(error);
-        }
-=======
           if (error.status === 404 || error.status === 409) {
             alert("There are no policies registered with this Id");
           }
           else {
             console.log(error);
           }
->>>>>>> rupa
         }
       );
     } else {
@@ -349,21 +332,12 @@ export class UserPoliciesComponent implements OnInit {
           this.userPolicies = response; // Update policies array with the fetched policies
         },
         (error) => {
-<<<<<<< HEAD
-          if(error.status===404 || error.status===409){
-            alert("There are no policies registered for this user");
-          }
-          else{
-            console.log(error);
-        }
-=======
           if (error.status === 404 || error.status === 409) {
             alert("There are no policies registered for this user");
           }
           else {
             console.log(error);
           }
->>>>>>> rupa
         }
       );
     } else {

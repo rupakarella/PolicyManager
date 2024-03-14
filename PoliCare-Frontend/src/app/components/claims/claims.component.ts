@@ -14,7 +14,7 @@ export class ClaimsComponent implements OnInit {
   editClaimForm!: FormGroup;
   showEditForm: boolean = false;
   selectedClaim!: Claims;
-  userPolicyId!:number;
+  userPolicyId!: number;
   selectedFilter: string = '';
   claimAmount: number | null = null;
   claimStatus: string = '';
@@ -30,20 +30,19 @@ export class ClaimsComponent implements OnInit {
 
   ngOnInit(): void {
     this.navigationService.disableBackButton();
-    if(this.isUserLoggedIn())
-    {
+    if (this.isUserLoggedIn()) {
       this.getClaimsByUserId();
     }
-    else if(this.isAdminLoggedIn()){
+    else if (this.isAdminLoggedIn()) {
       this.getAllClaims();
     }
-   
-      this.editClaimForm = this.formBuilder.group({
-        userPolicyId: [null, Validators.required],
-        claimDate: [null, Validators.required],
-        claimAmount: [null, Validators.required],
-        claimStatus: ['Pending', Validators.required]
-      });
+
+    this.editClaimForm = this.formBuilder.group({
+      userPolicyId: [null, Validators.required],
+      claimDate: [null, Validators.required],
+      claimAmount: [null, Validators.required],
+      claimStatus: ['Pending', Validators.required]
+    });
   }
 
   isAdminLoggedIn() {
@@ -55,7 +54,7 @@ export class ClaimsComponent implements OnInit {
   }
 
   editClaim(claim: Claims) {
-  
+
     this.selectedClaim = claim;
     this.editClaimForm.patchValue({
       userPolicyId: claim.userPolicy ? claim.userPolicy.userPolicyId : null,
@@ -69,7 +68,7 @@ export class ClaimsComponent implements OnInit {
   onSubmit() {
     if (this.editClaimForm.valid) {
       const updatedClaim: Claims = {
-        userPolicyId:this.editClaimForm.value.userPolicyId,
+        userPolicyId: this.editClaimForm.value.userPolicyId,
         claimId: this.selectedClaim.claimId,
         claimDate: this.editClaimForm.value.claimDate,
         claimAmount: this.editClaimForm.value.claimAmount,
@@ -82,7 +81,7 @@ export class ClaimsComponent implements OnInit {
           this.getAllClaims();
           alert("Claim updated successfully");
         },
-        (        error: any) => {
+        (error: any) => {
           console.error('Error updating claim', error);
           alert("Error updating claim");
         }
@@ -90,10 +89,10 @@ export class ClaimsComponent implements OnInit {
     }
   }
 
-  get f(){
+  get f() {
     return this.editClaimForm.controls;
   }
-  
+
   getAllClaims(): void {
     this.claimsService.getAllClaims().subscribe(
       (data) => {
@@ -101,6 +100,7 @@ export class ClaimsComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching claims', error);
+        alert("Error fetching claims");
       }
     );
   }
@@ -129,11 +129,12 @@ export class ClaimsComponent implements OnInit {
     this.claimsService.deleteClaim(claimId).subscribe(
       () => {
         alert("Claim deleted successfully");
-        this.getAllClaims(); 
+        this.getAllClaims();
         window.location.reload();
       },
       (error: any) => {
         console.error('Error deleting claim', error);
+        alert("Error deleting claim");
       }
     );
   }
@@ -145,13 +146,13 @@ export class ClaimsComponent implements OnInit {
             this.claims = data;
           },
           (error) => {
-            if(error.status===404){
+            if (error.status === 404) {
               alert("No Claims found for the specified amount");
             }
-            else{
+            else {
               console.log(error);
+            }
           }
-        }
         );
         break;
 
@@ -161,13 +162,13 @@ export class ClaimsComponent implements OnInit {
             this.claims = data;
           },
           (error) => {
-            if(error.status===404){
+            if (error.status === 404) {
               alert("No records found for the selected claim status");
             }
-            else{
+            else {
               console.log(error);
+            }
           }
-        }
         );
         break;
       case 'claimId':
@@ -177,13 +178,13 @@ export class ClaimsComponent implements OnInit {
               this.claims = [data];
             },
             (error) => {
-              if(error.status===404){
+              if (error.status === 404) {
                 alert("No Claims found for the specified claimId");
               }
-              else{
+              else {
                 console.log(error);
+              }
             }
-          }
           );
         }
         break;
@@ -194,10 +195,11 @@ export class ClaimsComponent implements OnInit {
   getClaimsByUserId() {
     this.claimsService.getClaimsByUserId(localStorage.getItem('userId')).subscribe(
       (response) => {
-        this.claims= response;
+        this.claims = response;
       },
       (error) => {
         console.log('Error fetching user policies:', error);
+        alert("Error fetching user policies");
         this.claims = [];
       }
     );

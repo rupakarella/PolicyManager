@@ -27,24 +27,25 @@ class PolicyPaymentsServiceImpTest {
 	void testMakePayment() {
 		PolicyPaymentsDTO policyPaymentsDTO = new PolicyPaymentsDTO();
 		policyPaymentsDTO.setPaymentDate(LocalDate.of(2024, 02, 16));
-		policyPaymentsDTO.setPaymentStatus("Pending");
-		policyPaymentsDTO.setPaymentMethod("Credit Card");
-		policyPaymentsDTO.setUserPolicyId(40000);
+		policyPaymentsDTO.setPaymentMethod("Card");
+		policyPaymentsDTO.setUserPolicyId(40051);
+		policyPaymentsDTO.setUserId(10014);
+		policyPaymentsDTO.setPaymentStatus("Completed");
 		PolicyPayments createdPayments = paymentsService.makePayment(policyPaymentsDTO);
 		assertNotNull(createdPayments);
-		assertEquals("Pending", createdPayments.getPaymentStatus());
-		assertEquals(40000, createdPayments.getUserPolicies().getUserPolicyId());
+		assertEquals(40051, createdPayments.getUserPolicies().getUserPolicyId());
 	}
 
 	@Test
 	void testUpdatePayment() {
-		PolicyPayments policyPayments = paymentsService.getByPaymentId(102);
+		PolicyPayments policyPayments = paymentsService.getByPaymentId(302);
 		PolicyPaymentsDTO policyPaymentsDTO = new PolicyPaymentsDTO();
 		policyPaymentsDTO.setPaymentId(policyPayments.getPaymentId());
 		policyPaymentsDTO.setPaymentDate(LocalDate.of(2024, 02, 16));
 		policyPaymentsDTO.setPaymentStatus("Completed");
-		policyPaymentsDTO.setPaymentMethod("Credit Card");
-		policyPaymentsDTO.setUserPolicyId(40000);
+		policyPaymentsDTO.setPaymentMethod("Card");
+		policyPaymentsDTO.setUserPolicyId(40051);
+		policyPaymentsDTO.setUserId(10014);
 		PolicyPayments updatedPayments = paymentsService.updatePayment(policyPaymentsDTO);
 		assertEquals("Completed", updatedPayments.getPaymentStatus());
 
@@ -52,15 +53,15 @@ class PolicyPaymentsServiceImpTest {
 
 	@Test
 	void testDeletePayment() {
-		String result = paymentsService.deletePayment(102);
+		String result = paymentsService.deletePayment(202);
 		assertEquals("Payment deleted", result);
 	}
 
 	@Test
 	void testGetByPaymentId() {
-		PolicyPayments payments = paymentsService.getByPaymentId(52);
+		PolicyPayments payments = paymentsService.getByPaymentId(302);
 		assertNotNull(payments);
-		assertEquals(52, payments.getPaymentId());
+		assertEquals(302, payments.getPaymentId());
 	}
 
 	@Test
@@ -72,9 +73,9 @@ class PolicyPaymentsServiceImpTest {
 
 	@Test
 	void testGetPaymentsByPaymentStatus() {
-		List<PolicyPayments> paymentsList = paymentsService.getPaymentsByPaymentStatus("Pending");
+		List<PolicyPayments> paymentsList = paymentsService.getPaymentsByPaymentStatus("Completed");
 		for (PolicyPayments policyPayments : paymentsList) {
-			assertEquals("Pending", policyPayments.getPaymentStatus());
+			assertEquals("Completed", policyPayments.getPaymentStatus());
 		}
 	}
 

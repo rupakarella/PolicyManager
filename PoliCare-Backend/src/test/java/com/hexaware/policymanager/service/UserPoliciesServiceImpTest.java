@@ -45,7 +45,7 @@ class UserPoliciesServiceImpTest {
 
 	@Test
     void testUpdateUserPolicy() {
-        UserPolicies userPolicy = userPoliciesService.getbyUserPolicyId(40005);
+        UserPolicies userPolicy = userPoliciesService.getbyUserPolicyId(40052);
         UserPoliciesDTO userPolicyDTO = new UserPoliciesDTO();
         LocalDate startDate = LocalDate.of(2025, 12, 11);
         userPolicyDTO.setPolicyId(100002);
@@ -55,13 +55,13 @@ class UserPoliciesServiceImpTest {
 
         UserPolicies updatedUserPolicy = userPoliciesService.updateUserPolicy(userPolicyDTO);
         assertNotNull(updatedUserPolicy);
-        assertEquals(40005, updatedUserPolicy.getUserPolicyId());
+        assertEquals(40052, updatedUserPolicy.getUserPolicyId());
         assertEquals(2, updatedUserPolicy.getDurationInYears());
     }
 
 	@Test
 	void testDeleteUserPolicyByPolicyId() {
-		String result=userPoliciesService.deleteUserPolicyById(40005);
+		String result=userPoliciesService.deleteUserPolicyById(40052);
 		assertEquals("Record deleted", result);
         
         //assertNull(service.getbyUserPolicyId(1));
@@ -76,9 +76,9 @@ class UserPoliciesServiceImpTest {
 	}
 	@Test
 	void testGetByUserPolicyId() {
-	    UserPolicies foundUserPolicy = userPoliciesService.getbyUserPolicyId(40005);
+	    UserPolicies foundUserPolicy = userPoliciesService.getbyUserPolicyId(40052);
 	    assertNotNull(foundUserPolicy);
-	    assertEquals(40005, foundUserPolicy.getUserPolicyId());
+	    assertEquals(40052, foundUserPolicy.getUserPolicyId());
 	}
 	
 	

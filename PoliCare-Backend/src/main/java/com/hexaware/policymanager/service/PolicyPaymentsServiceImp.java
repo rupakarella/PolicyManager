@@ -63,8 +63,6 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 			policyPayments.setUserPolicies(userPolicy);
 			PolicyPayments savedPayment = policyPaymentsRepo.save(policyPayments);
 			logger.info("Payment done successfully{}", savedPayment);
-<<<<<<< HEAD
-=======
 			byte[] pdfBytes = null;
 			try {
 				pdfBytes = pdfGenerator.generatePaymentConfirmationPdf(policyPaymentsDTO);
@@ -81,7 +79,6 @@ public class PolicyPaymentsServiceImp implements IPolicyPaymentsService {
 	            throw new RuntimeException("Error sending email", e);
 			}
 
->>>>>>> rupa
 			return savedPayment;
 		} else {
 			logger.warn("User policy not found with ID: {}", policyPaymentsDTO.getUserPolicyId());

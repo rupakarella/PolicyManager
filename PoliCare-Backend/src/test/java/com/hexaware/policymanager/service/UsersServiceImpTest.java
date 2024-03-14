@@ -48,7 +48,7 @@ class UsersServiceImpTest {
 
 	@Test
 	void testUpdateUser() {
-		UsersDTO userDTO = usersService.getById(10004);
+		UsersDTO userDTO = usersService.getById(10016);
 		userDTO.setEmailAddress("madhavi@gmail.com");
 		userDTO.setContactNumber("9703315171");
 		userDTO.setPassword("madhavi@123");
@@ -66,8 +66,8 @@ class UsersServiceImpTest {
 
 	@Test
 	void testDeleteByUserId() {
-		String result = usersService.deleteByUserId(10004);
-		assertEquals("User deleted successfully with ID: 10004", result);
+		String result = usersService.deleteByUserId(10016);
+		assertEquals("User deleted successfully with ID: 10016", result);
 	}
 
 	@Test

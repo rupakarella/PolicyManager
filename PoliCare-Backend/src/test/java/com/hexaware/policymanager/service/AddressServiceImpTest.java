@@ -31,38 +31,38 @@ class AddressServiceImpTest {
 
 	@Test
 	void testCreateAddress() throws DuplicateUserException {
+		
 		AddressDTO addressDTO = new AddressDTO();
+        addressDTO.setAddressLine("ganesh Towers");
+        addressDTO.setCity("Hyderabad");
+        addressDTO.setState("Telangana");
+        addressDTO.setCityPincode(534211);
 
-		addressDTO.setAddressLine("ganesh Towers");
-		addressDTO.setCity("Hyderabad");
-		addressDTO.setState("Telangana");
-		addressDTO.setCityPincode(26);
-		UsersDTO userDTO = new UsersDTO();
-		userDTO.setEmailAddress("madhu2@gmail.com");
-		userDTO.setContactNumber("8099787293");
-		userDTO.setPassword("madhavi@123");
-		userDTO.setFirstName("Madhavi");
-		userDTO.setLastName("Patlolla");
-		userDTO.setDateOfBirth(LocalDate.of(2001, 12, 11));
-		userDTO.setPanNumber("SGKPP9871G");
-		userDTO.setEmployerName("Madhavi Patlolla");
-		userDTO.setSalary(42000);
-		userDTO.setUserType("Admin");
-//		Users user = usersService.registerUser(userDTO);
-//		addressDTO.setUsers(user);
+        Users user = new Users();
+        user.setEmailAddress("madhu1@gmail.com");
+        user.setPassword("madhavi@123");
+        user.setFirstName("Madhavi");
+        user.setLastName("Patlolla");
+        user.setDateOfBirth(LocalDate.of(2001, 12, 11));
+        user.setPanNumber("SGKPP9871G");
+        user.setEmployerName("Madhavi Patlolla");
+        user.setSalary(42000);
+        user.setContactNumber("7452189632");
+        user.setUserType("Admin");
+        addressDTO.setUsers(user);
 		addressService.createAddress(addressDTO);
 		assertNotNull(addressDTO);
 	}
 
 	@Test
 	void testUpdateAddress() {
-		AddressDTO addressDTO = addressService.getByAddressId(70000);
+		AddressDTO addressDTO = addressService.getByAddressId(70002);
 		addressDTO.setAddressLine("rainbow towers");
 		addressDTO.setCity("Vijayawada");
-		addressDTO.setCityPincode(12);
+		addressDTO.setCityPincode(512512);
 		addressDTO.setState("Andhra Pradesh");
 		addressService.updateAddress(addressDTO);
-		AddressDTO updatedAddress = addressService.getByAddressId(70000);
+		AddressDTO updatedAddress = addressService.getByAddressId(70002);
 		assertEquals("Vijayawada", updatedAddress.getCity());
 
 	}

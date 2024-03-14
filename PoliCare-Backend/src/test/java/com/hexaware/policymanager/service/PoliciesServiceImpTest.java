@@ -48,7 +48,7 @@ class PoliciesServiceImpTest {
 
 	@Test
 	void testUpdatePolicy() {
-		PoliciesDTO policyDTO = policiesService.getByPolicyId(100003);
+		PoliciesDTO policyDTO = policiesService.getByPolicyId(100011);
 		policyDTO.setPolicyName("Bheema");
 		policyDTO.setPolicyDescription("One policy for security");
 		policyDTO.setPolicyType("Health Insurance");
@@ -61,7 +61,7 @@ class PoliciesServiceImpTest {
 
 		policiesService.updatePolicy(policyDTO);
 
-		PoliciesDTO updatedPolicy = policiesService.getByPolicyId(100003);
+		PoliciesDTO updatedPolicy = policiesService.getByPolicyId(100011);
 		assertEquals("Bheema", updatedPolicy.getPolicyName());
 		assertNotNull(updatedPolicy);
 
@@ -69,7 +69,7 @@ class PoliciesServiceImpTest {
 
 	@Test
 	void testdeletePolicy() throws PolicyNotFoundException, PolicyRegisteredByUserException {
-		String result = policiesService.deleteByPolicyId(100003);
+		String result = policiesService.deleteByPolicyId(100011);
 		assertEquals("Policy deleted succesfully", result);
 	}
 
@@ -115,9 +115,9 @@ class PoliciesServiceImpTest {
 
 	@Test
 	void testGetbyPolicyId() {
-		PoliciesDTO policyDTO = policiesService.getByPolicyId(100003);
+		PoliciesDTO policyDTO = policiesService.getByPolicyId(100011);
 		assertNotNull(policyDTO);
-		assertEquals(100003, policyDTO.getPolicyId());
+		assertEquals(100011, policyDTO.getPolicyId());
 
 	}
 

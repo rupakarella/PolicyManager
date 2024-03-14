@@ -6,7 +6,7 @@ import { NavigationService } from 'src/app/service/navigation.service';
 import { PaymentsService } from 'src/app/service/payments.service';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { TDocumentDefinitions } from 'pdfmake/interfaces';
+import { TDocumentDefinitions, TableCell } from 'pdfmake/interfaces';
 
 (pdfMake as any).vfs=pdfFonts.pdfMake.vfs;
 @Component({
@@ -153,13 +153,15 @@ export class PaymentsComponent implements OnInit {
           table: {
             widths: ['auto', '*'],
             body: [
+              ['User Policy Id', payment.userPolicies?.userPolicyId || 'N/A'],
+              ['User Policy Name', payment.userPolicies?.policy?.policyName || 'N/A'],
               ['Payment ID', payment.paymentId],
               ['Payment Date', payment.paymentDate],
               ['Payment Status', payment.paymentStatus],
               ['Total Amount', payment.totalAmount],
               ['Fine', payment.fine],
               ['Payment Method', payment.paymentMethod],
-              ['User Policy Id', payment.userPolicies ? payment.userPolicies.userPolicyId : 'N/A']
+              
             ]
           }
         }

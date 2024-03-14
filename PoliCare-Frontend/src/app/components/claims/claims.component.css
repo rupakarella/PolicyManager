@@ -65,6 +65,8 @@ footer p {
   margin: 0;
 }
 
+
+
 .claims-table tbody tr button {
   border: none;
   padding: 5px;
@@ -97,7 +99,7 @@ th,
 td {
   border: 1px solid rgba(0, 0, 0, 0.214);
   padding: 8px;
-  text-align: center; 
+  text-align: center;
   vertical-align: middle; 
 }
 
@@ -129,6 +131,8 @@ td {
 select {
   justify-content: center;
   padding: 10px 20px;
+  /* font-family: 'afacad', sans-serif;  */
+  /* font-size: 1rem; */
   border: 2px solid #1E55B3;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.8);
@@ -140,11 +144,22 @@ select {
 }
 
 .select-dropdown {
+  position: relative;
   justify-content: center;
   align-items: center;
   display: flex;
   padding-left: 20px;
   margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.select-dropdown .text-danger {
+  position: absolute;
+  bottom: -20px; /* Adjust as needed */
+  width: 100%;
+  font-size: 0.875em; /* Adjust as needed */
+  color: #dc3545;
+  min-height: 20px; /* Adjust based on your design */
 }
 
 .select-dropdown {
@@ -195,15 +210,16 @@ select {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+  /* margin-top: 10px; */
 }
 
 .edit-claims {
   margin: auto; 
-  width: 35%; 
-  padding: 20px; 
-  background-color: #ffffff98; 
-  border-radius: 10px; 
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+  width: 35%;
+  padding: 20px;
+  background-color: #ffffff98;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   margin-top: 25px;
   text-align: center;
 }
@@ -211,7 +227,7 @@ select {
 
 .edit-claims label {
   display: block;
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
   text-align: left;
   font-weight: bold;
 
@@ -223,13 +239,14 @@ select {
 
 
 .edit-claims input, .edit-claims select {
-  width: 100%;
+  width: 100%; 
   padding: 8px; 
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
   border-radius: 5px; 
   border: 1px solid #ccc; 
-  box-sizing: border-box;
+  box-sizing: border-box; 
 }
+
 
 .edit-claims button {
   background-color: #1E55B3; 
@@ -241,12 +258,12 @@ select {
 }
 
 .edit-claims button:hover {
-  background-color: #114194; 
+  background-color: #114194;
 }
 
 
 .edit-claims div.error {
-  color: red; 
+  color: red;
   font-size: 12px; 
   margin-top: 5px; 
 }
