@@ -27,17 +27,21 @@ export class UserPoliciesComponent implements OnInit {
   showClaimForm = false;
   payForm!: FormGroup;
   showPayForm = false;
+  cardForm!: FormGroup;
+  showCardForm = false;
+  netBankingForm!: FormGroup;
+  showNetBankingForm = false;
   currentPage: number = 1;
-  pageSize: number = 4;
+  pageSize: number = 10;
   currentDate: Date = new Date();
-  
+
   claims: Claims = {
     claimId: 0,
     claimDate: new Date(),
     claimAmount: 0,
     claimStatus: '',
     userPolicyId: 0,
-    userId:0
+    userId: 0
   };
   payments: Payments = {
     paymentId: 0,
@@ -47,20 +51,20 @@ export class UserPoliciesComponent implements OnInit {
     fine: 0,
     paymentMethod: '',
     cardNumber: '',
-    expiryDate:new Date(),
-    cvv:'',
-    cardHolder:'',
-    bankName:'',
-    accountNumber:'',
+    expiryDate: new Date(),
+    cvv: '',
+    cardHolder: '',
+    bankName: '',
+    accountNumber: '',
     userPolicyId: 0,
-    userId:0
+    userId: 0
   }
   payment: Payments[] = [];
- 
+
 
 
   constructor(private userPoliciesService: UserPoliciesService, private router: Router, private formbuilder: FormBuilder, private claimService: ClaimService,
-     private paymentService: PaymentsService,private navigationService: NavigationService) {
+    private paymentService: PaymentsService, private navigationService: NavigationService) {
 
   }
 
@@ -69,22 +73,25 @@ export class UserPoliciesComponent implements OnInit {
     this.claimForm = this.formbuilder.group({
       claimId: [],
       // claimDate: ['', Validators.required],
-      claimAmount: [0, Validators.required],
+      claimAmount: ['',[ Validators.required,Validators.min(0)]],
       claimStatus: ['Pending' || 'Approved' || 'Rejected']
     });
     this.payForm = this.formbuilder.group({
       paymentId: [],
-      // paymentDate: ['', Validators.required],
       paymentStatus: ['Completed'],
       totalAmount: [0, Validators.required],
       fine: [0, Validators.required],
-      paymentMethod: [''],
-      cardNumber: ['', [Validators.required,Validators.pattern(/^\d{16}$/)]],
-      expiryDate: ['', [Validators.required,Validators.pattern("^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$")]],
-      cvv: ['', [Validators.required,Validators.pattern(/^\d{3}$/)]],
-      cardHolder:  ['',[Validators.required,Validators.pattern('^[a-zA-Z\\s]+$')]],
-      bankName: ['',[Validators.required,Validators.pattern('^[a-zA-Z\\s]+$')]],
-      accountNumber: ['',[Validators.required,Validators.pattern(/^\d{9,18}$/)]]
+      paymentMethod: ['', Validators.required],
+    });
+    this.cardForm = this.formbuilder.group({
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      expiryDate: ['', [Validators.required, Validators.pattern("^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$")]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
+      cardHolder: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
+    });
+    this.netBankingForm = this.formbuilder.group({
+      bankName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
+      accountNumber: ['', [Validators.required, Validators.pattern(/^\d{9,18}$/)]],
     });
 
     if (this.isUserLoggedIn()) {
@@ -108,33 +115,56 @@ export class UserPoliciesComponent implements OnInit {
     this.showPayForm = true;
     this.selectedUP = userPolicies;
     this.calculateFine(this.currentDate, this.selectedUP);
-  }
+}
+onPaymentMethodChange(event: Event): void {
+  const value = (event.target as HTMLSelectElement).value;
+    if (value === 'Card' || value === 'Net Banking') {
+      this.selectedFilterMethod = value;
+    }
+      if (this.selectedFilterMethod === 'Card') {
+          this.showCardForm = true;
+          this.showNetBankingForm = false;
+      } else if (this.selectedFilterMethod === 'Net Banking') {
+          this.showCardForm = false;
+          this.showNetBankingForm = true;
+      } else {
+          this.showCardForm = false;
+          this.showNetBankingForm = false;
+      }
+  
+}
+
 
   onPay(): void {
     this.payments.userPolicyId = this.selectedUP.userPolicyId;
-    this.payments.userId=localStorage.getItem('userId');
+    this.payments.userId = localStorage.getItem('userId');
     this.payments.paymentDate = this.currentDate;
     this.payments.paymentMethod = this.payForm.value.paymentMethod;
     this.payments.paymentStatus = "Completed";
-    this.payments.cardNumber=this.payForm.value.cardNumber;
-    this.payments.expiryDate=this.payForm.value.expiryDate;
-    this.payments.cvv=this.payForm.value.cvv;
-    this.payments.cardHolder=this.payForm.value.cardHolder;
-    this.payments.bankName=this.payForm.value.bankName;
-    this.payments.accountNumber=this.payForm.value.accountNumber;
-    
+    if (this.payments.paymentMethod === 'Card') {
+      this.payments.cardNumber = this.cardForm.value.cardNumber;
+      this.payments.expiryDate = this.cardForm.value.expiryDate;
+      this.payments.cvv = this.cardForm.value.cvv;
+      this.payments.cardHolder = this.cardForm.value.cardHolder;
+    }
+    else if (this.payments.paymentMethod === 'Net Banking') {
+      this.payments.bankName = this.netBankingForm.value.bankName;
+      this.payments.accountNumber = this.netBankingForm.value.accountNumber;
+    }
     this.paymentService.makePayment(this.payments).subscribe(data => {
-      console.log(data);
       this.showPayForm = false;
+      console.log('Payment made successfully', data);
+      alert('Payment made successfully');
       this.router.navigate(['/payments'])
     }, error => {
-      console.log(error);
+      console.error('Error making payment:', error);
+      alert('Failed to make payment');
     });
   }
 
   onRegister() {
     this.claims.userPolicyId = this.selectedUP.userPolicyId;
-    this.claims.userId=localStorage.getItem('userId');
+    this.claims.userId = localStorage.getItem('userId');
     this.claims.claimDate = this.currentDate;
     this.claims.claimAmount = this.claimForm.value.claimAmount;
     this.claims.claimStatus = "Pending";
@@ -180,6 +210,7 @@ export class UserPoliciesComponent implements OnInit {
         },
         (error: any) => {
           console.error('Error updating user policy', error);
+          alert('Failed to update user policy');
         }
       );
     }
@@ -194,19 +225,24 @@ export class UserPoliciesComponent implements OnInit {
   get f2() {
     return this.payForm.controls;
   }
-
+  get f3() {
+    return this.cardForm.controls;
+  }
+  get f4() {
+    return this.netBankingForm.controls;
+  }
   getUserPoliciesByUserId() {
     this.userPoliciesService.getUserPoliciesbyUserId(localStorage.getItem('userId')).subscribe(
       (response) => {
         this.userPolicies = response;
       },
       (error) => {
-        if(error.status===404 || error.status===409){
+        if (error.status === 404 || error.status === 409) {
           alert("You haven't registered for any policy yet");
         }
-        else{
+        else {
           console.log(error);
-      }
+        }
         this.userPolicies = [];
       }
     );
@@ -219,6 +255,7 @@ export class UserPoliciesComponent implements OnInit {
       },
       (error) => {
         console.log('Error fetching user policies:', error);
+        alert('Error fetching user policies');
         this.userPolicies = [];
       }
     );
@@ -253,17 +290,6 @@ export class UserPoliciesComponent implements OnInit {
     return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
   }
 
-  deleteUserPolicy(userPolicyId: number) {
-    this.userPoliciesService.deleteUserPolicy(this.userPolicies[0].userPolicyId).subscribe(
-      (response) => {
-        this.userPolicies = response;
-      },
-      (error) => {
-        console.log('Error fetching user policies:', error);
-        this.userPolicies = [];
-      }
-    );
-  }
 
   onFilterMethodChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
@@ -283,12 +309,12 @@ export class UserPoliciesComponent implements OnInit {
           this.userPolicies = [response]; // Wrap the single object in an array
         },
         (error) => {
-          if(error.status===404 || error.status===409){
+          if (error.status === 404 || error.status === 409) {
             alert("There are no policies registered with this Id");
           }
-          else{
+          else {
             console.log(error);
-        }
+          }
         }
       );
     } else {
@@ -307,26 +333,26 @@ export class UserPoliciesComponent implements OnInit {
           this.userPolicies = response; // Update policies array with the fetched policies
         },
         (error) => {
-          if(error.status===404 || error.status===409){
+          if (error.status === 404 || error.status === 409) {
             alert("There are no policies registered for this user");
           }
-          else{
+          else {
             console.log(error);
-        }
+          }
         }
       );
     } else {
       console.error('Please enter a valid Id');
     }
   }
-  
-  
+
+
 
   calculateFine(paymentDate: Date, userPolicies: UserPolicies): void {
     const policy = userPolicies.policy;
     if (!policy) {
-        console.error('Policy is undefined');
-        return;
+      console.error('Policy is undefined');
+      return;
     }
 
     const termPeriod = policy.termPeriod;
@@ -334,23 +360,23 @@ export class UserPoliciesComponent implements OnInit {
     let dueDate: Date | null = null;
 
     if (termPeriod === "Monthly") {
-        dueDate = new Date(startDate.setMonth(startDate.getMonth() + 1));
+      dueDate = new Date(startDate.setMonth(startDate.getMonth() + 1));
     } else if (termPeriod === "Quarterly") {
-        dueDate = new Date(startDate.setMonth(startDate.getMonth() + 3));
+      dueDate = new Date(startDate.setMonth(startDate.getMonth() + 3));
     } else if (termPeriod === "Half-Yearly") {
-        dueDate = new Date(startDate.setMonth(startDate.getMonth() + 6));
+      dueDate = new Date(startDate.setMonth(startDate.getMonth() + 6));
     } else if (termPeriod === "Annually") {
-        dueDate = new Date(startDate.setFullYear(startDate.getFullYear() + 1));
+      dueDate = new Date(startDate.setFullYear(startDate.getFullYear() + 1));
     }
 
     if (dueDate && paymentDate > dueDate) {
-        const daysPastDue = Math.ceil((paymentDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
-        this.payments.fine = daysPastDue * policy.termAmount * 0.001;
+      const daysPastDue = Math.ceil((paymentDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
+      this.payments.fine = daysPastDue * policy.termAmount * 0.001;
     } else {
-        this.payments.fine = 0;
+      this.payments.fine = 0;
     }
-  
+
     this.payments.totalAmount = policy.termAmount + this.payments.fine;
-}
+  }
 
 }

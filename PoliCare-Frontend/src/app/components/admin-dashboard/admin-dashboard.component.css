@@ -128,3 +128,34 @@ footer p {
   display:flex;
   
 }
+/* Media queries for responsiveness */
+@media (max-width: 1199.5px) {
+  .admin-dashboard-buttons1,
+  .admin-dashboard-buttons2 {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+
+  .admin-button {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 991px) {
+  .admin-button {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-button {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .admin-button {
+    padding: 5px;
+  }
+}

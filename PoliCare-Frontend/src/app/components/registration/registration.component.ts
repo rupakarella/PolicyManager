@@ -33,14 +33,16 @@ export class RegistrationComponent implements OnInit {
       salary: ['', Validators.min(0)],
       userType: ['', [Validators.required, Validators.pattern('^(Admin|User)$')]],
       address: this.formBuilder.group({
-        addressLine: ['', Validators.required],
-        city: ['', Validators.required],
-        cityPincode: ['', Validators.required],
-        state: ['', Validators.required]
+        addressLine: ['', [Validators.required, Validators.maxLength(100)]],
+        city: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$'), Validators.maxLength(50)]],
+        cityPincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]], // Assuming pincode is 6 digits
+        state: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$'), Validators.maxLength(50)]]
       }),
       userPolicies: this.formBuilder.array([])
     });
   }
+
+
   get f() {
     return this.usersForm.controls;
   }
@@ -63,6 +65,7 @@ export class RegistrationComponent implements OnInit {
         },
         error: error => {
           console.error('There was an error!', error);
+          alert('Registration failed');
         }
       });
     }

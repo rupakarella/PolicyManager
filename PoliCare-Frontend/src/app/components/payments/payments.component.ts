@@ -4,7 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Payments } from 'src/app/models/payments.model';
 import { NavigationService } from 'src/app/service/navigation.service';
 import { PaymentsService } from 'src/app/service/payments.service';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
 
+(pdfMake as any).vfs=pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
@@ -141,4 +145,33 @@ export class PaymentsComponent implements OnInit {
       }
     );
   }
+  generatePDF(payment: Payments) {
+    let docDefinition: TDocumentDefinitions = {
+      content: [
+        { text: 'Invoice', bold: true, alignment: 'center' },
+        {
+          table: {
+            widths: ['auto', '*'],
+            body: [
+              ['User Policy Id', payment.userPolicies?.userPolicyId || 'N/A'],
+              ['User Policy Name', payment.userPolicies?.policy?.policyName || 'N/A'],
+              ['Payment ID', payment.paymentId],
+              ['Payment Date', payment.paymentDate],
+              ['Payment Status', payment.paymentStatus],
+              ['Total Amount', payment.totalAmount],
+              ['Fine', payment.fine],
+              ['Payment Method', payment.paymentMethod],
+              
+            ]
+          }
+        }
+      ]
+    };
+  
+    pdfMake.createPdf(docDefinition).open();
+  }
+  
+  
+  
+  
 }
