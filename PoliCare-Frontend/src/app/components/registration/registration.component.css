@@ -14,7 +14,7 @@ html, body {
 
 .registration-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-color: transparent;
   background-image: url("../../../assets/policy.png");
   background-repeat: no-repeat;
@@ -24,6 +24,7 @@ html, body {
   margin: 0; 
   border: none;
   box-shadow: none;
+  height: auto; 
 }
 
 .users-form {
@@ -31,7 +32,7 @@ html, body {
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 1000px;
+  width: 70%;
   margin-top: 2%; 
   margin-left: 16%;
   text-align: center;
@@ -41,8 +42,9 @@ html, body {
 }
 .details{
   display:flex;
-  padding: 20px;
-  
+  flex-wrap: wrap; /* Allow items to wrap */
+  justify-content: space-around; /* Align items horizontally */
+  margin-bottom: 20px; /* Increase bottom margin */
 }
 .name{
   display: flex;
@@ -112,7 +114,7 @@ button[type="submit"] {
   margin-left: 0px;
   
 } */
-.general-info h3{
+/* .general-info h3{
   margin-top: 0px;
   margin-bottom:0px;
   margin-left: 0px;
@@ -124,6 +126,10 @@ button[type="submit"] {
   margin-bottom:0px;
   margin-left: 58px;
   text-align: left;
+} */
+h5{
+  color:#1E55B3;
+  margin-bottom: 5px;
 }
 .form-inline p{
   margin-top: 0px;
@@ -220,4 +226,92 @@ footer {
 
 footer p {
   margin: 0; 
+}
+
+@media only screen and (max-width: 1023px) {
+  .registration-container {
+    /* background-image: url("../../../assets/tab-background.png"); */
+    background-color: #c0ddf9;
+    background-image: none;
+    background-attachment: fixed; /* Fixed attachment to create parallax-like effect */
+    height: auto; 
+    min-height: 100vh;
+  }
+
+  .users-form {
+    margin-left: 45px;
+    width: 90%;
+    margin-top: 15%;
+}
+.details {
+  flex-direction: column; /* Stack items vertically on smaller screens */
+  align-items: center; /* Center items vertically */
+  margin-bottom: 10px; /* Adjust bottom margin */
+}
+.navbar img {
+  margin-right: auto;
+}
+
+h5{
+  margin-top: 15px;
+}
+
+}
+
+@media only screen and (max-width: 710px) {
+  .registration-container {
+    /* background-image: url("../../../assets/phone-background.png");
+    background-attachment: fixed;  */
+    background-color: #c0ddf9;
+    background-image: none;
+    background-attachment: fixed; /* Fixed attachment to create parallax-like effect */
+    height: auto; 
+    min-height: 100vh;
+  }
+
+  .users-form {
+    width: 90%; /* Use a relative width for mobile */
+    margin: 10% auto 0; /* Center the form */
+    padding: 20px; /* Add padding */
+    
+  }
+
+  .details
+  {
+    flex-direction: column;
+    align-items: center; /* Center align items for mobile */
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="number"],
+  .login-form-group select.login-form-control {
+    width: 100%; /* Make input fields take full width */
+    margin: 0 0 10px 0; /* Add margin to the bottom */
+  }
+  .password{
+    width:55% !important;
+    margin-left: 25%;
+  }
+  .street-city,
+  .pin-state{
+    margin-left: -1%;
+    width: 100%;
+    justify-content: space-evenly;
+    display: flex;
+    gap: 5px;
+  }
+
+  /* Adjust your navbar logo size if needed */
+  .navbar img {
+    width: 100px; /* Adjust the logo size for mobile if necessary */
+    height: 25px;
+  }
+  button.password-toggle-btn img{
+    margin-top: -600%;
+    margin-left: 700%;
+  }
+
+
 }

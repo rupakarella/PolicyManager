@@ -107,3 +107,95 @@ footer {
 footer p {
     margin: 0; 
 }
+/* Media Queries for responsiveness */
+
+@media only screen and (max-width: 1024px) {
+    .navbar ul {
+        flex-direction: row;
+        align-items: flex-end;
+        
+    }
+
+    .navbar ul li {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .navbar img {
+        margin-right: auto;
+
+    }
+    .home-container{
+        width: 100%;
+        min-height: 100vh;
+        background-image: url("../../../assets/tab-background.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        background-color: transparent;
+        border: none;
+        box-shadow: none ;
+    }
+}
+
+@media only screen and (max-width: 710px) {
+    .navbar ul {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+    }
+    .row{
+        width:100%;
+        padding: 0px 0px;
+    }
+    .navbar ul li {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    .navbar ul li a{
+        padding: 5px 8px;
+        align-items: right;
+        
+    }
+    .navbar{
+        width:100%;
+        justify-content: space-between;
+        align-items:center;
+        padding:10px 0px;
+        position:relative;
+        z-index:1;
+    }
+    .navbar img {
+        margin-right: auto;
+        width:100px;
+        height:25px;
+    }
+    .home-container{
+        width: 100%;
+        min-height: 100vh;
+        background-image: url("../../../assets/phone-background.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        background-color: transparent;
+        border: none;
+        box-shadow: none ;
+    }
+    .content h1{
+        font-size: 20px;
+        color: #091d3f;
+        font-weight: 400;
+        margin-left: 20px;
+        text-align: center; /* Center text horizontally */
+        margin-top: 20px;
+
+    }
+    .content p{
+        font-size: 15px;
+        color:#091d3f;
+        font-weight: 400;
+        text-align: center; /* Center text horizontally */
+        margin-top: 20px;
+    }
+}
