@@ -319,39 +319,144 @@ background-color: #114194;
 }
 
 .profile-pic {
-  width: 100px; /* Set a fixed width and height for the profile picture */
+  width: 100px; 
   height: 100px;
-  border-radius: 50%; /* Ensure it's a perfect circle */
-  object-fit: cover; /* Maintain aspect ratio and cover the entire space */
+  border-radius: 50%; 
+  object-fit: cover;
 }
 .profile-pic-btn{
   width: 20%;
   background-color: aliceblue;
-  /* margin: 10px auto; */
   justify-content: center;
 }
-@media only screen and (max-width: 768px) {
-  .profile-page {
-    width: 80%; 
-    padding: 30px; 
+
+@media only screen and (max-width: 1024px) {
+  .profile-container {
+    background-image: url("../../../assets/tab-background.png");
   }
-  
   .users-form {
-    width: 90%; /* Adjust width for smaller screens */
-    margin-left: 5%; /* Adjust margin for smaller screens */
+    width: 60%; /* Use a relative width for mobile */
+    margin: 10% auto 0; /* Center the form */
+    padding: 10px; /* Add padding */
+    
+  }
+  .general-info{
+    margin-left:0px !important;
+  }
+  .details
+  {
+    flex-direction: column;
+    align-items: center; /* Center align items for mobile */
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="number"],
+  .login-form-group select.login-form-control {
+    width: 100%; /* Make input fields take full width */
+    margin: 0 0 10px 0; /* Add margin to the bottom */
+  }
+  .password{
+    width:55% !important;
+    margin-left: 25%;
+  }
+  .street-city,
+  .pin-state{
+    margin-left: -1%;
+    width: 100%;
+    justify-content: space-evenly;
+    display: flex;
+    gap: 5px;
+  }
+
+  button.password-toggle-btn img{
+    margin-top: -600%;
+    margin-left: 700%;
+  }
+
+  .email-phone {
+    flex-direction: row; /* Stack the email and phone number fields vertically */
+    align-items: center; /* Center the items if needed */
+    margin-bottom: 10px; /* Add space between these fields and the next section */
   }
   
-  .nav-buttons {
-    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-    justify-content: center; /* Center align buttons on smaller screens */
+  .email-phone input[type="email"],
+  .email-phone input[type="number"] {
+    width: 90%; 
+    margin: 10px 0; 
   }
-  
-  .nav-button {
-    margin: 5px; /* Adjust margin for smaller screens */
+}
+
+@media only screen and (max-width: 710px) {
+  .profile-container{
+    background-image: url("../../../assets/phone-background.png");
+    height: auto;
+    min-height: 100vh;
+    padding: 20px;
   }
-  
+  .profile-page {
+    position: relative; 
+    top: initial;
+    left: initial; 
+    transform: none;
+    width: 100%;
+    max-width: 330px; 
+    margin: 0 auto; 
+    padding: 20px;
+    margin-top: 30px;
+  }
   .profile-pic {
-    width: 80px; /* Adjust profile picture size for smaller screens */
-    height: 80px; /* Adjust profile picture size for smaller screens */
+    width: 80px; 
+    height: 80px;
   }
+  .users-form {
+    width: 80%; /* Use a relative width for mobile */
+    margin: 10% auto 0; /* Center the form */
+    padding: 10px; /* Add padding */ 
+  }
+  .general-info{
+    margin-left:0px !important;
+  }
+
+  .nav-button{
+    margin-left: 5px;
+    margin-right: 3px;
+    margin-top:2px;
+    padding: 1px 5px;
+    align-items: right !important;
+  }
+
+  .into-columns, .general, .contact, .address {
+    display: block; 
+  }
+  
+  .contact{
+    margin-right: 15px;
+    margin-left: 0px;
+  }
+  .navbar img {
+    margin-right: auto;
+    width:100px;
+    height:25px;
+}
+
+  
+  input[type="text"], input[type="email"], input[type="date"],
+  input[type="number"], input[type="password"],
+  .login-form-group select.login-form-control {
+    width: 100%; 
+    max-width: 300px; 
+    box-sizing: border-box; 
+  }
+  .edit-button {
+    padding: 3px 10px;
+  }
+  .profile-page h2 {
+    margin-bottom: 5px;
+    margin-top: -15px;
+    text-align: left;
+  
+  }
+
 }
