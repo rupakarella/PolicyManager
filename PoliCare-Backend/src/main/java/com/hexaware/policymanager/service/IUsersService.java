@@ -2,6 +2,7 @@ package com.hexaware.policymanager.service;
 
 import java.util.List;
 
+import com.hexaware.policymanager.dto.Password;
 import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.DuplicateUserException;
@@ -31,4 +32,6 @@ public interface IUsersService {
 	public String findUserNameByEmailAddress(String emailAddress);
 	
 	public String findEmployerTypeByEmailAddress(String emailAddress);
+
+	String updateUserPassword(Password password);
 }

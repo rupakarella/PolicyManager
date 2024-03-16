@@ -211,6 +211,7 @@
             </button>
             <div *ngIf="f['password']?.touched && f['password']?.invalid" class="invalid-feedback">
               <div class="text-danger" *ngIf="f['password'].errors?.['required']">Password is required</div>
+              <div class="text-danger" *ngIf="f['password'].errors?.['pattern']">Password must contain atleast 8 characters with atleast an uppercase, a lowercase, a digit and a special character </div>
             </div>
           </div>
 

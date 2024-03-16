@@ -267,3 +267,41 @@ select {
   font-size: 12px; 
   margin-top: 5px; 
 }
+@media only screen and (max-width: 1024px) {
+  .claims-container {
+    background-image: url("../../../assets/tab-background.png");
+  }
+  .edit-claims{
+    width:80%;
+    margin-top: 25%;
+    }
+}
+@media only screen and (max-width: 710px) {
+  .claims-container {
+    background-image: url("../../../assets/phone-background.png");
+  }
+  th,
+  td {
+    padding: 6px;
+    font-size: 11px;
+  }
+  .navbar img {
+    width: 100px; /* Adjust the logo size for mobile if necessary */
+    height: 25px;
+  }
+  .nav-button{
+    padding: 3px 5px;
+    align-items: right;
+    
+  }
+  
+.claims-table tbody tr button img {
+  width: 10px;
+  height: 13px;
+
+}
+.edit-claims{
+width:80%;
+margin-top: 25%;
+}
+}

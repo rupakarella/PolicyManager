@@ -228,7 +228,7 @@ footer p {
   margin: 0; 
 }
 
-@media only screen and (max-width: 1023px) {
+@media only screen and (max-width: 1024px) {
   .registration-container {
     /* background-image: url("../../../assets/tab-background.png"); */
     background-color: #c0ddf9;

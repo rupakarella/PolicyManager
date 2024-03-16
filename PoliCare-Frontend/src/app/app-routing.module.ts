@@ -14,12 +14,14 @@ import { PaymentsComponent } from './components/payments/payments.component';
 import { AuthGuard } from './service/auth.guard';
 import { AdminAuthGuard } from './service/admin-auth.guard';
 import { adminUserAuthGuard } from './service/admin-user-auth.guard';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
   {path: '', component: HomeComponent,pathMatch:'full' },
   {path: 'login', component: LoginComponent,pathMatch:'full'},
   {path:'registration', component: RegistrationComponent,pathMatch:'full'},
+  {path:'forgot-password', component: ForgotPasswordComponent,pathMatch:'full'},
   {path:'user-dashboard', component: UserDashboardComponent,pathMatch:'full',canActivate: [AuthGuard]},
   {path:'profile', component: ProfileComponent,pathMatch:'full', canActivate: [adminUserAuthGuard]},
   {path:'user-policies',component:UserPoliciesComponent,pathMatch:'full',canActivate: [adminUserAuthGuard]},

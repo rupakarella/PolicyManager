@@ -188,3 +188,37 @@ button.invoice-btn {
   border-radius: 5px;
   justify-content: center;
 }
+@media only screen and (max-width: 1024px) {
+  .payments-container {
+    background-image: url("../../../assets/tab-background.png");
+  }
+  button.invoice-btn
+  {
+    padding:0% !important;
+    font-size: 15px;
+  }
+}
+@media only screen and (max-width: 710px) {
+  .payments-container {
+    background-image: url("../../../assets/phone-background.png");
+  }
+  th,
+  td {
+    padding: 6px;
+    font-size: 11px;
+  }
+  button.invoice-btn
+  {
+    padding:1% !important;
+    font-size: 10px;
+  }
+  .navbar img {
+    width: 100px; /* Adjust the logo size for mobile if necessary */
+    height: 25px;
+  }
+  .nav-button{
+    padding: 3px 5px;
+    align-items: right;
+    
+  }
+}

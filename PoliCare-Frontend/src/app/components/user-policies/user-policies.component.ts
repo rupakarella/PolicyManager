@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Claims } from 'src/app/models/claims.model';
@@ -103,6 +103,26 @@ export class UserPoliciesComponent implements OnInit {
         durationInYears: ['', Validators.required],
         policyId: ['', Validators.required]
       });
+    }
+    this.updatePageSize();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    console.log('Window Resized');
+    // Call function to update page size based on screen size
+    this.updatePageSize();
+  }
+
+  // Update page size based on screen width
+  updatePageSize() {
+    if ( window.innerWidth >= 710 && window.innerWidth <= 1024) {
+      this.pageSize = 25; // Set page size for smaller screens
+    } 
+    else if(window.innerWidth <= 710) {
+      this.pageSize = 15; 
+    }
+    else {
+      this.pageSize = 5; // Set default page size for larger screens
     }
   }
 

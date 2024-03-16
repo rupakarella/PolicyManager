@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.policymanager.dto.AuthRequest;
+import com.hexaware.policymanager.dto.Password;
 import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.DuplicateUserException;
@@ -225,4 +227,15 @@ public class UsersServiceImp implements IUsersService {
 	public String findEmployerTypeByEmailAddress(String emailAddress) {
 		return usersRepo.findEmployerTypeByEmailAddress(emailAddress);
 	}
+	@Override
+    public String updateUserPassword(Password password) {
+	 String email = password.getEmail();
+        String newPassword = password.getNewPassword();
+        Users user = usersRepo.getUserByEmailAddress(email);
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        usersRepo.save(user);
+        logger.info("User password updated successfully");
+        return "User password updated successfully";
+        
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users.model';
@@ -36,7 +36,7 @@ export class ManageUsersComponent implements OnInit {
       userId: [],
       emailAddress: ['', [Validators.required, Validators.email]],
       contactNumber: ['', [Validators.required, Validators.pattern('^[6789]\\d{9}$')]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/)]],
       firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
       lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
       dateOfBirth: ['', Validators.required],
@@ -58,8 +58,29 @@ export class ManageUsersComponent implements OnInit {
   ngOnInit(): void {
     this.navigationService.disableBackButton();
     this.getAllUsers();
+    this.updatePageSize();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    console.log('Window Resized');
+    // Call function to update page size based on screen size
+    this.updatePageSize();
   }
 
+  // Update page size based on screen width
+  updatePageSize() {
+    if ( window.innerWidth >= 710 && window.innerWidth <= 1224) {
+      console.log('Window Resized 1024');
+      this.pageSize = 9; // Set page size for smaller screens
+    } 
+    else if(window.innerWidth <= 710) {
+      console.log('Window Resized 710');
+      this.pageSize = 15; 
+    }
+    else {
+      this.pageSize = 3; // Set default page size for larger screens
+    }
+  }
   getAllUsers() {
     this.userService.getAllUsers().subscribe(
       (response) => {
