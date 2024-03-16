@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
       userId: [],
       emailAddress: ['', [Validators.required, Validators.email]],
       contactNumber: ['', [Validators.required, Validators.pattern('^[6789]\\d{9}$')]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
       firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
       lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
       dateOfBirth: ['', Validators.required],

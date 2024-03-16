@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Claims } from 'src/app/models/claims.model';
@@ -32,7 +32,7 @@ export class UserPoliciesComponent implements OnInit {
   netBankingForm!: FormGroup;
   showNetBankingForm = false;
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 5;
   currentDate: Date = new Date();
 
   claims: Claims = {
@@ -73,7 +73,7 @@ export class UserPoliciesComponent implements OnInit {
     this.claimForm = this.formbuilder.group({
       claimId: [],
       // claimDate: ['', Validators.required],
-      claimAmount: ['',[ Validators.required,Validators.min(0)]],
+      claimAmount: [ , [Validators.required,Validators.min(0)]],
       claimStatus: ['Pending' || 'Approved' || 'Rejected']
     });
     this.payForm = this.formbuilder.group({
@@ -103,6 +103,25 @@ export class UserPoliciesComponent implements OnInit {
         durationInYears: ['', Validators.required],
         policyId: ['', Validators.required]
       });
+    }
+    this.updatePageSize();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    // Call function to update page size based on screen size
+    this.updatePageSize();
+  }
+
+  // Update page size based on screen width
+  updatePageSize() {
+    if ( window.innerWidth >= 710 && window.innerWidth <= 1024) {
+      this.pageSize = 15; // Set page size for smaller screens
+    } 
+    else if(window.innerWidth <= 710) {
+      this.pageSize = 15; 
+    }
+    else {
+      this.pageSize = 5; // Set default page size for larger screens
     }
   }
 
@@ -255,7 +274,7 @@ onPaymentMethodChange(event: Event): void {
       },
       (error) => {
         console.log('Error fetching user policies:', error);
-        alert('Error fetching user policies');
+        alert('Failed to fetch user policies');
         this.userPolicies = [];
       }
     );
@@ -289,7 +308,6 @@ onPaymentMethodChange(event: Event): void {
   isUserLoggedIn() {
     return localStorage.getItem('token') !== null && localStorage.getItem('userType') === 'User';
   }
-
 
   onFilterMethodChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;

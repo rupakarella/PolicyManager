@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.policymanager.dto.AuthRequest;
+import com.hexaware.policymanager.dto.Password;
 import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.DuplicateUserException;
@@ -60,6 +62,7 @@ public class UsersServiceImp implements IUsersService {
 			logger.info("User registered successfully");
 			return usersRepo.save(user);
 		} catch (DuplicateUserException e) {
+			logger.error("Error registering user: {}", e.getMessage());
 			throw e;
 		} catch (Exception e) {
 			logger.error("Error registering user", e);
@@ -134,7 +137,6 @@ public class UsersServiceImp implements IUsersService {
 				userDTO.setSalary(users.getSalary());
 				userDTO.setUserType(users.getUserType());
 				userDTO.setAddress(users.getAddress());
-				 
 
 				logger.info("User retrieved successfully by ID: {}", userId);
 
@@ -220,11 +222,19 @@ public class UsersServiceImp implements IUsersService {
 
 		return usersRepo.findUserNameByEmailAddress(emailAddress);
 	}
-	
+
 	@Override
 	public String findEmployerTypeByEmailAddress(String emailAddress) {
-
 		return usersRepo.findEmployerTypeByEmailAddress(emailAddress);
 	}
- 
+	@Override
+    public String updateUserPassword(Password password) {
+	 String email = password.getEmail();
+        String newPassword = password.getNewPassword();
+        Users user = usersRepo.getUserByEmailAddress(email);
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        usersRepo.save(user);
+        logger.info("User password updated successfully");
+        return "User password updated successfully";
+    }
 }

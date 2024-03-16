@@ -65,7 +65,7 @@ export class ExplorePoliciesComponent implements OnInit {
   public UserloggedIn=false;
   public AdminloggedIn=false;
   currentPage: number = 1;
-  pageSize: number = 7;
+  pageSize: number = 5;
   currentDate: Date = new Date();
   constructor(
     private policyService: PolicyService,

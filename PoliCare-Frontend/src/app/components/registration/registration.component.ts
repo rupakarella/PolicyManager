@@ -15,7 +15,7 @@ export class RegistrationComponent implements OnInit {
   usersForm!: FormGroup;
   submitted = false;
   showPassword = true;
-  constructor(private formBuilder: FormBuilder, private userService: UserService,private router: Router,private navigationService: NavigationService ) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService,private router: Router, private navigationService: NavigationService) { }
 
   ngOnInit(): void {
     this.navigationService.disableBackButton();
@@ -23,26 +23,24 @@ export class RegistrationComponent implements OnInit {
       userId: [],
       emailAddress: ['', [Validators.required, Validators.email]],
       contactNumber: ['', [Validators.required, Validators.pattern('^[6789]\\d{9}$')]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
+
       firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
       lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]],
       dateOfBirth: ['', Validators.required],
       panNumber: ['', [Validators.required, Validators.pattern('^[A-Z]{5}\\d{4}[A-Z]{1}$')]],
-      // employerType: ['', [Validators.required, Validators.maxLength(25)]],
       employerName: [],
       salary: ['', Validators.min(0)],
       userType: ['', [Validators.required, Validators.pattern('^(Admin|User)$')]],
       address: this.formBuilder.group({
-        addressLine: ['', [Validators.required, Validators.maxLength(100)]],
-        city: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$'), Validators.maxLength(50)]],
-        cityPincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]], // Assuming pincode is 6 digits
-        state: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$'), Validators.maxLength(50)]]
+        addressLine: ['', Validators.required],
+        city: ['', Validators.required],
+        cityPincode: ['', Validators.required],
+        state: ['', Validators.required]
       }),
       userPolicies: this.formBuilder.array([])
     });
   }
-
-
   get f() {
     return this.usersForm.controls;
   }
@@ -52,6 +50,7 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    console.log('Password:', this.usersForm.get('password')?.value);
     if (this.usersForm.invalid) {
       return;
     }
@@ -64,7 +63,7 @@ export class RegistrationComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error: error => {
-          console.error('There was an error!', error);
+          console.error('Error registering User', error);
           alert('Registration failed');
         }
       });

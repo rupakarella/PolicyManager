@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Users } from '../models/users.model';
 import { Observable } from 'rxjs';
+import { Password } from '../models/password.model';
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +80,11 @@ export class UserService {
       'Access-Control-Allow-Origin': 'http://localhost:4200'
     }).set("Authorization", tokenString);
     return this.http.delete<any>(this.baseUrl+ "delete/" + userId, { headers });
+  }
+
+  updatePassword(password:Password): Observable<any>{
+    console.log(password);
+    return this.http.put<string>(this.baseUrl+ "updatePassword", password,{ responseType: 'text' as 'json'  });
   }
 }
 

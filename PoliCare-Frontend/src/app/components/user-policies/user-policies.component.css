@@ -70,6 +70,17 @@ footer p {
   margin-right: auto;
   margin-top: 25px;
 }
+/* .table-container {
+  width: 100%;
+  min-width: 600px; 
+  overflow-x: auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  margin-top: 25px;
+  padding: 15px;
+} */
+
+
 
 
 .table tbody tr td button img {
@@ -86,14 +97,14 @@ table tbody tr td button{
   height: 20px;
 
 }
-.table td:nth-child(5),
+/* .table td:nth-child(5),
 .table th:nth-child(6) {
   width: 140px;
 }
 .table td:nth-child(4),
 .table th:nth-child(5) {
   width: 140px;
-}
+} */
 
 
 th,
@@ -341,4 +352,93 @@ button.pay-now-btn {
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.8);
   margin-bottom: 5px;
+}
+@media only screen and (max-width: 1024px) {
+  .user-policies-container {
+    background-color: #c0ddf9;
+    background-image: none;
+    background-attachment: fixed;
+    height: auto;
+    min-height: 150vh;
+    min-width: 1000px;
+  }
+
+  th,
+  td {
+    padding: 5px !important;
+    font-size: 15px;
+  }
+  .table tbody tr td button img {
+    background-color: transparent;
+    width: 10px;
+    height: 10px;
+  
+  }
+  
+  table tbody tr td button{
+    background-color: transparent;
+    border:none;
+    width: 10px;
+    height: 10px;
+  
+  }
+  button.pay-now-btn {
+    width :40px !important;
+    height:20px !important; 
+    font-size: 10px;
+  }
+  .edit-form {
+    margin-top: 38%;
+  }
+  .payment-form  {
+    margin-top: 38%;
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 710px) {
+  .user-policies-container {
+    background-color: #c0ddf9;
+    background-image: none;
+    background-attachment: fixed;
+    height: auto;
+    min-height: 250vh;
+    min-width: 1000px;
+
+  }
+  th,
+  td {
+    padding: 2px !important;
+    font-size: 15px;
+  }
+  .navbar img {
+    width: 100px; 
+    height: 25px;
+  }
+  .nav-button{
+    padding: 3px 5px;
+    align-items: right;
+    
+  }
+  .table tbody tr td button img {
+    background-color: transparent;
+    width: 10px;
+    height: 10px;
+  
+  }
+  
+  table tbody tr td button{
+    background-color: transparent;
+    border:none;
+    width: 10px;
+    height: 10px;
+  
+  }
+  .edit-form {
+    margin-top:80% ;
+    width: 80%;
+  }
+  .payment-form  {
+    margin-top: 80%;
+    width: 50%;
+  }
 }

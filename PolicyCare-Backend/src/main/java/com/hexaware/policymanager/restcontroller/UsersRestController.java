@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hexaware.policymanager.dto.Password;
 import com.hexaware.policymanager.dto.UsersDTO;
 import com.hexaware.policymanager.entities.Users;
 import com.hexaware.policymanager.exception.DuplicateUserException;
@@ -105,6 +106,11 @@ public class UsersRestController {
 		
 		return usersService.findEmployerTypeByEmailAddress(emailAddress);
 	}
-	
+	@PutMapping("/updatePassword")
+	public String updatePassword( @RequestBody Password password) {
+		
+		return usersService.updateUserPassword(password);
+		
+	}
 
 }

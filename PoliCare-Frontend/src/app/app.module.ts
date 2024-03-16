@@ -17,6 +17,7 @@ import { ExplorePoliciesComponent } from './components/explore-policies/explore-
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { DatePipe } from '@angular/common';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 
@@ -36,6 +37,7 @@ import { DatePipe } from '@angular/common';
     ExplorePoliciesComponent,
     AdminDashboardComponent,
     ManageUsersComponent,
+    ForgotPasswordComponent,
     
   ],
   imports: [
